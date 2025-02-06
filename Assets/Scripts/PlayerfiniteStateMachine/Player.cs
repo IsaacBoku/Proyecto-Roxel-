@@ -4,15 +4,81 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    #region State Variables
+    public PlayerStateMachine StateMachine { get; private set; }
+
+    public PlayerIdleState IdleState { get; private set; }
+    public PlayerMoveState MoveState { get; private set; }
+
+
+    [SerializeField]
+    private PlayerData playerData;
+    #endregion
+    #region Components
+    public Animator Anim {  get; private set; }
+    public PlayerInputHadler InputHadler { get; private set; }
+    public Rigidbody2D rb {  get; private set; }
+    #endregion
+    #region Other Variables
+
+    public Vector2 CurrentVelocity { get; private set; }
+    public int FacingDirection { get; private set; }
+
+    private Vector2 workspace;
+    #endregion
+    #region Unity Callback Functions
+
+    private void Awake()
     {
-        
+        StateMachine = new PlayerStateMachine();
+
+        IdleState = new PlayerIdleState(this,StateMachine,playerData,"Idle");
+        MoveState = new PlayerMoveState(this, StateMachine, playerData,"Move");
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void Start()
     {
-        
+        Anim = GetComponent<Animator>();
+        InputHadler = GetComponent<PlayerInputHadler>();
+        rb = GetComponent<Rigidbody2D>();
+
+        FacingDirection = 1;
+
+        StateMachine.Intialize(IdleState);
     }
+    private void Update()
+    {
+        CurrentVelocity = rb.velocity;
+        StateMachine.CurrentState.LogicUpdate();
+    }
+    private void FixedUpdate()
+    {
+        StateMachine.CurrentState.PhysicsUpdate();
+    }
+    #endregion
+    #region Set Functions
+    public void SetVelocityX(float velocity)
+    {
+        workspace.Set(velocity, CurrentVelocity.y);
+        rb.velocity = workspace;
+        CurrentVelocity = workspace;
+    }
+    #endregion
+    #region Check Functions
+    public void CheckIfShouldFlip(int xInput)
+    {
+        if(xInput !=0 && xInput != FacingDirection)
+        {
+            Flip();
+        }
+    }
+    #endregion
+    #region Other Functions
+    private void Flip()
+    {
+        FacingDirection *= -1;
+        transform.Rotate(0.0f,180.0f,0.0f);
+    }
+    #endregion
 }
