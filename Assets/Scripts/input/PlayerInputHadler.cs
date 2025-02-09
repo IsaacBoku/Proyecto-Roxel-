@@ -12,10 +12,14 @@ public class PlayerInputHadler : MonoBehaviour
     public bool JumpInput { get; private set; }
     public bool JumpInputStop {  get; private set; }
 
+    public bool InteractInput {  get; private set; }
+    public bool InteractInputStop { get; private set; }
+
     [SerializeField]
     private float inputHoldTime = 0.2f;
 
     private float jumpInputStartTime;
+    private float pushInputStartTime;
 
     private void Update()
     {
@@ -45,11 +49,32 @@ public class PlayerInputHadler : MonoBehaviour
     }
     public void UseJumpInput() => JumpInput = false;
 
+    public void OnInteractInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            InteractInput = true;
+            InteractInputStop = false;
+            pushInputStartTime = Time.time;
+        }
+      
+
+        if (context.canceled)
+        {
+            InteractInputStop = true;
+        }
+    }
+    public void UseInteractInput()=> InteractInput = false;
     private void CheckJumpInputHoldTime()
     {
         if (Time.time >= jumpInputStartTime + inputHoldTime)
         {
             JumpInput = false;
         }
+        if(Time.time >= pushInputStartTime + inputHoldTime)
+        {
+            InteractInput= false;
+        }
     }
+
 }

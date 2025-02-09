@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public PlayerJumpState JumpState { get; private set; }
     public PlayerAirState AirState { get; private set; }
     public PlayerLandState LandState { get; private set; }
+    public PlayerPushState PushState { get; private set; }
 
 
     [SerializeField]
@@ -26,6 +27,12 @@ public class Player : MonoBehaviour
     #region Check Transforms
     [SerializeField]
     private Transform groundCheck;
+
+    [SerializeField]
+    public Transform pushCheck;
+
+    
+    public GameObject box;
 
     #endregion
     #region Other Variables
@@ -46,6 +53,7 @@ public class Player : MonoBehaviour
         JumpState = new PlayerJumpState(this, StateMachine, playerData,"Air");
         AirState = new PlayerAirState(this, StateMachine, playerData,"Air");
         LandState = new PlayerLandState(this, StateMachine, playerData,"Land");
+        PushState = new PlayerPushState(this, StateMachine, playerData, "Push");
         
     }
 
@@ -90,12 +98,38 @@ public class Player : MonoBehaviour
     {
         return Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
     }
+
+    public bool CheckIfPush()
+    {
+        return  Physics2D.Raycast(transform.position, Vector2.right * transform.transform.localScale.x, playerData.distance, playerData.boxMask);
+    }
     public void CheckIfShouldFlip(int xInput)
     {
         if(xInput !=0 && xInput != FacingDirection)
         {
             Flip();
         }
+    }
+    public void PushCheck()
+    {
+        Physics2D.queriesStartInColliders = false;
+        RaycastHit2D hit = Physics2D.Raycast(pushCheck.transform.position, Vector2.right * FacingDirection, playerData.distance, playerData.boxMask);
+
+        if (hit.collider != null && hit.collider.gameObject.tag == "pushable")
+        {
+            box = hit.collider.gameObject;
+
+
+            box.GetComponent<FixedJoint2D>().enabled = true;
+            box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
+            Debug.Log("Agarro");
+        }
+        else 
+        {
+            box.GetComponent<FixedJoint2D>().enabled = false;
+        }
+
+
     }
 
     #endregion
@@ -107,6 +141,14 @@ public class Player : MonoBehaviour
     {
         FacingDirection *= -1;
         transform.Rotate(0.0f,180.0f,0.0f);
+        pushCheck.Rotate(0.0f, 180.0f, 0.0f);
     }
     #endregion
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+
+        Gizmos.DrawLine(pushCheck.transform.position, (Vector2)pushCheck.transform.position + Vector2.right * FacingDirection * playerData.distance);
+    }
 }
