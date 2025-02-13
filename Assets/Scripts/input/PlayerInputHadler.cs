@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerInputHadler : MonoBehaviour
@@ -21,10 +23,15 @@ public class PlayerInputHadler : MonoBehaviour
     private float jumpInputStartTime;
     private float pushInputStartTime;
 
+    private void OnEnable()
+    {
+
+    }
     private void Update()
     {
         CheckJumpInputHoldTime();
     }
+
     public void OnMoveInput(InputAction.CallbackContext context)
     {
         RawMovementInput = context.ReadValue<Vector2>();
@@ -75,6 +82,7 @@ public class PlayerInputHadler : MonoBehaviour
         {
             InteractInput= false;
         }
+
     }
 
 }

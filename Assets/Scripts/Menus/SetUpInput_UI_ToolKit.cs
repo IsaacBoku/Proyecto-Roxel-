@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
-public class Change_SceneMenu : MonoBehaviour
+public class SetUpInput_UI_ToolKit : MonoBehaviour
 {
     public InputActionAsset inputActions;
 
@@ -35,5 +32,4 @@ public class Change_SceneMenu : MonoBehaviour
             uiInputModule.leftClick = InputActionReference.Create(inputActions.FindAction("UI/Click"));
         }
     }
-
 }

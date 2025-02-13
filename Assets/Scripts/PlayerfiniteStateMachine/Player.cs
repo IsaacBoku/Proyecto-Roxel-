@@ -33,7 +33,6 @@ public class Player : MonoBehaviour
 
     
     public GameObject box;
-
     #endregion
     #region Other Variables
 
@@ -43,7 +42,6 @@ public class Player : MonoBehaviour
     private Vector2 workspace;
     #endregion
     #region Unity Callback Functions
-
     private void Awake()
     {
         StateMachine = new PlayerStateMachine();
@@ -54,10 +52,7 @@ public class Player : MonoBehaviour
         AirState = new PlayerAirState(this, StateMachine, playerData,"Air");
         LandState = new PlayerLandState(this, StateMachine, playerData,"Land");
         PushState = new PlayerPushState(this, StateMachine, playerData, "Push");
-        
     }
-
-
     private void Start()
     {
         Anim = GetComponent<Animator>();
@@ -93,12 +88,10 @@ public class Player : MonoBehaviour
     }
     #endregion
     #region Check Functions
-
     public bool CheckIfGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
     }
-
     public bool CheckIfPush()
     {
         return  Physics2D.Raycast(transform.position, Vector2.right * transform.transform.localScale.x, playerData.distance, playerData.boxMask);
@@ -119,7 +112,6 @@ public class Player : MonoBehaviour
         {
             box = hit.collider.gameObject;
 
-
             box.GetComponent<FixedJoint2D>().enabled = true;
             box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
             Debug.Log("Agarro");
@@ -128,8 +120,6 @@ public class Player : MonoBehaviour
         {
             box.GetComponent<FixedJoint2D>().enabled = false;
         }
-
-
     }
 
     #endregion
@@ -143,12 +133,12 @@ public class Player : MonoBehaviour
         transform.Rotate(0.0f,180.0f,0.0f);
         pushCheck.Rotate(0.0f, 180.0f, 0.0f);
     }
-    #endregion
-
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
 
         Gizmos.DrawLine(pushCheck.transform.position, (Vector2)pushCheck.transform.position + Vector2.right * FacingDirection * playerData.distance);
     }
+    #endregion
+
 }

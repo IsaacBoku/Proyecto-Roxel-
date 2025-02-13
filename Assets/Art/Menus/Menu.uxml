@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Art/Menus/MenuStyles.uss?fileID=7433441132597879392&amp;guid=9dd5121b0f9b33e4d9a7d4357ce03781&amp;type=3#MenuStyles" />
+    <ui:VisualElement name="Menu" style="flex-grow: 1; flex-direction: column-reverse; background-color: rgb(0, 0, 0); background-image: url(&quot;project://database/Assets/Art/Characters/Principal_Character/Sprites/Player_cuerpo.png?fileID=2800000&amp;guid=088e003e5e2ea1449b6c35b97053666f&amp;type=3#Player_cuerpo&quot;);">
+        <ui:VisualElement name="Section_Menu" style="flex-grow: 1; -unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgba(75, 75, 75, 0); width: 45%; height: 100px; justify-content: center; align-items: auto; align-self: center; margin-top: 0; margin-right: 0; margin-left: 0; color: rgb(27, 27, 27);">
+            <ui:Label tabindex="-1" text="Proyect Roxel" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 110px; -unity-text-align: lower-center; align-self: center; text-overflow: clip; white-space: nowrap; top: 168px; position: absolute; left: 50px; color: rgb(255, 255, 255);" />
+            <ui:VisualElement name="Buttons" style="flex-grow: 1; width: 383px; flex-direction: column; position: absolute; align-self: center; height: 491px; top: auto; justify-content: center; align-items: auto; margin-bottom: 0; left: auto; transform-origin: center; transition-property: all; transition-duration: 0s; transition-timing-function: ease; transition-delay: 0s;">
+                <ui:Button text="Play" parse-escape-sequences="true" display-tooltip-when-elided="true" enable-rich-text="true" name="PlayButton" class="menu-button" style="align-self: center;" />
+                <ui:Button text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" enable-rich-text="true" name="SettingsButton" class="menu-button" style="align-self: center;" />
+                <ui:Button text="Exit" parse-escape-sequences="true" display-tooltip-when-elided="true" enable-rich-text="true" name="ExitButton" class="menu-button" style="align-self: center;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
