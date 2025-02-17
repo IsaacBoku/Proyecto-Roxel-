@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class PlayerPushState : PlayerGroundedState
 {
     public bool isPush = true;
-
     public PlayerPushState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -35,7 +35,6 @@ public class PlayerPushState : PlayerGroundedState
     {
         base.LogicUpdate();
 
-
     }
     public void DesConexion()
     {
@@ -49,7 +48,6 @@ public class PlayerPushState : PlayerGroundedState
 
 
     }
-    
     public bool CanPush()
     {
             Physics2D.queriesStartInColliders = false;

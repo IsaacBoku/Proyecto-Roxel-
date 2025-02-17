@@ -23,7 +23,6 @@ public class Player : MonoBehaviour
     public PlayerInputHadler InputHadler { get; private set; }
     public Rigidbody2D rb {  get; private set; }
     #endregion
-
     #region Check Transforms
     [SerializeField]
     private Transform groundCheck;
@@ -140,5 +139,4 @@ public class Player : MonoBehaviour
         Gizmos.DrawLine(pushCheck.transform.position, (Vector2)pushCheck.transform.position + Vector2.right * FacingDirection * playerData.distance);
     }
     #endregion
-
 }

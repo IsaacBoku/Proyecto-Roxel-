@@ -17,11 +17,11 @@
     rotate: -10deg;
     transition-duration: 0.3s;
     scale: 1 1;
-    translate: 0 0;
+    translate: 45px 0;
 }
 
 .menu-button:focus {
     rotate: -10deg;
-    transition-duration: 0.2s;
-    translate: 0 0;
+    transition-duration: 0.3s;
+    translate: 45px 0;
 }

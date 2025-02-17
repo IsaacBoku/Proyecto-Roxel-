@@ -912,7 +912,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1172627166}
   - component: {fileID: 1172627165}
-  - component: {fileID: 1172627167}
   m_Layer: 0
   m_Name: UI_Menu
   m_TagString: Untagged
@@ -951,21 +950,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1172627167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1172627164}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c3c541c43194544ea6cde490745df57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _doc: {fileID: 1172627165}
-  inputActions: {fileID: -944628639613478452, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
-  SceneName: Scene_Pruebas
 --- !u!1 &1286913548
 GameObject:
   m_ObjectHideFlags: 0

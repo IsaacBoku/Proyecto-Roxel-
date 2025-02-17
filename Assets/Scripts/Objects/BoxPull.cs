@@ -9,17 +9,17 @@ public class BoxPull : MonoBehaviour
 
     private void Start()
     {
-        xPos = transform.position.x;
+        //xPos = transform.position.x;
     }
     private void Update()
     {
-        if(beingPushed == false)
+        /*if(beingPushed == false)
         {
             transform.position = new Vector3(xPos,transform.position.y);
         }
         else
         {
             xPos = transform.position.x;
-        }
+        }*/
     }
 }
