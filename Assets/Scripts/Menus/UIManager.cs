@@ -37,8 +37,6 @@ public class UIManager : MonoBehaviour
         _settingsButton = _doc.rootVisualElement.Q<Button>("SettingsButton");
         _exitButton = _doc.rootVisualElement.Q<Button>("ExitButton");
 
-
-    
         _playButton.clicked += Change_Scene;
         _exitButton.clicked += Quit_Button;
 
@@ -59,8 +57,6 @@ public class UIManager : MonoBehaviour
     {
 
     }
- 
-
     public void Change_Scene()
     {
         if (!string.IsNullOrEmpty(SceneName))

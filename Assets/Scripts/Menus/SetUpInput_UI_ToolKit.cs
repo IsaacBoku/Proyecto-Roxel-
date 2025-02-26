@@ -8,12 +8,6 @@ using UnityEngine.UI;
 public class SetUpInput_UI_ToolKit : MonoBehaviour
 {
     public InputActionAsset inputActions;
-    [SerializeField] protected Selectable _firstSelected;
-
-    protected Selectable _lastSelected;
-
-    [Header("Controls")]
-    [SerializeField] protected InputActionReference _navigateReference;
 
     private void Awake()
     {
@@ -38,30 +32,6 @@ public class SetUpInput_UI_ToolKit : MonoBehaviour
             uiInputModule.cancel = InputActionReference.Create(inputActions.FindAction("UI/Cancel"));
             uiInputModule.point = InputActionReference.Create(inputActions.FindAction("UI/Point"));
             uiInputModule.leftClick = InputActionReference.Create(inputActions.FindAction("UI/Click"));
-        }
-    }
-    public virtual void OnEnable()
-    {
-        _navigateReference.action.performed += OnNavigate;
-
-        StartCoroutine(SelectAfterDelay());
-    }
-
-    protected virtual IEnumerator SelectAfterDelay()
-    {
-        yield return null;
-
-        EventSystem.current.SetSelectedGameObject(_firstSelected.gameObject);
-    }
-    private void OnDisable()
-    {
-        _navigateReference.action.performed -= OnNavigate;
-    }
-    protected virtual void OnNavigate(InputAction.CallbackContext context)
-    {
-        if(EventSystem.current.currentSelectedGameObject == null && _lastSelected != null)
-        {
-            EventSystem.current.SetSelectedGameObject(_lastSelected.gameObject);
         }
     }
 }

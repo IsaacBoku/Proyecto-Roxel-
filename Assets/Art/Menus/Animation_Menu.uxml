@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement style="flex-grow: 1; background-color: rgb(0, 0, 0); flex-direction: row; align-items: stretch; align-self: auto;">
+        <ui:VisualElement name="Panel_Right" style="flex-grow: 1; transform-origin: center; background-color: rgb(92, 185, 104); max-width: 50%; flex-direction: row; justify-content: flex-end; align-items: auto;" />
+        <ui:VisualElement name="Panel_Left" style="flex-grow: 1; transform-origin: center; background-color: rgb(125, 38, 38); max-width: 50%; align-items: auto; flex-direction: column-reverse; justify-content: flex-end;" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -36,13 +36,11 @@ public class PlayerGroundedState : PlayerState
     {
         base.LogicUpdate();
 
-        
-
         xInput = player.InputHadler.NormInputX;
         JumpInput = player.InputHadler.JumpInput;
         InteractInput = player.InputHadler.InteractInput;
 
-        if(InteractInput && player.PushState.CanPush())
+        /*if(InteractInput && player.PushState.CanPush())
         {
             player.InputHadler.UseInteractInput();
             stateMachine.ChangeState(player.PushState);
@@ -55,13 +53,7 @@ public class PlayerGroundedState : PlayerState
         else if(xInput != 0)
         {
             stateMachine.ChangeState(player.MoveState);
-        }
-
-
-
-
-
-
+        }*/
         if (JumpInput && player.JumpState.CanJump())
         {
             player.InputHadler.UseJumpInput();
@@ -71,6 +63,21 @@ public class PlayerGroundedState : PlayerState
         {
             player.AirState.StartCoyoteTime();
             stateMachine.ChangeState(player.AirState);
+        }
+        if (InteractInput && !player.RopeState.isConnected)
+        {
+            player.rb.velocity = player.RopeState.throwDirection * playerData.throwForce;
+            player.InputHadler.UseInteractInput();
+            //stateMachine.ChangeState(player.RopeState);
+        }
+
+        // --- DESCONEXIÓN ---
+        // Si se presiona el input de salto y la pila está conectada, se desconecta la cuerda
+        if (InteractInput && player.RopeState.isConnected)
+        {
+            player.RopeState.DisconnectRope();
+            player.InputHadler.UseJumpInput();
+           
         }
     }
 

@@ -33,12 +33,21 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "UIEngage",
+                    "name": "Options",
                     "type": "Button",
-                    "id": "c391b44a-4d06-43ae-84a4-23e310757253",
+                    "id": "85776392-a3b2-498c-aa99-0326ae6084e1",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RopeMouse",
+                    "type": "Button",
+                    "id": "0a71e35c-42d0-45fd-a467-608638e66eb4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
                     "initialStateCheck": false
                 }
             ],
@@ -155,12 +164,34 @@
                 },
                 {
                     "name": "",
-                    "id": "3451d1f9-7e0d-4c86-9451-a04ed68aaba3",
-                    "path": "<Gamepad>/leftTrigger",
+                    "id": "76c1b55d-1a00-4596-a6cc-a050fc91c0b0",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
-                    "action": "UIEngage",
+                    "groups": ";Keyboard",
+                    "action": "Options",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bc73bbc7-03d8-4b14-bdfe-6f3fb7561178",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Options",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7333bbf7-36f7-4fed-b92f-6c5caa7262d4",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RopeMouse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -256,6 +287,15 @@
                     "type": "PassThrough",
                     "id": "182bbaea-e193-428e-916c-f7969d204989",
                     "expectedControlType": "Quaternion",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Options",
+                    "type": "Button",
+                    "id": "ac1c4c74-7906-4b1e-88bc-64fea5625059",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -525,6 +565,28 @@
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "3d2d90f1-38a5-448d-8292-e5405b1a4789",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Options",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "03ad48aa-4083-484f-bbe4-4b32d1995ae4",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Options",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",

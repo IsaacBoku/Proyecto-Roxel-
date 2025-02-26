@@ -912,13 +912,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1172627166}
   - component: {fileID: 1172627165}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UI_Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1172627165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -934,7 +934,7 @@ MonoBehaviour:
   m_PanelSettings: {fileID: 11400000, guid: bf43e7de534495a41987f716ae89d0d8, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 2ad0f7781aa7e22459aabcde50804604, type: 3}
-  m_SortingOrder: 1
+  m_SortingOrder: 0
 --- !u!4 &1172627166
 Transform:
   m_ObjectHideFlags: 0
@@ -1281,7 +1281,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1641626698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1342,8 +1342,8 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -263156463
+  m_SortingOrder: 8
   m_TargetDisplay: 0
 --- !u!224 &1641626701
 RectTransform:
@@ -1554,7 +1554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3962264, g: 0.37940547, b: 0.37940547, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1717,7 +1717,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 655479474}
-  - {fileID: 1641626701}
   - {fileID: 139029640}
+  - {fileID: 1641626701}
   - {fileID: 1172627166}
   - {fileID: 1553517035}

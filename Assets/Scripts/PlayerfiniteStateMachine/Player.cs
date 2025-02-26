@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public PlayerAirState AirState { get; private set; }
     public PlayerLandState LandState { get; private set; }
     public PlayerPushState PushState { get; private set; }
+    public PlayerRopeState RopeState { get; private set; }
 
 
     [SerializeField]
@@ -30,6 +31,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     public Transform pushCheck;
 
+
+    [Header("Rope Component")]
+    [SerializeField]
+    public Transform playerCheck;
+    [SerializeField]
+    public SpringJoint2D springJoints;
+    [SerializeField]
+    public LineRenderer lineRenderer;
     
     public GameObject box;
     #endregion
@@ -51,12 +60,16 @@ public class Player : MonoBehaviour
         AirState = new PlayerAirState(this, StateMachine, playerData,"Air");
         LandState = new PlayerLandState(this, StateMachine, playerData,"Land");
         PushState = new PlayerPushState(this, StateMachine, playerData, "Push");
+        RopeState = new PlayerRopeState(this, StateMachine, playerData, "Rope");
     }
     private void Start()
     {
         Anim = GetComponent<Animator>();
         InputHadler = GetComponent<PlayerInputHadler>();
         rb = GetComponent<Rigidbody2D>();
+
+        springJoints = GetComponentInChildren<SpringJoint2D>();
+        lineRenderer = GetComponentInChildren<LineRenderer>();
 
         FacingDirection = 1;
 
