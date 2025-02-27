@@ -1,39 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.UI;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class Change_SceneMenu : MonoBehaviour
 {
-    public InputActionAsset inputActions;
-
-    private void Awake()
+    [Header("Change Scene")]
+    [SerializeField] private string scene_Menu;
+    public void Change_Scene()
     {
-        var eventSystem = FindObjectOfType<EventSystem>();
-        if (eventSystem == null)
+        if (!string.IsNullOrEmpty(scene_Menu))
         {
-            GameObject esObj = new GameObject("EventSystem");
-            eventSystem = esObj.AddComponent<EventSystem>();
+            SceneManager.LoadScene(scene_Menu);
+            Debug.Log("Ha cambiado a la escena: " + scene_Menu);
         }
-
-        var uiInputModule = eventSystem.GetComponent<InputSystemUIInputModule>();
-        if (uiInputModule == null)
+        else
         {
-            uiInputModule = eventSystem.gameObject.AddComponent<InputSystemUIInputModule>();
-        }
-
-        if (inputActions != null)
-        {
-            uiInputModule.actionsAsset = inputActions;
-            uiInputModule.move = InputActionReference.Create(inputActions.FindAction("UI/Navigate"));
-            uiInputModule.submit = InputActionReference.Create(inputActions.FindAction("UI/Submit"));
-            uiInputModule.cancel = InputActionReference.Create(inputActions.FindAction("UI/Cancel"));
-            uiInputModule.point = InputActionReference.Create(inputActions.FindAction("UI/Point"));
-            uiInputModule.leftClick = InputActionReference.Create(inputActions.FindAction("UI/Click"));
+            Debug.Log("No hay Scene cambiante");
         }
     }
-
 }
