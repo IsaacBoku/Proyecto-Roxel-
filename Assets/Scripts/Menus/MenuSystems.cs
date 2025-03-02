@@ -12,13 +12,17 @@ public class MenuSystems : MonoBehaviour
     [SerializeField] private string scene_Menu;
     [Header("Menus")]
     [SerializeField] private GameObject menu_Pause;
+    [SerializeField] private GameObject menu_Configurations;
     [SerializeField] private GameObject menu_Options;
     [SerializeField] private GameObject menu_Controls;
     [SerializeField] private GameObject menu_Audio;
     [SerializeField] private GameObject menu_Graphics;
 
+    [Header("Scripts")]
+    public MenuEventSystemHadler menusSystems;
     [Header("Animations Menus")]
     public Animator ani_MenuPause;
+    public Animator ani_MenuOptions;
 
     [SerializeField] PlayerInputHadler InputHadler;
     private void Awake()
@@ -27,7 +31,7 @@ public class MenuSystems : MonoBehaviour
     }
     private void Start()
     {
-        //Menus_Closed();
+        Menus_Closed();
     }
     private void Update()
     {
@@ -51,6 +55,7 @@ public class MenuSystems : MonoBehaviour
         menu_Controls.SetActive(false);
         menu_Audio.SetActive(false);
         menu_Graphics.SetActive(false);
+        menu_Configurations.SetActive(false);
     }
     public void Menu_Pause()
     {
@@ -58,53 +63,31 @@ public class MenuSystems : MonoBehaviour
         if (InputHadler.OptionsInput && isPause)
         {
             StartCoroutine(Cooldown_menus_Closed());
-            //ani_MenuPause.SetBool("Open", true);
             Pause();
-            /*menu_Pause.SetActive(true);
-            menu_Options.SetActive(false);
-            menu_Controls.SetActive(false);
-            menu_Audio.SetActive(false);
-            menu_Graphics.SetActive(false);*/
             InputHadler.UseOptionsInput();
             isPause = false;
         }
     }
     public void Button_Pause()
     {
-        //ani_MenuPause.SetBool("Open", false);
         Resume();
         StartCoroutine(Cooldown_menus_Open());
-        /*menu_Pause.SetActive(false);
-        menu_Options.SetActive(false);
-        menu_Controls.SetActive(false);
-        menu_Audio.SetActive(false);
-        menu_Graphics.SetActive(false);*/
         InputHadler.UseOptionsInput();
         isPause = true;
     }
     public void Button_MenuPause()
     {
-        ani_MenuPause.SetBool("Open", true);
-        menu_Pause.SetActive(true);
-        menu_Options.SetActive(false);
+        StartCoroutine(Cooldown_menus_Closed());
         menu_Controls.SetActive(false);
         menu_Audio.SetActive(false);
         menu_Graphics.SetActive(false);
-        
     }
     public void Button_Options()
     {
-        //ani_MenuPause.SetBool("Open", false);
-        menu_Pause.SetActive(false);
-        menu_Options.SetActive(true);
-        menu_Controls.SetActive(false);
-        menu_Audio.SetActive(false);
-        menu_Graphics.SetActive(false);
-        StartCoroutine(Cooldown_menus_Open());
+        StartCoroutine(Cooldown_menu_options_open());
     }
     public void Button_Graphics()
     {
-        menu_Pause.SetActive(false);
         menu_Options.SetActive(false);
         menu_Controls.SetActive(false);
         menu_Audio.SetActive(false);
@@ -112,7 +95,6 @@ public class MenuSystems : MonoBehaviour
     }
     public void Button_Audio()
     {
-        menu_Pause.SetActive(false);
         menu_Options.SetActive(false);
         menu_Controls.SetActive(false);
         menu_Audio.SetActive(true);
@@ -120,7 +102,6 @@ public class MenuSystems : MonoBehaviour
     }
     public void Button_Controls()
     {
-        menu_Pause.SetActive(false);
         menu_Options.SetActive(false);
         menu_Controls.SetActive(true);
         menu_Audio.SetActive(false);
@@ -140,22 +121,35 @@ public class MenuSystems : MonoBehaviour
     }
     IEnumerator Cooldown_menus_Closed()
     {
+        ani_MenuOptions.SetBool("Open", false);
         menu_Pause.SetActive(true);
-        menu_Options.SetActive(false);
         menu_Controls.SetActive(false);
         menu_Audio.SetActive(false);
         menu_Graphics.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         ani_MenuPause.SetBool("Open", true);
+        menusSystems.enabled = true;
+        yield return new WaitForSeconds(1f);
+        menu_Configurations.SetActive(false);
     }
     IEnumerator Cooldown_menus_Open()
     {
         ani_MenuPause.SetBool("Open", false);
         yield return new WaitForSeconds(1f);
         menu_Pause.SetActive(false);
-        menu_Options.SetActive(false);
+    }
+    IEnumerator Cooldown_menu_options_open()
+    {
+        //ani_MenuPause.SetBool("Open", false);
+        menusSystems.enabled = false;
+        menu_Configurations.SetActive(true);
+        menu_Options.SetActive(true);
         menu_Controls.SetActive(false);
         menu_Audio.SetActive(false);
         menu_Graphics.SetActive(false);
+        yield return new WaitForSeconds(0.2f);
+        //menu_Pause.SetActive(false);
+        ani_MenuOptions.SetBool("Open", true);
+
     }
 }

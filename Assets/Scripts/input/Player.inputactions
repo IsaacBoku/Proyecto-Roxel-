@@ -601,6 +601,28 @@
                 },
                 {
                     "name": "",
+                    "id": "c3712103-4921-440b-a4c3-a3a3a32b69d6",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5a7bd4a5-4e9d-4160-8346-ec685f0a7eb7",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "432e2106-f97e-4aa4-bb32-8aa71c54349a",
                     "path": "*/{Cancel}",
                     "interactions": "",
