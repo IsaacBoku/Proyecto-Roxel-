@@ -43,9 +43,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: UI
+    uniqueID: 4031810833
+    locked: 0
+  - name: Pared
+    uniqueID: 1947588937
+    locked: 0
   - name: Player
     uniqueID: 458825709
     locked: 0
-  - name: UI
-    uniqueID: 4031810833
+  - name: Suelo
+    uniqueID: 3456180867
     locked: 0
