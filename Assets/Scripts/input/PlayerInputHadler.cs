@@ -17,6 +17,11 @@ public class PlayerInputHadler : MonoBehaviour
     public bool InteractInputStop { get; private set; }
     public bool OptionsInput { get; private set; }
     public bool OptionsInputStop { get; private set; }
+    public bool GrabInput { get; private set; }  // Para agarrar objetos
+    public bool GrabInputStop { get; private set; }
+    public bool ThrowInput { get; private set; } // Para iniciar el lanzamiento
+
+    public bool ThrowInputReleased { get; private set; } // Para soltar el objeto lanzado
 
 
     PlayerInput input;
@@ -66,10 +71,36 @@ public class PlayerInputHadler : MonoBehaviour
         }
         if (context.canceled)
         {
-            InteractInputStop = true;
+            InteractInput = false;
         }
     }
     public void UseInteractInput()=> InteractInput = false;
+    public void OnGrabInput(InputAction.CallbackContext context)
+    {
+        if (context.started)  // Cuando presionas el botón
+        {
+            GrabInput = true;   // Activamos el agarre
+            Debug.Log("Botón de agarre presionado");
+        }
+         if (context.canceled)  // Cuando sueltas el botón
+        {
+            GrabInput = false;  // Desactivamos el agarre
+            Debug.Log("Botón de agarre soltado");
+        }
+
+    }
+    public void OnThrowInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            ThrowInput = true;
+            Debug.Log("Botón de agarre soltado");
+        }
+        else if (context.canceled)
+        {
+            ThrowInput = false;
+        }
+    }
     private void CheckJumpInputHoldTime()
     {
         if (Time.time >= jumpInputStartTime + inputHoldTime)

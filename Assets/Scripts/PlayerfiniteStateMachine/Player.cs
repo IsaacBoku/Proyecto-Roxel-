@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public PlayerLandState LandState { get; private set; }
     public PlayerPushState PushState { get; private set; }
     public PlayerRopeState RopeState { get; private set; }
+    public PlayerInteractionState InteractionState { get; private set; }
 
 
     [SerializeField]
@@ -31,8 +32,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     public Transform pushCheck;
 
+    [SerializeField]
+    public Transform InteractionCheck;
 
-    [Header("Rope Component")]
+    [SerializeField]
+    public Transform ObjectPosition;
+    [SerializeField]
+    public GameObject ObjectInteraction;
+
+
     [SerializeField]
     public Transform playerCheck;
     [SerializeField]
@@ -61,6 +69,7 @@ public class Player : MonoBehaviour
         LandState = new PlayerLandState(this, StateMachine, playerData,"Land");
         PushState = new PlayerPushState(this, StateMachine, playerData, "Push");
         RopeState = new PlayerRopeState(this, StateMachine, playerData, "Rope");
+        InteractionState = new PlayerInteractionState(this, StateMachine, playerData, "Interaction");
     }
     private void Start()
     {
@@ -77,6 +86,7 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
+        Debug.Log(CheckInteraction());
         CurrentVelocity = rb.velocity;
         StateMachine.CurrentState.LogicUpdate();
     }
@@ -114,6 +124,19 @@ public class Player : MonoBehaviour
         {
             Flip();
         }
+    }
+    public bool CheckInteraction()
+    {
+        Collider2D detectedObject = Physics2D.OverlapCircle(InteractionCheck.position, playerData.interactionRadius, playerData.whatIsInteractable);
+
+        if (detectedObject != null)
+        {
+            Debug.Log("Objeto detectado: " + detectedObject.name);
+            return true;
+        }
+
+        Debug.Log("No se detectó objeto interactivo");
+        return false;
     }
     public void PushCheck()
     {

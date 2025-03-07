@@ -21,15 +21,11 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -858133583, guid: 96a7d8b5680e39947af590ac3708e133, type: 3}
+      value: {fileID: 1898823395, guid: 1b91c524a8200f24dbcd435e30668f5c, type: 3}
     - time: 0.1
-      value: {fileID: -1646270632, guid: 96a7d8b5680e39947af590ac3708e133, type: 3}
+      value: {fileID: 1440922084, guid: 1b91c524a8200f24dbcd435e30668f5c, type: 3}
     - time: 0.2
-      value: {fileID: -1646270632, guid: 96a7d8b5680e39947af590ac3708e133, type: 3}
-    - time: 0.3
-      value: {fileID: -1646270632, guid: 96a7d8b5680e39947af590ac3708e133, type: 3}
-    - time: 0.4
-      value: {fileID: -1058866673, guid: cb7669d85c0cb834c9187b36eeceda71, type: 3}
+      value: {fileID: 879498810, guid: 1b91c524a8200f24dbcd435e30668f5c, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -52,17 +48,15 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -858133583, guid: 96a7d8b5680e39947af590ac3708e133, type: 3}
-    - {fileID: -1646270632, guid: 96a7d8b5680e39947af590ac3708e133, type: 3}
-    - {fileID: -1646270632, guid: 96a7d8b5680e39947af590ac3708e133, type: 3}
-    - {fileID: -1646270632, guid: 96a7d8b5680e39947af590ac3708e133, type: 3}
-    - {fileID: -1058866673, guid: cb7669d85c0cb834c9187b36eeceda71, type: 3}
+    - {fileID: 1898823395, guid: 1b91c524a8200f24dbcd435e30668f5c, type: 3}
+    - {fileID: 1440922084, guid: 1b91c524a8200f24dbcd435e30668f5c, type: 3}
+    - {fileID: 879498810, guid: 1b91c524a8200f24dbcd435e30668f5c, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.5
+    m_StopTime: 0.3
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -82,7 +76,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.4
+  - time: 0.2
     functionName: AnimationFinishTrigger
     data: 
     objectReferenceParameter: {fileID: 0}

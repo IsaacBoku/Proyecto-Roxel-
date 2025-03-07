@@ -30,6 +30,10 @@ public class PlayerData : ScriptableObject
     public float groundCheckRadius = 0.3f;
     public LayerMask whatIsGround;
 
+    [Header("Check Interaction")]
+    public float interactionRadius = 0.5f;
+    public LayerMask whatIsInteractable;
+
     [Header("Check rope")]
     public float throwForce = 5f;
 }
