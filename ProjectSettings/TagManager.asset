@@ -16,7 +16,7 @@ TagManager:
   - Player
   - Ground
   - Box
-  - 
+  - Props
   - 
   - 
   - 
@@ -49,11 +49,11 @@ TagManager:
   - name: Player
     uniqueID: 458825709
     locked: 0
-  - name: Suelo
-    uniqueID: 3456180867
-    locked: 0
   - name: Props
     uniqueID: 4243814909
+    locked: 0
+  - name: Suelo
+    uniqueID: 3456180867
     locked: 0
   - name: UI
     uniqueID: 4031810833
