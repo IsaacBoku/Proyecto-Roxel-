@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     public Animator Anim {  get; private set; }
     public PlayerInputHadler InputHadler { get; private set; }
     public Rigidbody2D rb {  get; private set; }
+
     #endregion
     #region Check Transforms
     [SerializeField]
@@ -76,6 +77,7 @@ public class Player : MonoBehaviour
         Anim = GetComponent<Animator>();
         InputHadler = GetComponent<PlayerInputHadler>();
         rb = GetComponent<Rigidbody2D>();
+
 
         springJoints = GetComponentInChildren<SpringJoint2D>();
         lineRenderer = GetComponentInChildren<LineRenderer>();

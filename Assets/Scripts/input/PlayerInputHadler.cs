@@ -82,7 +82,7 @@ public class PlayerInputHadler : MonoBehaviour
             GrabInput = true;   // Activamos el agarre
             Debug.Log("Botón de agarre presionado");
         }
-         if (context.canceled)  // Cuando sueltas el botón
+        else if (context.canceled)  // Cuando sueltas el botón
         {
             GrabInput = false;  // Desactivamos el agarre
             Debug.Log("Botón de agarre soltado");

@@ -12,6 +12,8 @@ public class PlayerGroundedState : PlayerState
     private bool ThrowInput;
     private bool isGrounded;
     private bool isInteraction;
+
+    private bool grabInputReleased = false;
     public PlayerGroundedState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -46,28 +48,28 @@ public class PlayerGroundedState : PlayerState
         GrabInput = player.InputHadler.GrabInput;
         ThrowInput = player.InputHadler.ThrowInput;
 
-        // Si el jugador presiona el botón de interacción (E o la tecla que uses)
-        if (GrabInput)
+        // Solo procesar la acción si el input fue liberado antes
+        if (player.InputHadler.GrabInput && grabInputReleased)
         {
-            // Si ya tienes un objeto, suéltalo
+            grabInputReleased = false; // Bloquear la acción hasta que se libere el botón
+
             if (player.InteractionState.heldObject != null)
             {
                 player.InteractionState.DropObject();
-
                 stateMachine.ChangeState(player.IdleState);
-
-               // Cambia al estado idle si sueltas el objeto
             }
-            // Si no estás sosteniendo nada y hay un objeto cerca, agárralo
             else if (isInteraction)
             {
                 player.InteractionState.PickUpObject();
                 stateMachine.ChangeState(player.InteractionState);
-                // Cambia al estado de interacción si agarras el objeto
             }
         }
 
-
+        // Si el jugador suelta el botón, permitir que lo vuelva a usar
+        if (!player.InputHadler.GrabInput)
+        {
+            grabInputReleased = true;
+        }
 
         // Si el jugador quiere lanzar el objeto y está sosteniéndolo
         if (ThrowInput && player.InteractionState.heldObject != null)

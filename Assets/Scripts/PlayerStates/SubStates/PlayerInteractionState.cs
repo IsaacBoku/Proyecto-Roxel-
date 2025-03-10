@@ -49,41 +49,45 @@ public class PlayerInteractionState : PlayerGroundedState
 
     public void PickUpObject()
     {
-        Collider2D detectedObject = Physics2D.OverlapCircle(player.InteractionCheck.position, playerData.interactionRadius, playerData.whatIsInteractable);
-
-        if (detectedObject != null)
+        if (heldObject == null)
         {
-            Debug.Log("Objeto detectado: " + detectedObject.name);
-            player.ObjectInteraction = detectedObject.gameObject;
-            heldObject = player.ObjectInteraction;
-            heldRb = heldObject.GetComponent<Rigidbody2D>();
+            Collider2D objectToPickUp = DetectObjectToPickUp();
+            if (objectToPickUp != null)
+            {
+                heldObject = objectToPickUp.gameObject;
+                Rigidbody2D rb = heldObject.GetComponent<Rigidbody2D>();
 
-            if (heldRb != null)
-            {
-                heldRb.isKinematic = true;
-                heldObject.transform.SetParent(holdPosition); // Usamos el punto de agarre
-                heldObject.transform.localPosition = Vector3.zero; // Ajustamos la posición del objeto
-                Debug.Log("Objeto agarrado correctamente");
+                if (rb != null)
+                {
+                    rb.isKinematic = true;  // Desactiva la física al agarrarlo
+                    rb.velocity = Vector2.zero;
+                    rb.angularVelocity = 0f;
+                }
+
+                heldObject.transform.parent = holdPosition.transform;
+                heldObject.transform.localPosition = new Vector3(0, 1f, 0); // Ajusta la posición sobre la cabeza
+
+                playerData.movementVeclocity *= 0.5f; // Reduce la velocidad al agarrar un objeto
             }
-            else
-            {
-                Debug.Log("El objeto no tiene Rigidbody2D");
-            }
-        }
-        else
-        {
-            Debug.Log("No hay objeto dentro del radio de interacción");
         }
     }
     public void DropObject()
     {
-        if (heldRb != null)
+        if (heldObject != null)
         {
-            heldRb.isKinematic = false;  // Reactiva la física cuando lo sueltas
-            heldObject.transform.SetParent(null);  // Lo desacoplas del player
-            heldObject = null;  // Lo quitas de las variables de seguimiento
+            Rigidbody2D rb = heldObject.GetComponent<Rigidbody2D>();
 
-            Debug.Log("Objeto soltado correctamente");
+            if (rb != null)
+            {
+                rb.isKinematic = false; // Reactiva la física
+                rb.velocity = Vector2.zero; // Evita que salga disparado
+                rb.angularVelocity = 0f;
+            }
+
+            heldObject.transform.parent = null;
+            heldObject = null;
+
+            playerData.movementVeclocity = 5; // Restaura la velocidad normal
         }
     }
 
@@ -91,11 +95,19 @@ public class PlayerInteractionState : PlayerGroundedState
     {
         if (heldRb != null)
         {
-            heldRb.GetComponent<FixedJoint2D>().enabled = false;
             heldRb.isKinematic = false;
             heldObject.transform.SetParent(null);
             heldRb.AddForce(player.transform.right * throwForce, ForceMode2D.Impulse);
             heldObject = null;
         }
+    }
+
+    private Collider2D DetectObjectToPickUp()
+    {
+        float detectionRadius = 1f; // Ajusta el radio según lo necesites
+        LayerMask objectLayer = LayerMask.GetMask("Box"); // Asegúrate de que tus objetos están en esta capa
+
+        Collider2D detectedObject = Physics2D.OverlapCircle(player.transform.position, detectionRadius, objectLayer);
+        return detectedObject;
     }
 }

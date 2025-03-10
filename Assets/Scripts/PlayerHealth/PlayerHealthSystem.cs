@@ -9,10 +9,12 @@ public class PlayerHealthSystem : MonoBehaviour
 
     private int maxHealth;
     private int currentHealth;
+    public EntityFX fx { get; private set; }
 
     private void Start()
     {
         HealthDefault();
+        fx = GetComponent<EntityFX>();
         Debug.Log(currentHealth);
     }
 
@@ -25,6 +27,7 @@ public class PlayerHealthSystem : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        fx.StartCoroutine("FlashFX");
         Debug.Log(currentHealth);
     }
     public void Button_Damage()
