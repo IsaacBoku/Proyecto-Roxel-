@@ -2,38 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door_Mechanic : MonoBehaviour
+public class Laser_Mechanic : MonoBehaviour
 {
     Animator ani;
 
     public int damage = 1;
 
-    private new BoxCollider2D collider;
+    private BoxCollider2D colliderTrigger;
+    public  new BoxCollider2D collider;
 
     public bool ignoreTrigger;
     private void Start()
     {
         ani = GetComponent<Animator>();
-        collider = GetComponent<BoxCollider2D>();
+        colliderTrigger = GetComponent<BoxCollider2D>();
+
     }
-    public void DoorOpen()
+    public void LaserOpen()
     {
-        ani.SetBool("Door_open", true);
+        ani.SetBool("LaserOpen", true);
     }
-    public void DoorClosed() => ani.SetBool("Door_open", false);
+    public void LaserClosed() => ani.SetBool("LaserOpen", false);
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (ignoreTrigger)
             return;
 
-        if (collision.tag == "Player")
-        {
-            DoorOpen();
-        }
-
         if (collision.CompareTag("Player"))
         {
             collision.GetComponent<PlayerHealthSystem>().TakeDamage(damage);
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (ignoreTrigger)
+            return;
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<PlayerHealthSystem>().TakeDamage(damage);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -43,33 +50,25 @@ public class Door_Mechanic : MonoBehaviour
 
         if (collision.tag == "Player")
         {
-            DoorClosed();
+            LaserClosed();
         }
-    }
-    void CollisionEnable()
-    {
-        collider.enabled = true;
     }
     void TiggerEnable()
     {
+        colliderTrigger.enabled = true;
         collider.enabled = true;
-        collider.isTrigger = true;
-    }
-    void CollisionDisable()
-    {
-        collider.enabled = false;
     }
     void TriggerDisable()
     {
+        colliderTrigger.enabled = false;
         collider.enabled = false;
-        collider.isTrigger = false;
     }
     public void Toggle(bool State)
     {
         if (State)
-            DoorOpen();
+            LaserOpen();
         else
-            DoorClosed();
+            LaserClosed();
     }
     private void OnDrawGizmos()
     {
@@ -80,5 +79,4 @@ public class Door_Mechanic : MonoBehaviour
             Gizmos.DrawWireCube(transform.position, new Vector2(box.size.x, box.size.y));
         }
     }
-
 }

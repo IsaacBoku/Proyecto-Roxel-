@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class Switch_Mechanic : MonoBehaviour
 {
+    [Header("Door")]
     [SerializeField] private Door_Mechanic[] doorOpen;
     [SerializeField] private Door_Mechanic[] doorClosed;
-
-
+    [Header("Laser")]
+    [SerializeField] private Laser_Mechanic[] laserOpen;
+    [SerializeField] private Laser_Mechanic[] laserClosed;
     Animator ani;
     public bool sticks;
 
@@ -30,6 +32,15 @@ public class Switch_Mechanic : MonoBehaviour
             closed.ignoreTrigger = true;
             closed.Toggle(false);
         }
+        foreach(Laser_Mechanic lasertrigger in laserOpen)
+        {
+            lasertrigger.Toggle(true);
+        }
+        foreach(Laser_Mechanic laserClosed in laserClosed)
+        {
+            laserClosed.ignoreTrigger = true;
+            laserClosed.Toggle(false);
+        }
     }
     private void OnTriggerExit2D()
     {
@@ -45,6 +56,15 @@ public class Switch_Mechanic : MonoBehaviour
         {
             closed.ignoreTrigger = false;
             closed.Toggle(true);
+        }
+        foreach (Laser_Mechanic lasertrigger in laserOpen)
+        {
+            lasertrigger.Toggle(false);
+        }
+        foreach (Laser_Mechanic laserClosed in laserClosed)
+        {
+            laserClosed.ignoreTrigger = false;
+            laserClosed.Toggle(true);
         }
     }
     private void OnDrawGizmos()

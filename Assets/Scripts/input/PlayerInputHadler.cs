@@ -20,7 +20,6 @@ public class PlayerInputHadler : MonoBehaviour
     public bool GrabInput { get; private set; }  // Para agarrar objetos
     public bool GrabInputStop { get; private set; }
     public bool ThrowInput { get; private set; } // Para iniciar el lanzamiento
-
     public bool ThrowInputReleased { get; private set; } // Para soltar el objeto lanzado
 
 
