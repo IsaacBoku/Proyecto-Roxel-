@@ -23,7 +23,7 @@ public class PlayerJumpState : PlayerAbilityState
 
     public bool CanJump()
     {
-        if(amountOfJumpsLeft > 0)
+        if (amountOfJumpsLeft > 0 && player.ObjectInteraction == null) // Solo permite saltar si no está sosteniendo un objeto
         {
             return true;
         }
@@ -32,6 +32,12 @@ public class PlayerJumpState : PlayerAbilityState
             return false;
         }
     }
-    public void ResetAmountOfJumpsLeft() => amountOfJumpsLeft = playerData.amountOfJumps;
+    public void ResetAmountOfJumpsLeft()
+    {
+        if (player.CheckIfGrounded())  // Si el jugador está tocando el suelo
+        {
+            amountOfJumpsLeft = playerData.amountOfJumps;  // Restablece los saltos
+        }
+    }
     public void DecreaseAmountOfJUmpsLeft() => amountOfJumpsLeft--;
 }

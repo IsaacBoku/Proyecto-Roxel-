@@ -55,7 +55,12 @@ public class Player : MonoBehaviour
 
     public Vector2 CurrentVelocity { get; private set; }
     public int FacingDirection { get; private set; }
+    public bool isOnConveyorBelt { get; set; } = false;
+    private float conveyorDirection = 0f;
 
+    public float originalSpeed;
+    private float originalJumpVelocity;
+    private float currentWeight = 0f; // Peso del objeto agarrado
     private Vector2 workspace;
     #endregion
     #region Unity Callback Functions
@@ -78,6 +83,8 @@ public class Player : MonoBehaviour
         InputHadler = GetComponent<PlayerInputHadler>();
         rb = GetComponent<Rigidbody2D>();
 
+        originalSpeed = playerData.movementVeclocity;
+        originalJumpVelocity = playerData.jumpVelocity;
 
         springJoints = GetComponentInChildren<SpringJoint2D>();
         lineRenderer = GetComponentInChildren<LineRenderer>();
@@ -88,28 +95,52 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(CheckInteraction());
+        Debug.Log(CheckIfGrounded());
         CurrentVelocity = rb.velocity;
         StateMachine.CurrentState.LogicUpdate();
     }
     private void FixedUpdate()
     {
         StateMachine.CurrentState.PhysicsUpdate();
+
     }
     #endregion
     #region Set Functions
     public void SetVelocityX(float velocity)
     {
-        workspace.Set(velocity, CurrentVelocity.y);
+        float finalVelocity = velocity;
+        
+        if (isOnConveyorBelt)
+        {
+            // Si el jugador se mueve en contra de la cinta, reducimos su velocidad
+            if (Mathf.Sign(velocity) != Mathf.Sign(conveyorDirection))
+            {
+                finalVelocity *= 0.5f; // Reducimos la velocidad al 50%
+            }
+            // Si el jugador se mueve en la misma dirección que la cinta, puede mantener o aumentar la velocidad
+            else
+            {
+                finalVelocity *= 1.2f; // Aumentamos un poco la velocidad si va en la misma dirección
+            }
+        }
+
+        workspace.Set(finalVelocity, CurrentVelocity.y);
         rb.velocity = workspace;
         CurrentVelocity = workspace;
     }
     public void SetVelocityY(float velocity)
     {
-        workspace.Set(CurrentVelocity.x, velocity);
+        float finalVelocity = velocity;
+
+        workspace.Set(CurrentVelocity.x, finalVelocity);
         rb.velocity = workspace;
         CurrentVelocity = workspace;
     }
+    public void SetConveyorDirection(float direction)
+    {
+        conveyorDirection = direction;
+    }
+
     #endregion
     #region Check Functions
     public bool CheckIfGrounded()

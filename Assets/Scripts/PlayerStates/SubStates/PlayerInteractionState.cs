@@ -55,19 +55,24 @@ public class PlayerInteractionState : PlayerGroundedState
             if (objectToPickUp != null)
             {
                 heldObject = objectToPickUp.gameObject;
-                Rigidbody2D rb = heldObject.GetComponent<Rigidbody2D>();
+                heldRb = heldObject.GetComponent<Rigidbody2D>();
 
-                if (rb != null)
+                if (heldRb != null)
                 {
-                    rb.isKinematic = true;  // Desactiva la física al agarrarlo
-                    rb.velocity = Vector2.zero;
-                    rb.angularVelocity = 0f;
+                    heldRb.isKinematic = true;  // Evita que se caiga
+                    heldRb.velocity = Vector2.zero;
+                    heldRb.angularVelocity = 0f;
                 }
 
                 heldObject.transform.parent = holdPosition.transform;
-                heldObject.transform.localPosition = new Vector3(0, 1f, 0); // Ajusta la posición sobre la cabeza
+                heldObject.transform.localPosition = new Vector3(0, 1f, 0);
 
-                playerData.movementVeclocity *= 0.5f; // Reduce la velocidad al agarrar un objeto
+                // Ignorar colisiones con el jugador para evitar bloqueos
+                Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), player.GetComponent<Collider2D>(), true);
+
+                // Reducir velocidad
+                player.originalSpeed = playerData.movementVeclocity;
+                playerData.movementVeclocity *= 0.5f;
             }
         }
     }
@@ -79,26 +84,41 @@ public class PlayerInteractionState : PlayerGroundedState
 
             if (rb != null)
             {
-                rb.isKinematic = false; // Reactiva la física
-                rb.velocity = Vector2.zero; // Evita que salga disparado
+                rb.isKinematic = false;
+                rb.velocity = Vector2.zero;
                 rb.angularVelocity = 0f;
             }
 
             heldObject.transform.parent = null;
-            heldObject = null;
 
-            playerData.movementVeclocity = 5; // Restaura la velocidad normal
+            // Restaurar colisión con el jugador
+            Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), player.GetComponent<Collider2D>(), false);
+
+            heldObject = null;
+            heldRb = null;
+
+            // Restaurar velocidad
+            playerData.movementVeclocity = player.originalSpeed;
         }
     }
 
     public void ThrowObject()
     {
-        if (heldRb != null)
+        if (heldObject != null && heldRb != null)
         {
             heldRb.isKinematic = false;
             heldObject.transform.SetParent(null);
             heldRb.AddForce(player.transform.right * throwForce, ForceMode2D.Impulse);
+
+            heldObject.transform.parent = null;
+            // Restaurar colisión con el jugador
+            Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), player.GetComponent<Collider2D>(), false);
+
             heldObject = null;
+            heldRb = null;
+
+            // Restaurar velocidad original
+            playerData.movementVeclocity = player.originalSpeed;
         }
     }
 

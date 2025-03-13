@@ -88,21 +88,11 @@ public class PlayerGroundedState : PlayerState
             player.AirState.StartCoyoteTime();
             stateMachine.ChangeState(player.AirState);
         }
-        if (InteractInput && !player.RopeState.isConnected)
+        if (player.CheckIfGrounded())
         {
-            player.rb.velocity = player.RopeState.throwDirection * playerData.throwForce;
-            player.InputHadler.UseInteractInput();
-            //stateMachine.ChangeState(player.RopeState);
+            player.JumpState.ResetAmountOfJumpsLeft();  // Resetea los saltos cuando el jugador toque el suelo
         }
 
-        // --- DESCONEXIÓN ---
-        // Si se presiona el input de salto y la pila está conectada, se desconecta la cuerda
-        if (InteractInput && player.RopeState.isConnected)
-        {
-            player.RopeState.DisconnectRope();
-            player.InputHadler.UseJumpInput();
-           
-        }
     }
 
     public override void PhysicsUpdate()

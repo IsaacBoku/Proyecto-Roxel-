@@ -5,16 +5,14 @@ using UnityEngine;
 public class Door_Mechanic : MonoBehaviour
 {
     Animator ani;
-
-    public int damage = 1;
-
-    private new BoxCollider2D collider;
-
+    private BoxCollider2D colliderTrigger;
+    public new BoxCollider2D collider;
     public bool ignoreTrigger;
+
     private void Start()
     {
         ani = GetComponent<Animator>();
-        collider = GetComponent<BoxCollider2D>();
+        colliderTrigger = GetComponent<BoxCollider2D>();
     }
     public void DoorOpen()
     {
@@ -31,10 +29,6 @@ public class Door_Mechanic : MonoBehaviour
             DoorOpen();
         }
 
-        if (collision.CompareTag("Player"))
-        {
-            collision.GetComponent<PlayerHealthSystem>().TakeDamage(damage);
-        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -46,23 +40,17 @@ public class Door_Mechanic : MonoBehaviour
             DoorClosed();
         }
     }
-    void CollisionEnable()
-    {
-        collider.enabled = true;
-    }
+
     void TiggerEnable()
     {
+        colliderTrigger.enabled = true;
         collider.enabled = true;
-        collider.isTrigger = true;
     }
-    void CollisionDisable()
-    {
-        collider.enabled = false;
-    }
+
     void TriggerDisable()
     {
+        colliderTrigger.enabled = false;
         collider.enabled = false;
-        collider.isTrigger = false;
     }
     public void Toggle(bool State)
     {

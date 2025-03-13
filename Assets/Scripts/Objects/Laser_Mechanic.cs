@@ -8,14 +8,14 @@ public class Laser_Mechanic : MonoBehaviour
 
     public int damage = 1;
 
-    private BoxCollider2D colliderTrigger;
-    public  new BoxCollider2D collider;
+    private BoxCollider2D colliderTriggers;
+    public  BoxCollider2D colliders;
 
     public bool ignoreTrigger;
     private void Start()
     {
         ani = GetComponent<Animator>();
-        colliderTrigger = GetComponent<BoxCollider2D>();
+        colliderTriggers = GetComponent<BoxCollider2D>();
 
     }
     public void LaserOpen()
@@ -55,13 +55,13 @@ public class Laser_Mechanic : MonoBehaviour
     }
     void TiggerEnable()
     {
-        colliderTrigger.enabled = true;
-        collider.enabled = true;
+        colliderTriggers.enabled = true;
+        colliders.enabled = true;
     }
     void TriggerDisable()
     {
-        colliderTrigger.enabled = false;
-        collider.enabled = false;
+        colliderTriggers.enabled = false;
+        colliders.enabled = false;
     }
     public void Toggle(bool State)
     {

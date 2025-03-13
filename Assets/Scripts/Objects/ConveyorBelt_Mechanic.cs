@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ConveyorBelt_Mechanic : MonoBehaviour
 {
@@ -12,25 +13,26 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
+        if (rb == null) return;
 
-        if(rb != null)
+        float direction = isReversed ? -1f : 1f;
+        Vector2 conveyorForce = new Vector2(speed * direction, 0);
+        rb.AddForce(conveyorForce, ForceMode2D.Force);
+
+        Player player = collision.GetComponent<Player>();
+        if (player != null)
         {
-            float direction = isReversed ? -1f : 1f;
-            rb.velocity = new Vector2(speed* direction, rb.velocity.y);
+            player.isOnConveyorBelt = true;
+            player.SetConveyorDirection(isReversed ? -1f : 1f); // Le pasamos la dirección de la cinta
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
-
-        if(rb != null)
+        Player player = collision.GetComponent<Player>();
+        if (player != null)
         {
-            rb.velocity = Vector2.zero;
+            player.isOnConveyorBelt = false;
+            player.SetConveyorDirection(0f); // Resetear la dirección de la cinta al salir
         }
-    }
-
-    public void ToggleDirection()
-    {
-        isReversed = !isReversed;
     }
 }
