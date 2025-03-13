@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fdcc58440f4f2354a9b60ec27783bd61
+guid: 5278881de4b48754d843fd95ace3dbd3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,12 +43,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,22 +110,64 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Vida_full1_0
+      name: cinta_progresiva_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 1
         y: 0
-        width: 64
-        height: 64
+        width: 62
+        height: 12
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 10, y: 3, z: 10, w: 3}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 49b5f28bd758cb14fa9d8aed56083498
-      internalID: -509889433
+      spriteID: 3c7aa71a1cbcf014ab7b7215b1d38956
+      internalID: -421750305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cinta_progresiva_1
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 0
+        width: 62
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 10, y: 3, z: 10, w: 3}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ed67632f9d56fb42a3fe193c88e1032
+      internalID: -1627782255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cinta_progresiva_2
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 0
+        width: 62
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 10, y: 3, z: 10, w: 3}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41acdee5cff79b54eb80510a1479258f
+      internalID: -862623825
       vertices: []
       indices: 
       edges: []
@@ -141,7 +183,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Vida_full1_0: -509889433
+      cinta_progresiva_0: -421750305
+      cinta_progresiva_1: -1627782255
+      cinta_progresiva_2: -862623825
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
