@@ -83,6 +83,8 @@ public class Player : MonoBehaviour
         InputHadler = GetComponent<PlayerInputHadler>();
         rb = GetComponent<Rigidbody2D>();
 
+        playerData.movementVeclocity = 5;
+
         originalSpeed = playerData.movementVeclocity;
         originalJumpVelocity = playerData.jumpVelocity;
 
