@@ -16,11 +16,13 @@ public class PlayerMoveState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
+        AudioManager.instance.PlaySFX("PlayerMove");
     }
 
     public override void Exit()
     {
         base.Exit();
+        AudioManager.instance.sfxSource.Stop();
     }
 
     public override void LogicUpdate()
@@ -31,7 +33,8 @@ public class PlayerMoveState : PlayerGroundedState
 
         player.SetVelocityX(playerData.movementVeclocity * xInput);
 
-        if(xInput == 0)
+
+        if (xInput == 0)
         {
             stateMachine.ChangeState(player.IdleState);
         }

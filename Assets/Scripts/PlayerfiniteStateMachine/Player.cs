@@ -15,10 +15,13 @@ public class Player : MonoBehaviour
     public PlayerPushState PushState { get; private set; }
     public PlayerRopeState RopeState { get; private set; }
     public PlayerInteractionState InteractionState { get; private set; }
+    public PlayerDeadState DeadState { get; private set; }
 
 
     [SerializeField]
     private PlayerData playerData;
+
+    private PlayerHealthSystem healthSystem;
     #endregion
     #region Components
     public Animator Anim {  get; private set; }
@@ -76,12 +79,14 @@ public class Player : MonoBehaviour
         PushState = new PlayerPushState(this, StateMachine, playerData, "Push");
         RopeState = new PlayerRopeState(this, StateMachine, playerData, "Rope");
         InteractionState = new PlayerInteractionState(this, StateMachine, playerData, "Interaction");
+        DeadState = new PlayerDeadState(this, StateMachine, playerData, "Dead");
     }
     private void Start()
     {
         Anim = GetComponent<Animator>();
         InputHadler = GetComponent<PlayerInputHadler>();
         rb = GetComponent<Rigidbody2D>();
+        healthSystem = GetComponent<PlayerHealthSystem>();
 
         playerData.movementVeclocity = 5;
 
