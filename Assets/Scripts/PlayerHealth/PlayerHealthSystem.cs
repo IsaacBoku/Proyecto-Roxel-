@@ -11,6 +11,14 @@ public class PlayerHealthSystem : MonoBehaviour
 
     private int maxHealth;
     public int currentHealth;
+    [Header("Animations")]
+    public Animator animhealth;
+    public Animator aniGameOver;
+
+    [Header("UI_GameOver")]
+    [SerializeField]
+    private GameObject gameOverUI;
+    [SerializeField] PlayerInputHadler InputHadler;
     public EntityFX fx { get; private set; }
 
     private void Awake()
@@ -55,7 +63,18 @@ public class PlayerHealthSystem : MonoBehaviour
         {
             currentHealth = 0;
             player.StateMachine.ChangeState(player.DeadState);
+            StartCoroutine(GameOver());
+            InputHadler.OnPause();
             Debug.Log("Player is dead");
         }
+    }
+    private IEnumerator GameOver()
+    {
+        gameOverUI.SetActive(true);
+        yield return new WaitForSeconds(1f);
+
+        aniGameOver.SetBool("GameOver", true);
+        yield return new WaitForSeconds(2f);
+        //Time.timeScale = 0;
     }
 }

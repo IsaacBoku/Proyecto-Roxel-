@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,6 +11,7 @@ public class MenuSystems : MonoBehaviour
     public bool isPause = false;
     [Header("Change Scene")]
     [SerializeField] private string scene_Menu;
+    [SerializeField] private string scene_Retry;
     [Header("Menus")]
     [SerializeField] private GameObject menu_Pause;
     [SerializeField] private GameObject menu_Configurations;
@@ -20,15 +22,16 @@ public class MenuSystems : MonoBehaviour
 
     [Header("Scripts")]
     public MenuEventSystemHadler menusSystems;
+
     [Header("Animations Menus")]
     public Animator ani_MenuPause;
     public Animator ani_MenuOptions;
 
-    [SerializeField] PlayerInputHadler InputHadler;
-    private void Awake()
-    {
+    [Header("Quit Panel")]
+    [SerializeField] private GameObject quitPanel;
+    public Animator aniQuitPanel;
 
-    }
+    [SerializeField] PlayerInputHadler InputHadler;
     private void Start()
     {
         Menus_Closed();
@@ -119,6 +122,18 @@ public class MenuSystems : MonoBehaviour
             Debug.Log("No hay Scene cambiante");
         }
     }
+    public void Button_Retry()
+    {
+        if (!string.IsNullOrEmpty(scene_Retry))
+        {
+            SceneManager.LoadScene(scene_Retry);
+            Debug.Log("Ha cambiado a la escena: " + scene_Retry);
+        }
+        else
+        {
+            Debug.Log("No hay Scene cambiante");
+        }
+    }
     IEnumerator Cooldown_menus_Closed()
     {
         ani_MenuOptions.SetBool("Open", false);
@@ -151,5 +166,33 @@ public class MenuSystems : MonoBehaviour
         //menu_Pause.SetActive(false);
         ani_MenuOptions.SetBool("Open", true);
 
+    }
+    public void Button_QuitPanel()
+    {
+        StartCoroutine(QuitPanel());
+    }
+    private IEnumerator QuitPanel()
+    {
+        quitPanel.SetActive(true);
+        menusSystems.enabled = false;
+        yield return new WaitForSeconds(1f);
+        aniQuitPanel.SetBool("Quit", true);
+    }
+    public void Button_Quit()
+    {
+        Application.Quit();
+        EditorApplication.isPlaying = false;
+        Debug.Log("Ha salido del juego");
+    }
+    public void Button_FalsePanel()
+    {
+        StartCoroutine(FalsePanel());
+    }
+    private IEnumerator FalsePanel()
+    {
+        aniQuitPanel.SetBool("Quit", false);
+        yield return new WaitForSeconds(1f);
+        menusSystems.enabled = true;
+        quitPanel.SetActive(false);
     }
 }

@@ -63,7 +63,6 @@ public class Player : MonoBehaviour
 
     public float originalSpeed;
     private float originalJumpVelocity;
-    private float currentWeight = 0f; // Peso del objeto agarrado
     private Vector2 workspace;
     #endregion
     #region Unity Callback Functions
