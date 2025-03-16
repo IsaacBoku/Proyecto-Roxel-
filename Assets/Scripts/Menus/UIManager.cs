@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 using System.Xml.Linq;
 using UnityEngine.InputSystem.Controls;
 using Unity.VisualScripting;
-using static UnityEditor.Recorder.OutputPath;
 
 public class UIManager : MonoBehaviour
 {

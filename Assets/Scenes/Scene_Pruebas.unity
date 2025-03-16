@@ -3982,9 +3982,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1788299279}
-  - {fileID: 1506793331}
-  - {fileID: 1144573884}
   - {fileID: 1706470923}
+  - {fileID: 1144573884}
+  - {fileID: 1506793331}
   m_Father: {fileID: 1870939421}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
@@ -4006,7 +4006,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.08627451, g: 0.06666667, b: 0.2627451, a: 0.70980394}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -12137,6 +12137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPause: 0
   scene_Menu: Main_Menu
+  scene_Retry: Scene_Pruebas
   menu_Pause: {fileID: 1040647471}
   menu_Configurations: {fileID: 333312823}
   menu_Options: {fileID: 1679713172}
@@ -12146,6 +12147,8 @@ MonoBehaviour:
   menusSystems: {fileID: 1040647476}
   ani_MenuPause: {fileID: 1040647477}
   ani_MenuOptions: {fileID: 333312825}
+  quitPanel: {fileID: 0}
+  aniQuitPanel: {fileID: 0}
   InputHadler: {fileID: 2012287613}
 --- !u!114 &1008727755
 MonoBehaviour:
@@ -12181,7 +12184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1040647472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13111,7 +13114,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1008727754}
         m_TargetAssemblyTypeName: MenuSystems, Assembly-CSharp
-        m_MethodName: Button_Pause
+        m_MethodName: Button_Retry
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15479,7 +15482,7 @@ GameObject:
   - component: {fileID: 1506793329}
   - component: {fileID: 1506793328}
   m_Layer: 5
-  m_Name: Quit
+  m_Name: Quita
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15531,7 +15534,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1008727754}
         m_TargetAssemblyTypeName: MenuSystems, Assembly-CSharp
-        m_MethodName: Button_Pause
+        m_MethodName: Button_Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -33052,9 +33055,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Selectables:
-  - {fileID: 1506793328}
-  - {fileID: 1144573881}
   - {fileID: 1706470920}
+  - {fileID: 1144573881}
+  - {fileID: 1506793328}
   _firstSelected: {fileID: 1144573881}
   _selectedAnimationScale: 1.1
   _scaleDuration: 0.25

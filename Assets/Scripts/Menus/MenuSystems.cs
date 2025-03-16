@@ -1,9 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class MenuSystems : MonoBehaviour
@@ -181,7 +178,7 @@ public class MenuSystems : MonoBehaviour
     public void Button_Quit()
     {
         Application.Quit();
-        EditorApplication.isPlaying = false;
+        //EditorApplication.isPlaying = false;
         Debug.Log("Ha salido del juego");
     }
     public void Button_FalsePanel()
