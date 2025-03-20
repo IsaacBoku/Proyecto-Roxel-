@@ -30,11 +30,14 @@ public class PlayerHealthSystem : MonoBehaviour
     {
         fx = GetComponent<EntityFX>();
         Debug.Log(currentHealth);
+        animhealth.SetInteger("Vida", 2);
     }
     private void Update()
     {
         Dead();
+
     }
+
     private void HealthDefault()
     {
         maxHealth = playerData.MaxHealth;
@@ -52,6 +55,15 @@ public class PlayerHealthSystem : MonoBehaviour
         }
         fx.StartCoroutine("FlashFX");
         Debug.Log(currentHealth);
+
+        if (currentHealth == 2)
+        {
+            animhealth.SetBool("Vida", true);
+        }
+        else if (currentHealth == 1)
+        {
+            animhealth.SetBool("Vida", false);
+        }
     }
     public void Button_Damage()
     {

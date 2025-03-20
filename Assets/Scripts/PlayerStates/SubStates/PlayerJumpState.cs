@@ -18,6 +18,7 @@ public class PlayerJumpState : PlayerAbilityState
         isAbilityDone = true;
         DecreaseAmountOfJUmpsLeft();
         player.AirState.SetIsJumping();
+        AudioManager.instance.PlaySFX("Jump");
     }
 
 
