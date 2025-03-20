@@ -13,12 +13,16 @@ public class Door_Mechanic : MonoBehaviour
     {
         ani = GetComponent<Animator>();
         colliderTrigger = GetComponent<BoxCollider2D>();
+        DoorClosed();
     }
     public void DoorOpen()
     {
         ani.SetBool("Door_open", true);
     }
-    public void DoorClosed() => ani.SetBool("Door_open", false);
+    public void DoorClosed()
+    {
+        ani.SetBool("Door_open", false);
+    } 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (ignoreTrigger)

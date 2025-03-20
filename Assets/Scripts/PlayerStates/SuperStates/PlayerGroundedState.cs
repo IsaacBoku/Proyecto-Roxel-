@@ -78,7 +78,7 @@ public class PlayerGroundedState : PlayerState
             stateMachine.ChangeState(player.IdleState);  // Cambia al estado idle después de lanzar el objeto
         }
 
-        if (JumpInput && player.JumpState.CanJump())
+        if (JumpInput && player.JumpState.CanJump() && isGrounded)
         {
             player.InputHadler.UseJumpInput();
             stateMachine.ChangeState(player.JumpState);
@@ -99,6 +99,5 @@ public class PlayerGroundedState : PlayerState
     {
         base.PhysicsUpdate();
     }
-
 
 }

@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         healthSystem = GetComponent<PlayerHealthSystem>();
 
-        playerData.movementVeclocity = 5;
+        playerData.movementVeclocity = 8;
 
         originalSpeed = playerData.movementVeclocity;
         originalJumpVelocity = playerData.jumpVelocity;

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 3
   damage: 10
-  movementVeclocity: 5
-  jumpVelocity: 10
+  movementVeclocity: 8
+  jumpVelocity: 15
   amountOfJumps: 1
   coyoteTime: 0.2
   variableJumpHeightMultiplier: 0.5

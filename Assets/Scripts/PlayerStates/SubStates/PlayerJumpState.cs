@@ -16,14 +16,14 @@ public class PlayerJumpState : PlayerAbilityState
 
         player.SetVelocityY(playerData.jumpVelocity);
         isAbilityDone = true;
-        amountOfJumpsLeft--;
+        DecreaseAmountOfJUmpsLeft();
         player.AirState.SetIsJumping();
     }
 
 
     public bool CanJump()
     {
-        if (amountOfJumpsLeft > 0 && player.ObjectInteraction == null) // Solo permite saltar si no está sosteniendo un objeto
+        if (amountOfJumpsLeft > 0) // Solo permite saltar si no está sosteniendo un objeto
         {
             return true;
         }
