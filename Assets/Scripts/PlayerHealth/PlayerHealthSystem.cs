@@ -86,6 +86,7 @@ public class PlayerHealthSystem : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         aniGameOver.SetBool("GameOver", true);
+        Cursor.visible = true;
         yield return new WaitForSeconds(2f);
         //Time.timeScale = 0;
     }

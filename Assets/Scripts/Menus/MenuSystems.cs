@@ -32,6 +32,7 @@ public class MenuSystems : MonoBehaviour
     private void Start()
     {
         Menus_Closed();
+
     }
     private void Update()
     {
@@ -56,6 +57,7 @@ public class MenuSystems : MonoBehaviour
         menu_Audio.SetActive(false);
         menu_Graphics.SetActive(false);
         menu_Configurations.SetActive(false);
+        Cursor.visible = false;
     }
     public void Menu_Pause()
     {
@@ -64,6 +66,7 @@ public class MenuSystems : MonoBehaviour
         {
             StartCoroutine(Cooldown_menus_Closed());
             Pause();
+            Cursor.visible = true;
             InputHadler.UseOptionsInput();
             isPause = false;
         }
@@ -71,6 +74,7 @@ public class MenuSystems : MonoBehaviour
     public void Button_Pause()
     {
         Resume();
+        Cursor.visible = false;
         StartCoroutine(Cooldown_menus_Open());
         InputHadler.UseOptionsInput();
         isPause = true;

@@ -13,6 +13,10 @@ public class Change_SceneMenu : MonoBehaviour
     public Animator aniQuitPanel;
     [Header("Scripts")]
     public MenuEventSystemHadler menusSystems;
+    private void Start()
+    {
+        Cursor.visible = true;
+    }
     public void Change_Scene()
     {
         if (!string.IsNullOrEmpty(scene_Menu))

@@ -61,6 +61,7 @@ public class PlayerGroundedState : PlayerState
             else if (isInteraction)
             {
                 player.InteractionState.PickUpObject();
+                AudioManager.instance.PlaySFX("Grab");
                 stateMachine.ChangeState(player.InteractionState);
             }
         }
