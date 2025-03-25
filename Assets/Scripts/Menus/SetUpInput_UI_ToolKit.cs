@@ -11,7 +11,7 @@ public class SetUpInput_UI_ToolKit : MonoBehaviour
 
     private void Awake()
     {
-        var eventSystem = FindObjectOfType<EventSystem>();
+        var eventSystem = Object.FindFirstObjectByType<EventSystem>();
         if (eventSystem == null)
         {
             GameObject esObj = new GameObject("EventSystem");

@@ -59,7 +59,7 @@ public class PlayerInteractionState : PlayerGroundedState
 
                 if (heldRb != null)
                 {
-                    heldRb.isKinematic = true;  // Evita que se caiga
+                    heldRb.bodyType = RigidbodyType2D.Kinematic;
                     heldRb.linearVelocity = Vector2.zero;
                     heldRb.angularVelocity = 0f;
                 }
@@ -84,7 +84,7 @@ public class PlayerInteractionState : PlayerGroundedState
 
             if (rb != null)
             {
-                rb.isKinematic = false;
+                heldRb.bodyType = RigidbodyType2D.Dynamic;
                 rb.linearVelocity = Vector2.zero;
                 rb.angularVelocity = 0f;
             }
@@ -106,7 +106,7 @@ public class PlayerInteractionState : PlayerGroundedState
     {
         if (heldObject != null && heldRb != null)
         {
-            heldRb.isKinematic = false;
+            heldRb.bodyType = RigidbodyType2D.Dynamic;
             heldObject.transform.SetParent(null);
             heldRb.AddForce(player.transform.right * throwForce, ForceMode2D.Impulse);
 
