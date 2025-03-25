@@ -60,7 +60,7 @@ public class PlayerInteractionState : PlayerGroundedState
                 if (heldRb != null)
                 {
                     heldRb.isKinematic = true;  // Evita que se caiga
-                    heldRb.velocity = Vector2.zero;
+                    heldRb.linearVelocity = Vector2.zero;
                     heldRb.angularVelocity = 0f;
                 }
 
@@ -85,13 +85,13 @@ public class PlayerInteractionState : PlayerGroundedState
             if (rb != null)
             {
                 rb.isKinematic = false;
-                rb.velocity = Vector2.zero;
+                rb.linearVelocity = Vector2.zero;
                 rb.angularVelocity = 0f;
             }
 
             heldObject.transform.parent = null;
 
-            // Restaurar colisión con el jugador
+            // Restaurar colisiï¿½n con el jugador
             Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), player.GetComponent<Collider2D>(), false);
 
             heldObject = null;
@@ -111,7 +111,7 @@ public class PlayerInteractionState : PlayerGroundedState
             heldRb.AddForce(player.transform.right * throwForce, ForceMode2D.Impulse);
 
             heldObject.transform.parent = null;
-            // Restaurar colisión con el jugador
+            // Restaurar colisiï¿½n con el jugador
             Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), player.GetComponent<Collider2D>(), false);
 
             heldObject = null;
@@ -124,8 +124,8 @@ public class PlayerInteractionState : PlayerGroundedState
 
     private Collider2D DetectObjectToPickUp()
     {
-        float detectionRadius = 1f; // Ajusta el radio según lo necesites
-        LayerMask objectLayer = LayerMask.GetMask("Box"); // Asegúrate de que tus objetos están en esta capa
+        float detectionRadius = 1f; // Ajusta el radio segï¿½n lo necesites
+        LayerMask objectLayer = LayerMask.GetMask("Box"); // Asegï¿½rate de que tus objetos estï¿½n en esta capa
 
         Collider2D detectedObject = Physics2D.OverlapCircle(player.transform.position, detectionRadius, objectLayer);
         return detectedObject;

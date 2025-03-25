@@ -102,7 +102,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         Debug.Log(CheckIfGrounded());
-        CurrentVelocity = rb.velocity;
+        CurrentVelocity = rb.linearVelocity;
         StateMachine.CurrentState.LogicUpdate();
     }
     private void FixedUpdate()
@@ -123,15 +123,15 @@ public class Player : MonoBehaviour
             {
                 finalVelocity *= 0.5f; // Reducimos la velocidad al 50%
             }
-            // Si el jugador se mueve en la misma dirección que la cinta, puede mantener o aumentar la velocidad
+            // Si el jugador se mueve en la misma direcciï¿½n que la cinta, puede mantener o aumentar la velocidad
             else
             {
-                finalVelocity *= 1.2f; // Aumentamos un poco la velocidad si va en la misma dirección
+                finalVelocity *= 1.2f; // Aumentamos un poco la velocidad si va en la misma direcciï¿½n
             }
         }
 
         workspace.Set(finalVelocity, CurrentVelocity.y);
-        rb.velocity = workspace;
+        rb.linearVelocity = workspace;
         CurrentVelocity = workspace;
     }
     public void SetVelocityY(float velocity)
@@ -139,7 +139,7 @@ public class Player : MonoBehaviour
         float finalVelocity = velocity;
 
         workspace.Set(CurrentVelocity.x, finalVelocity);
-        rb.velocity = workspace;
+        rb.linearVelocity = workspace;
         CurrentVelocity = workspace;
     }
     public void SetConveyorDirection(float direction)
@@ -174,7 +174,7 @@ public class Player : MonoBehaviour
             return true;
         }
 
-        Debug.Log("No se detectó objeto interactivo");
+        Debug.Log("No se detectï¿½ objeto interactivo");
         return false;
     }
     public void PushCheck()
