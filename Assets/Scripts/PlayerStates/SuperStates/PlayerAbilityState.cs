@@ -5,23 +5,22 @@ using UnityEngine;
 public class PlayerAbilityState : PlayerState
 {
     protected bool isAbilityDone;
-
     private bool isGrounded;
-    public PlayerAbilityState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
+
+    public PlayerAbilityState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName)
+        : base(player, stateMachine, playerData, animBoolName)
     {
     }
 
     public override void DoChecks()
     {
         base.DoChecks();
-
         isGrounded = player.CheckIfGrounded();
     }
 
     public override void Enter()
     {
         base.Enter();
-
         isAbilityDone = false;
     }
 
@@ -33,6 +32,9 @@ public class PlayerAbilityState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+
+        // Cambiar al estado magnético cuando se presiona el input
 
         if (isAbilityDone)
         {

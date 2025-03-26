@@ -7,11 +7,11 @@ public class PlayerGroundedState : PlayerState
 {
     protected int xInput;
     private bool JumpInput;
-    private bool InteractInput;
     private bool GrabInput;
     private bool ThrowInput;
     private bool isGrounded;
     private bool isInteraction;
+    private bool magneticInput;
 
     private bool grabInputReleased = false;
     public PlayerGroundedState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
@@ -41,12 +41,11 @@ public class PlayerGroundedState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-
         xInput = player.InputHadler.NormInputX;
         JumpInput = player.InputHadler.JumpInput;
-        InteractInput = player.InputHadler.InteractInput;
         GrabInput = player.InputHadler.GrabInput;
         ThrowInput = player.InputHadler.ThrowInput;
+        magneticInput = player.InputHadler.MagneticInput;
 
         // Solo procesar la acción si el input fue liberado antes
         if (player.InputHadler.GrabInput && grabInputReleased)
@@ -92,6 +91,12 @@ public class PlayerGroundedState : PlayerState
         if (player.CheckIfGrounded())
         {
             player.JumpState.ResetAmountOfJumpsLeft();  // Resetea los saltos cuando el jugador toque el suelo
+        }
+        if (magneticInput)
+        {
+            Debug.Log("Cambiando al estado de magnetismo");
+            player.InputHadler.UseMagneticInput();
+            stateMachine.ChangeState(player.MagneticState);
         }
 
     }

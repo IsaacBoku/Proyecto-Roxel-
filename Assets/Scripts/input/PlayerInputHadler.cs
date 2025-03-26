@@ -8,15 +8,14 @@ public class PlayerInputHadler : MonoBehaviour
     public int NormInputY { get; private set; }
     public bool JumpInput { get; private set; }
     public bool JumpInputStop {  get; private set; }
-    public bool InteractInput {  get; private set; }
-    public bool InteractInputStop { get; private set; }
     public bool OptionsInput { get; private set; }
     public bool OptionsInputStop { get; private set; }
-    public bool GrabInput { get; private set; }  // Para agarrar objetos
+    public bool GrabInput { get; private set; }  
     public bool GrabInputStop { get; private set; }
-    public bool ThrowInput { get; private set; } // Para iniciar el lanzamiento
-    public bool ThrowInputReleased { get; private set; } // Para soltar el objeto lanzado
-
+    public bool ThrowInput { get; private set; } 
+    public bool ThrowInputReleased { get; private set; } 
+    public bool MagneticInput { get; private set; }
+    public bool MagneticInputStop { get; private set; }
 
     PlayerInput input;
     bool isPaused;
@@ -25,7 +24,6 @@ public class PlayerInputHadler : MonoBehaviour
     private float inputHoldTime = 0.2f;
 
     private float jumpInputStartTime;
-    private float pushInputStartTime;
     private void Start()
     {
         input = GetComponent<PlayerInput>();
@@ -55,20 +53,6 @@ public class PlayerInputHadler : MonoBehaviour
         }
     }
     public void UseJumpInput() => JumpInput = false;
-    public void OnInteractInput(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            InteractInput = true;
-            InteractInputStop = false;
-            pushInputStartTime = Time.time;
-        }
-        if (context.canceled)
-        {
-            InteractInput = false;
-        }
-    }
-    public void UseInteractInput()=> InteractInput = false;
     public void OnGrabInput(InputAction.CallbackContext context)
     {
         if (context.started)  // Cuando presionas el botón
@@ -95,15 +79,24 @@ public class PlayerInputHadler : MonoBehaviour
             ThrowInput = false;
         }
     }
+    public void OnMagneticInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            MagneticInput = true;
+            MagneticInputStop = false;
+        }
+        else if (context.canceled)
+        {
+            MagneticInputStop = true;
+        }
+    }
+    public void UseMagneticInput() => MagneticInput = false;
     private void CheckJumpInputHoldTime()
     {
         if (Time.time >= jumpInputStartTime + inputHoldTime)
         {
             JumpInput = false;
-        }
-        if(Time.time >= pushInputStartTime + inputHoldTime)
-        {
-            InteractInput= false;
         }
     }
     public void OnOptionsInput(InputAction.CallbackContext context)
@@ -131,10 +124,6 @@ public class PlayerInputHadler : MonoBehaviour
         {
             input.enabled = true;
         }
-    }
-    public void OnMouseInput()
-    {
-       
     }
     public void OnGame()
     {

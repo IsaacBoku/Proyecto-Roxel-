@@ -34,6 +34,11 @@ public class PlayerData : ScriptableObject
     public float interactionRadius = 0.5f;
     public LayerMask whatIsInteractable;
 
+    [Header("Check Magnetic")]
+    public float magneticRadius = 0.5f;
+    public float magneticForce = 0.5f;
+    public LayerMask whatIsMagentic;
+
     [Header("Check rope")]
     public float throwForce = 5f;
 }

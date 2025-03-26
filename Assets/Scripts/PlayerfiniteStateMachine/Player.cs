@@ -13,8 +13,8 @@ public class Player : MonoBehaviour
     public PlayerAirState AirState { get; private set; }
     public PlayerLandState LandState { get; private set; }
     public PlayerPushState PushState { get; private set; }
-    public PlayerRopeState RopeState { get; private set; }
     public PlayerInteractionState InteractionState { get; private set; }
+    public PlayerMagneticState MagneticState {  get; private set; }
     public PlayerDeadState DeadState { get; private set; }
 
 
@@ -76,8 +76,8 @@ public class Player : MonoBehaviour
         AirState = new PlayerAirState(this, StateMachine, playerData,"Air");
         LandState = new PlayerLandState(this, StateMachine, playerData,"Land");
         PushState = new PlayerPushState(this, StateMachine, playerData, "Push");
-        RopeState = new PlayerRopeState(this, StateMachine, playerData, "Rope");
         InteractionState = new PlayerInteractionState(this, StateMachine, playerData, "Interaction");
+        MagneticState = new PlayerMagneticState(this, StateMachine, playerData, "Magnetic");
         DeadState = new PlayerDeadState(this, StateMachine, playerData, "Dead");
     }
     private void Start()

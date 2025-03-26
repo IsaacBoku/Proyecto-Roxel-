@@ -31,4 +31,9 @@ MonoBehaviour:
   whatIsInteractable:
     serializedVersion: 2
     m_Bits: 256
+  magneticRadius: 5
+  magneticForce: 8
+  whatIsMagentic:
+    serializedVersion: 2
+    m_Bits: 256
   throwForce: 1
