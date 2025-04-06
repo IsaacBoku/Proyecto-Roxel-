@@ -16,6 +16,11 @@ public class PlayerInputHadler : MonoBehaviour
     public bool ThrowInputReleased { get; private set; } 
     public bool MagneticInput { get; private set; }
     public bool MagneticInputStop { get; private set; }
+    public bool SeparateInput { get; private set; } // Para separar/reunir batería
+    public bool SeparateInputStop { get; private set; }
+    public bool AttractInput { get; private set; }
+    public bool InteractInput { get; private set; } // Para interactuar/transferir energía
+    public bool InteractInputStop { get; private set; }
 
     PlayerInput input;
     bool isPaused;
@@ -79,19 +84,6 @@ public class PlayerInputHadler : MonoBehaviour
             ThrowInput = false;
         }
     }
-    public void OnMagneticInput(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            MagneticInput = true;
-            MagneticInputStop = false;
-        }
-        else if (context.canceled)
-        {
-            MagneticInputStop = true;
-        }
-    }
-    public void UseMagneticInput() => MagneticInput = false;
     private void CheckJumpInputHoldTime()
     {
         if (Time.time >= jumpInputStartTime + inputHoldTime)
@@ -111,6 +103,53 @@ public class PlayerInputHadler : MonoBehaviour
             OptionsInputStop = true;
         }
     }
+    public void OnSeparateInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            SeparateInput = true;
+            SeparateInputStop = false;
+            Debug.Log("Botón de separación presionado");
+        }
+        if (context.canceled)
+        {
+            SeparateInputStop = true;
+            SeparateInput = false;
+        }
+    }
+    public void OnInteractInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            InteractInput = true;
+            InteractInputStop = false;
+            Debug.Log("Botón de interacción presionado");
+        }
+        if (context.canceled)
+        {
+            InteractInputStop = true;
+            InteractInput = false;
+        }
+    }
+
+    public void OnMagneticInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            MagneticInput = true;
+            MagneticInputStop = false;
+            Debug.Log("MagneticInput activado - Atrayendo");
+        }
+        else if (context.canceled)
+        {
+            MagneticInput = false;
+            MagneticInputStop = true;
+            Debug.Log("MagneticInput desactivado - Parando");
+        }
+    }
+    public void UseMagneticInput() => MagneticInput = false;
+    public void UseSeparateInput() => SeparateInput = false;
+    public void UseInteractInput() => InteractInput = false;
     public void UseOptionsInput() => OptionsInput = false;
 
     public void OnPause()

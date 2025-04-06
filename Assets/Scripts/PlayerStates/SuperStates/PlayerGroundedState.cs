@@ -43,40 +43,7 @@ public class PlayerGroundedState : PlayerState
         base.LogicUpdate();
         xInput = player.InputHadler.NormInputX;
         JumpInput = player.InputHadler.JumpInput;
-        GrabInput = player.InputHadler.GrabInput;
-        ThrowInput = player.InputHadler.ThrowInput;
-        magneticInput = player.InputHadler.MagneticInput;
 
-        // Solo procesar la acción si el input fue liberado antes
-        if (player.InputHadler.GrabInput && grabInputReleased)
-        {
-            grabInputReleased = false; // Bloquear la acción hasta que se libere el botón
-
-            if (player.InteractionState.heldObject != null)
-            {
-                player.InteractionState.DropObject();
-                stateMachine.ChangeState(player.IdleState);
-            }
-            else if (isInteraction)
-            {
-                player.InteractionState.PickUpObject();
-                AudioManager.instance.PlaySFX("Grab");
-                stateMachine.ChangeState(player.InteractionState);
-            }
-        }
-
-        // Si el jugador suelta el botón, permitir que lo vuelva a usar
-        if (!player.InputHadler.GrabInput)
-        {
-            grabInputReleased = true;
-        }
-
-        // Si el jugador quiere lanzar el objeto y está sosteniéndolo
-        if (ThrowInput && player.InteractionState.heldObject != null)
-        {
-            player.InteractionState.ThrowObject();
-            stateMachine.ChangeState(player.IdleState);  // Cambia al estado idle después de lanzar el objeto
-        }
 
         if (JumpInput && player.JumpState.CanJump() && isGrounded)
         {
@@ -91,12 +58,6 @@ public class PlayerGroundedState : PlayerState
         if (player.CheckIfGrounded())
         {
             player.JumpState.ResetAmountOfJumpsLeft();  // Resetea los saltos cuando el jugador toque el suelo
-        }
-        if (magneticInput)
-        {
-            Debug.Log("Cambiando al estado de magnetismo");
-            player.InputHadler.UseMagneticInput();
-            stateMachine.ChangeState(player.MagneticState);
         }
 
     }

@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public PlayerInteractionState InteractionState { get; private set; }
     public PlayerMagneticState MagneticState {  get; private set; }
     public PlayerDeadState DeadState { get; private set; }
+    public PlayerSeparatedState SeparatedState { get; private set; }
 
 
     [SerializeField]
@@ -32,6 +33,12 @@ public class Player : MonoBehaviour
     #region Check Transforms
     [SerializeField]
     private Transform groundCheck;
+
+    [Header("Battery")]
+    public GameObject battery;
+    private bool isSeparated = false;
+    public float maxTimeWithoutBattery = 10f;
+    private float currentTime;
 
     [SerializeField]
     public Transform pushCheck;
@@ -79,6 +86,7 @@ public class Player : MonoBehaviour
         InteractionState = new PlayerInteractionState(this, StateMachine, playerData, "Interaction");
         MagneticState = new PlayerMagneticState(this, StateMachine, playerData, "Magnetic");
         DeadState = new PlayerDeadState(this, StateMachine, playerData, "Dead");
+        SeparatedState = new PlayerSeparatedState(this, StateMachine, playerData, "Separated");
     }
     private void Start()
     {
@@ -96,6 +104,7 @@ public class Player : MonoBehaviour
         lineRenderer = GetComponentInChildren<LineRenderer>();
 
         FacingDirection = 1;
+        currentTime = maxTimeWithoutBattery;
 
         StateMachine.Intialize(IdleState);
     }
@@ -104,6 +113,43 @@ public class Player : MonoBehaviour
         Debug.Log(CheckIfGrounded());
         CurrentVelocity = rb.linearVelocity;
         StateMachine.CurrentState.LogicUpdate();
+
+        if (InputHadler.SeparateInput && !isSeparated)
+        {
+            SeparateBattery();
+        }
+        else if (InputHadler.SeparateInput && isSeparated)
+        {
+            ReuniteBattery();
+        }
+
+        if (InputHadler.InteractInput && CheckInteraction())
+        {
+            StateMachine.ChangeState(InteractionState);
+        }
+
+        if (InputHadler.MagneticInput) // Cambia al estado magnético
+        {
+            StateMachine.ChangeState(MagneticState);
+        }
+        else if (InputHadler.MagneticInputStop)
+        {
+            StateMachine.ChangeState(IdleState);
+            InputHadler.UseMagneticInput();
+        }
+        if (isSeparated)
+        {
+            currentTime -= Time.deltaTime;
+            if (currentTime <= 0)
+            {
+                ReuniteBattery();
+                StateMachine.ChangeState(DeadState); // O IdleState
+            }
+        }
+        else
+        {
+            currentTime = maxTimeWithoutBattery;
+        }
     }
     private void FixedUpdate()
     {
@@ -177,23 +223,22 @@ public class Player : MonoBehaviour
         Debug.Log("No se detect� objeto interactivo");
         return false;
     }
-    public void PushCheck()
+    private void SeparateBattery()
     {
-        Physics2D.queriesStartInColliders = false;
-        RaycastHit2D hit = Physics2D.Raycast(pushCheck.transform.position, Vector2.right * FacingDirection, playerData.distance, playerData.boxMask);
-
-        if (hit.collider != null && hit.collider.gameObject.tag == "pushable")
-        {
-            box = hit.collider.gameObject;
-
-            box.GetComponent<FixedJoint2D>().enabled = true;
-            box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
-            Debug.Log("Agarro");
-        }
-        else 
-        {
-            box.GetComponent<FixedJoint2D>().enabled = false;
-        }
+        battery.transform.parent = null;
+        battery.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        isSeparated = true;
+        StateMachine.ChangeState(SeparatedState);
+        InputHadler.UseSeparateInput();
+    }
+    private void ReuniteBattery()
+    {
+        battery.transform.parent = transform;
+        battery.transform.localPosition = Vector2.zero; // Ajusta según tu diseño
+        battery.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+        isSeparated = false;
+        StateMachine.ChangeState(IdleState);
+        InputHadler.UseSeparateInput();
     }
 
     #endregion

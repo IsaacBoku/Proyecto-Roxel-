@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerInteractionState : PlayerGroundedState
+public class PlayerInteractionState : PlayerState
 {
     public GameObject heldObject;
     private Rigidbody2D heldRb;
@@ -20,13 +20,13 @@ public class PlayerInteractionState : PlayerGroundedState
     public override void DoChecks()
     {
         base.DoChecks();
-        isInteraction = player.CheckInteraction();
+        //isInteraction = player.CheckInteraction();
     }
 
     public override void Enter()
     {
         base.Enter();
-        PickUpObject();
+        //PickUpObject();
     }
 
     public override void Exit()
@@ -38,96 +38,45 @@ public class PlayerInteractionState : PlayerGroundedState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        stateMachine.ChangeState(player.IdleState);
-       
+        if (player.InputHadler.InteractInput && player.CheckInteraction())
+        {
+            Collider2D obj = Physics2D.OverlapCircle(player.InteractionCheck.position, playerData.interactionRadius, playerData.whatIsInteractable);
+            if (obj != null && player.battery != null)
+            {
+                BatteryController battery = player.battery.GetComponent<BatteryController>();
+
+                // Intentar cargar un ChargeableObject
+                ChargeableObject chargeable = obj.GetComponent<ChargeableObject>();
+                if (chargeable != null && battery.energyAmounts > 0)
+                {
+                    float consumedEnergy = chargeable.ReceiveEnergy(battery.energyAmounts);
+                    if (consumedEnergy > 0)
+                    {
+                        battery.energyAmounts -= consumedEnergy;
+                        player.InputHadler.UseInteractInput();
+                        Debug.Log($"Energía transferida: {consumedEnergy}. Energía restante: {battery.energyAmounts}");
+                    }
+                }
+
+                // Intentar recargar la batería
+                BatteryCharger charger = obj.GetComponent<BatteryCharger>();
+                if (charger != null)
+                {
+                    charger.StartCharging();
+                    player.InputHadler.UseInteractInput();
+                }
+            }
+            stateMachine.ChangeState(player.IdleState);
+        }
+        else if (!player.InputHadler.InteractInput)
+        {
+            stateMachine.ChangeState(player.IdleState);
+        }
+
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-    }
-
-    public void PickUpObject()
-    {
-        if (heldObject == null)
-        {
-            Collider2D objectToPickUp = DetectObjectToPickUp();
-            if (objectToPickUp != null)
-            {
-                heldObject = objectToPickUp.gameObject;
-                heldRb = heldObject.GetComponent<Rigidbody2D>();
-
-                if (heldRb != null)
-                {
-                    heldRb.bodyType = RigidbodyType2D.Kinematic;
-                    heldRb.linearVelocity = Vector2.zero;
-                    heldRb.angularVelocity = 0f;
-                }
-
-                heldObject.transform.parent = holdPosition.transform;
-                heldObject.transform.localPosition = new Vector3(0, 1f, 0);
-
-                // Ignorar colisiones con el jugador para evitar bloqueos
-                Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), player.GetComponent<Collider2D>(), true);
-
-                // Reducir velocidad
-                player.originalSpeed = playerData.movementVeclocity;
-                playerData.movementVeclocity *= 0.5f;
-            }
-        }
-    }
-    public void DropObject()
-    {
-        if (heldObject != null)
-        {
-            Rigidbody2D rb = heldObject.GetComponent<Rigidbody2D>();
-
-            if (rb != null)
-            {
-                heldRb.bodyType = RigidbodyType2D.Dynamic;
-                rb.linearVelocity = Vector2.zero;
-                rb.angularVelocity = 0f;
-            }
-
-            heldObject.transform.parent = null;
-
-            // Restaurar colisi�n con el jugador
-            Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), player.GetComponent<Collider2D>(), false);
-
-            heldObject = null;
-            heldRb = null;
-
-            // Restaurar velocidad
-            playerData.movementVeclocity = player.originalSpeed;
-        }
-    }
-
-    public void ThrowObject()
-    {
-        if (heldObject != null && heldRb != null)
-        {
-            heldRb.bodyType = RigidbodyType2D.Dynamic;
-            heldObject.transform.SetParent(null);
-            heldRb.AddForce(player.transform.right * throwForce, ForceMode2D.Impulse);
-
-            heldObject.transform.parent = null;
-            // Restaurar colisi�n con el jugador
-            Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), player.GetComponent<Collider2D>(), false);
-
-            heldObject = null;
-            heldRb = null;
-
-            // Restaurar velocidad original
-            playerData.movementVeclocity = player.originalSpeed;
-        }
-    }
-
-    private Collider2D DetectObjectToPickUp()
-    {
-        float detectionRadius = 1f; // Ajusta el radio seg�n lo necesites
-        LayerMask objectLayer = LayerMask.GetMask("Box"); // Aseg�rate de que tus objetos est�n en esta capa
-
-        Collider2D detectedObject = Physics2D.OverlapCircle(player.transform.position, detectionRadius, objectLayer);
-        return detectedObject;
     }
 }

@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Separate",
+                    "type": "Button",
+                    "id": "8459a2ba-1d3e-4376-8b9e-f163efe8c19b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -218,7 +227,7 @@
                 {
                     "name": "",
                     "id": "2a394753-cce4-4491-952f-0031c618983d",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -228,12 +237,12 @@
                 },
                 {
                     "name": "",
-                    "id": "5a4786c9-3c9e-4a87-bdcf-e3cc6290af13",
-                    "path": "",
+                    "id": "2dd1826a-9572-4184-bbbc-c7966725c616",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Magnetic",
+                    "action": "Separate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
