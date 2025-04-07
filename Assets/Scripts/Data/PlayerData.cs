@@ -38,12 +38,15 @@ public class PlayerData : ScriptableObject
     public float magneticRadius = 0.5f;
     public LayerMask whatIsMagentic;
 
-    [Header("Check rope")]
+    [Header("Check ThrowBattery")]
     public float throwForce = 5f;
+    public float throwDistance = 5f;
 
     [SerializeField] public float lightMass = 0.5f;
     [SerializeField] public float normalMass = 1f;
     [SerializeField] public float magneticForce = 10f;
     [SerializeField] public float magneticRange = 5f;
     [SerializeField] public LayerMask whatIsMetallic;
+
+
 }

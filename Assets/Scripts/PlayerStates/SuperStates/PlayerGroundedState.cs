@@ -12,8 +12,6 @@ public class PlayerGroundedState : PlayerState
     private bool isGrounded;
     private bool isInteraction;
     private bool magneticInput;
-
-    private bool grabInputReleased = false;
     public PlayerGroundedState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }

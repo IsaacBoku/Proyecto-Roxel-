@@ -12,8 +12,9 @@ public class PlayerInputHadler : MonoBehaviour
     public bool OptionsInputStop { get; private set; }
     public bool GrabInput { get; private set; }  
     public bool GrabInputStop { get; private set; }
-    public bool ThrowInput { get; private set; } 
-    public bool ThrowInputReleased { get; private set; } 
+    public bool ThrowInput { get; private set; }
+    public bool ThrowInputStop { get; private set; }
+    public Vector2 MousePosition { get; private set; }
     public bool MagneticInput { get; private set; }
     public bool MagneticInputStop { get; private set; }
     public bool SeparateInput { get; private set; } // Para separar/reunir batería
@@ -58,32 +59,28 @@ public class PlayerInputHadler : MonoBehaviour
         }
     }
     public void UseJumpInput() => JumpInput = false;
-    public void OnGrabInput(InputAction.CallbackContext context)
-    {
-        if (context.started)  // Cuando presionas el botón
-        {
-            GrabInput = true;   // Activamos el agarre
-            Debug.Log("Botón de agarre presionado");
-        }
-        else if (context.canceled)  // Cuando sueltas el botón
-        {
-            GrabInput = false;  // Desactivamos el agarre
-            Debug.Log("Botón de agarre soltado");
-        }
-
-    }
     public void OnThrowInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
             ThrowInput = true;
-            Debug.Log("Botón de agarre soltado");
+            ThrowInputStop = false;
+            Debug.Log("ThrowInput iniciado");
         }
         else if (context.canceled)
         {
             ThrowInput = false;
+            ThrowInputStop = true;
+            Debug.Log("ThrowInput soltado");
         }
     }
+    public void OnMousePosition(InputAction.CallbackContext context)
+    {
+        MousePosition = context.ReadValue<Vector2>();
+        Debug.Log($"Posición del ratón: {MousePosition}");
+    }
+
+    public void UseThrowInput() => ThrowInput = false;
     private void CheckJumpInputHoldTime()
     {
         if (Time.time >= jumpInputStartTime + inputHoldTime)
@@ -109,7 +106,6 @@ public class PlayerInputHadler : MonoBehaviour
         {
             SeparateInput = true;
             SeparateInputStop = false;
-            Debug.Log("Botón de separación presionado");
         }
         if (context.canceled)
         {
@@ -123,7 +119,6 @@ public class PlayerInputHadler : MonoBehaviour
         {
             InteractInput = true;
             InteractInputStop = false;
-            Debug.Log("Botón de interacción presionado");
         }
         if (context.canceled)
         {
@@ -138,13 +133,11 @@ public class PlayerInputHadler : MonoBehaviour
         {
             MagneticInput = true;
             MagneticInputStop = false;
-            Debug.Log("MagneticInput activado - Atrayendo");
         }
         else if (context.canceled)
         {
             MagneticInput = false;
             MagneticInputStop = true;
-            Debug.Log("MagneticInput desactivado - Parando");
         }
     }
     public void UseMagneticInput() => MagneticInput = false;

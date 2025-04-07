@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     public PlayerMagneticState MagneticState {  get; private set; }
     public PlayerDeadState DeadState { get; private set; }
     public PlayerSeparatedState SeparatedState { get; private set; }
+    public PlayerThrowState ThrowState { get; private set; }
+    public PlayerAimBatteryState AimBatteryState { get; private set; }
 
 
     [SerializeField]
@@ -36,9 +38,10 @@ public class Player : MonoBehaviour
 
     [Header("Battery")]
     public GameObject battery;
-    private bool isSeparated = false;
+    public bool isSeparated = false;
     public float maxTimeWithoutBattery = 10f;
     private float currentTime;
+    private bool isTimerPaused;
 
     [SerializeField]
     public Transform pushCheck;
@@ -72,6 +75,16 @@ public class Player : MonoBehaviour
     private float originalJumpVelocity;
     private Vector2 workspace;
     #endregion
+    #region Aim Dots
+    [Header("Aim Dots")]
+    [SerializeField] private int numberOfDots = 10;
+    [SerializeField] private float spaceBetweenDots = 0.1f;
+    [SerializeField] private GameObject dotPrefab;
+    [SerializeField] private Transform dotsParent;
+    private GameObject[] aimDots;
+
+    public GameObject[] AimDots => aimDots;
+    #endregion
     #region Unity Callback Functions
     private void Awake()
     {
@@ -87,6 +100,10 @@ public class Player : MonoBehaviour
         MagneticState = new PlayerMagneticState(this, StateMachine, playerData, "Magnetic");
         DeadState = new PlayerDeadState(this, StateMachine, playerData, "Dead");
         SeparatedState = new PlayerSeparatedState(this, StateMachine, playerData, "Separated");
+        ThrowState = new PlayerThrowState(this, StateMachine, playerData, "Throw");
+        AimBatteryState = new PlayerAimBatteryState(this, StateMachine, playerData, "Aim");
+
+        GenerateDots();
     }
     private void Start()
     {
@@ -137,18 +154,18 @@ public class Player : MonoBehaviour
             StateMachine.ChangeState(IdleState);
             InputHadler.UseMagneticInput();
         }
-        if (isSeparated)
+        if (InputHadler.ThrowInput && !isSeparated)
         {
-            currentTime -= Time.deltaTime;
-            if (currentTime <= 0)
-            {
-                ReuniteBattery();
-                StateMachine.ChangeState(DeadState); // O IdleState
-            }
+            StateMachine.ChangeState(AimBatteryState);
         }
-        else
+        if (isSeparated && !isTimerPaused)
         {
-            currentTime = maxTimeWithoutBattery;
+            currentTime += Time.deltaTime;
+            Debug.Log($"Tiempo sin batería: {currentTime}/{maxTimeWithoutBattery}");
+            if (currentTime >= maxTimeWithoutBattery)
+            {
+                StateMachine.ChangeState(DeadState);
+            }
         }
     }
     private void FixedUpdate()
@@ -158,6 +175,15 @@ public class Player : MonoBehaviour
     }
     #endregion
     #region Set Functions
+    public void ResetTimer()
+    {
+        currentTime = 0f;
+    }
+    public bool IsTimerPaused
+    {
+        get => isTimerPaused;
+        set => isTimerPaused = value;
+    }
     public void SetVelocityX(float velocity)
     {
         float finalVelocity = velocity;
@@ -251,6 +277,15 @@ public class Player : MonoBehaviour
         FacingDirection *= -1;
         transform.Rotate(0.0f,180.0f,0.0f);
         pushCheck.Rotate(0.0f, 180.0f, 0.0f);
+    }
+    private void GenerateDots()
+    {
+        aimDots = new GameObject[numberOfDots];
+        for (int i = 0; i < numberOfDots; i++)
+        {
+            aimDots[i] = Instantiate(dotPrefab, transform.position, Quaternion.identity, dotsParent);
+            aimDots[i].SetActive(false);
+        }
     }
     void OnDrawGizmos()
     {
