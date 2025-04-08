@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputHadler : MonoBehaviour
 {
+    #region InputsVariables
     public Vector2 RawMovementInput {  get; private set; }
     public int NormInputX { get; private set; }
     public int NormInputY { get; private set; }
@@ -23,7 +24,9 @@ public class PlayerInputHadler : MonoBehaviour
     public bool InteractInput { get; private set; } // Para interactuar/transferir energía
     public bool InteractInputStop { get; private set; }
 
+    #endregion
     PlayerInput input;
+
     bool isPaused;
 
     [SerializeField]
@@ -38,6 +41,7 @@ public class PlayerInputHadler : MonoBehaviour
     {
         CheckJumpInputHoldTime();
     }
+    #region Input
     public void OnMoveInput(InputAction.CallbackContext context)
     {
         RawMovementInput = context.ReadValue<Vector2>();
@@ -58,29 +62,24 @@ public class PlayerInputHadler : MonoBehaviour
             JumpInputStop = true;
         }
     }
-    public void UseJumpInput() => JumpInput = false;
     public void OnThrowInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
             ThrowInput = true;
             ThrowInputStop = false;
-            Debug.Log("ThrowInput iniciado");
         }
         else if (context.canceled)
         {
             ThrowInput = false;
             ThrowInputStop = true;
-            Debug.Log("ThrowInput soltado");
         }
     }
     public void OnMousePosition(InputAction.CallbackContext context)
     {
         MousePosition = context.ReadValue<Vector2>();
-        Debug.Log($"Posición del ratón: {MousePosition}");
     }
 
-    public void UseThrowInput() => ThrowInput = false;
     private void CheckJumpInputHoldTime()
     {
         if (Time.time >= jumpInputStartTime + inputHoldTime)
@@ -140,11 +139,17 @@ public class PlayerInputHadler : MonoBehaviour
             MagneticInputStop = true;
         }
     }
+    #endregion
+    #region UseInput
+    public void UseJumpInput() => JumpInput = false;
+    public void UseThrowInput() => ThrowInput = false;
     public void UseMagneticInput() => MagneticInput = false;
     public void UseSeparateInput() => SeparateInput = false;
     public void UseInteractInput() => InteractInput = false;
     public void UseOptionsInput() => OptionsInput = false;
 
+    #endregion
+    #region UIController
     public void OnPause()
     {
         isPaused = !isPaused;
@@ -165,4 +170,5 @@ public class PlayerInputHadler : MonoBehaviour
             input.enabled = true;
         }
     }
+    #endregion
 }

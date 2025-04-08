@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
 {
     #region State Variables
     public PlayerStateMachine StateMachine { get; private set; }
-
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
@@ -57,32 +56,24 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     public Transform playerCheck;
-    [SerializeField]
-    public SpringJoint2D springJoints;
-    [SerializeField]
-    public LineRenderer lineRenderer;
     
-    public GameObject box;
+
     #endregion
     #region Other Variables
-
     public Vector2 CurrentVelocity { get; private set; }
     public int FacingDirection { get; private set; }
     public bool isOnConveyorBelt { get; set; } = false;
     private float conveyorDirection = 0f;
 
     public float originalSpeed;
-    private float originalJumpVelocity;
     private Vector2 workspace;
     #endregion
     #region Aim Dots
     [Header("Aim Dots")]
     [SerializeField] private int numberOfDots = 10;
-    [SerializeField] private float spaceBetweenDots = 0.1f;
     [SerializeField] private GameObject dotPrefab;
     [SerializeField] private Transform dotsParent;
     private GameObject[] aimDots;
-
     public GameObject[] AimDots => aimDots;
     #endregion
     #region Unity Callback Functions
@@ -115,10 +106,6 @@ public class Player : MonoBehaviour
         playerData.movementVeclocity = 8;
 
         originalSpeed = playerData.movementVeclocity;
-        originalJumpVelocity = playerData.jumpVelocity;
-
-        springJoints = GetComponentInChildren<SpringJoint2D>();
-        lineRenderer = GetComponentInChildren<LineRenderer>();
 
         FacingDirection = 1;
         currentTime = maxTimeWithoutBattery;
@@ -190,15 +177,13 @@ public class Player : MonoBehaviour
         
         if (isOnConveyorBelt)
         {
-            // Si el jugador se mueve en contra de la cinta, reducimos su velocidad
             if (Mathf.Sign(velocity) != Mathf.Sign(conveyorDirection))
             {
-                finalVelocity *= 0.5f; // Reducimos la velocidad al 50%
+                finalVelocity *= 0.5f; 
             }
-            // Si el jugador se mueve en la misma direcci�n que la cinta, puede mantener o aumentar la velocidad
             else
             {
-                finalVelocity *= 1.2f; // Aumentamos un poco la velocidad si va en la misma direcci�n
+                finalVelocity *= 1.2f; 
             }
         }
 
@@ -242,11 +227,9 @@ public class Player : MonoBehaviour
 
         if (detectedObject != null)
         {
-            Debug.Log("Objeto detectado: " + detectedObject.name);
             return true;
         }
 
-        Debug.Log("No se detect� objeto interactivo");
         return false;
     }
     private void SeparateBattery()
@@ -256,6 +239,7 @@ public class Player : MonoBehaviour
         isSeparated = true;
         StateMachine.ChangeState(SeparatedState);
         InputHadler.UseSeparateInput();
+        ResetTimer();
     }
     private void ReuniteBattery()
     {

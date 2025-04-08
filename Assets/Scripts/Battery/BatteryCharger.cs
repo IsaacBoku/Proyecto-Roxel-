@@ -9,10 +9,10 @@ public class BatteryCharger : MonoBehaviour
     private float maxEnergy = 100f; // Energía máxima de la batería
 
     [SerializeField]
-    private ParticleSystem chargeEffect; // Efecto visual opcional
+    private ParticleSystem chargeEffect;
 
     [SerializeField]
-    private AudioSource chargeSound; // Sonido opcional
+    private AudioSource chargeSound; 
 
     private bool isCharging = false;
     private BatteryController battery;

@@ -104,6 +104,7 @@ Transform:
   - {fileID: 289189624859510397}
   - {fileID: 3701499500167114519}
   - {fileID: 4909282274315082332}
+  - {fileID: 6565704547363232867}
   - {fileID: 9149900430545757865}
   - {fileID: 151912598559025198}
   m_Father: {fileID: 0}
@@ -344,6 +345,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 8459a2ba-1d3e-4376-8b9e-f163efe8c19b
     m_ActionName: 'Gameplay/Separate[/Keyboard/q]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4775971293667171042}
+        m_TargetAssemblyTypeName: PlayerInputHadler, Assembly-CSharp
+        m_MethodName: OnMousePosition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 136b7316-71e9-43d7-9474-25daf98f6168
+    m_ActionName: 'Gameplay/MousePosition[/Mouse/position]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -408,16 +425,17 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 9b64c805d69d20845ab22d3e4bf837ee, type: 2}
   groundCheck: {fileID: 9020894077395841980}
   battery: {fileID: 2196018060409185698}
+  isSeparated: 0
   maxTimeWithoutBattery: 10
   pushCheck: {fileID: 4909282274315082332}
   InteractionCheck: {fileID: 289189624859510397}
   ObjectPosition: {fileID: 3701499500167114519}
   ObjectInteraction: {fileID: 0}
   playerCheck: {fileID: 4061378231275982696}
-  springJoints: {fileID: 0}
-  lineRenderer: {fileID: 0}
-  box: {fileID: 0}
   originalSpeed: 0
+  numberOfDots: 10
+  dotPrefab: {fileID: 1806446307295189743, guid: c26b053cf4fffe24c869f5fdd3df4168, type: 3}
+  dotsParent: {fileID: 6565704547363232867}
 --- !u!50 &7573017274779827549
 Rigidbody2D:
   serializedVersion: 5
@@ -674,7 +692,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 1bc5aab4318ec514eb64674d23f557c0, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -684,7 +702,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!61 &3458065592022584476
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -701,7 +719,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -799,6 +817,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   energyAmounts: 100
+  launchDir: {x: 0, y: 0}
+  batteryGravity: 0
+--- !u!1 &2977054223796493208
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6565704547363232867}
+  m_Layer: 0
+  m_Name: DotsParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6565704547363232867
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2977054223796493208}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4061378231275982696}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6648328789301599412
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,6 @@ public class PlayerAimBatteryState : PlayerState
     [SerializeField] private float batteryGravity = 1f; // Gravedad para la simulación de la trayectoria
 
     [Header("Aim Dots")]
-    [SerializeField] private int numberOfDots = 10;
     [SerializeField] private float spaceBetweenDots = 0.1f;
 
     private GameObject[] dots;

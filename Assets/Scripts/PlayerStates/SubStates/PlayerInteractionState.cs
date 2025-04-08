@@ -5,28 +5,18 @@ using UnityEngine;
 
 public class PlayerInteractionState : PlayerState
 {
-    public GameObject heldObject;
-    private Rigidbody2D heldRb;
-    private Transform holdPosition;
-    private float throwForce;
-    private bool isChargingThrow;
-    private bool isInteraction;
     public PlayerInteractionState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
-        holdPosition = player.ObjectPosition;
-        throwForce = playerData.throwForce;
     }
 
     public override void DoChecks()
     {
         base.DoChecks();
-        //isInteraction = player.CheckInteraction();
     }
 
     public override void Enter()
     {
         base.Enter();
-        //PickUpObject();
     }
 
     public override void Exit()
@@ -72,11 +62,5 @@ public class PlayerInteractionState : PlayerState
         {
             stateMachine.ChangeState(player.IdleState);
         }
-
-    }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
     }
 }

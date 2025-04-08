@@ -33,9 +33,6 @@ public class PlayerAbilityState : PlayerState
     {
         base.LogicUpdate();
 
-
-        // Cambiar al estado magnético cuando se presiona el input
-
         if (isAbilityDone)
         {
             if (isGrounded && player.CurrentVelocity.y < 0.01f)

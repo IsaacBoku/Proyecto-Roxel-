@@ -12,10 +12,10 @@ public class ChargeableObject : MonoBehaviour
     private float requiredEnergy = 50f; // Energía mínima necesaria para activarse (opcional)
 
     [SerializeField]
-    private ParticleSystem chargeEffect; // Efecto visual opcional al recibir energía
+    private ParticleSystem chargeEffect; 
 
     [SerializeField]
-    private AudioSource chargeSound; // Sonido opcional al activarse
+    private AudioSource chargeSound; 
 
     void Start()
     {

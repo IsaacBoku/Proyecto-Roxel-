@@ -7,11 +7,7 @@ public class PlayerGroundedState : PlayerState
 {
     protected int xInput;
     private bool JumpInput;
-    private bool GrabInput;
-    private bool ThrowInput;
     private bool isGrounded;
-    private bool isInteraction;
-    private bool magneticInput;
     public PlayerGroundedState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -21,7 +17,6 @@ public class PlayerGroundedState : PlayerState
         base.DoChecks();
 
         isGrounded = player.CheckIfGrounded();
-        isInteraction = player.CheckInteraction();
     }
 
     public override void Enter()
@@ -55,7 +50,7 @@ public class PlayerGroundedState : PlayerState
         }
         if (player.CheckIfGrounded())
         {
-            player.JumpState.ResetAmountOfJumpsLeft();  // Resetea los saltos cuando el jugador toque el suelo
+            player.JumpState.ResetAmountOfJumpsLeft();  
         }
 
     }
