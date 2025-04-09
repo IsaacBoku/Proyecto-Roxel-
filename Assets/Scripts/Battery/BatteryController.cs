@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class BatteryController : MonoBehaviour
 {
+    [Header("Battery Energy")]
     public float energyAmounts = 100f;
-    [SerializeField] private Vector2 launchDir;
-    [SerializeField] private float batteryGravity;
+    public float maxEnergy = 100f;
+    public bool isPositivePolarity = true;
 
     void OnTriggerEnter2D(Collider2D other)
     {

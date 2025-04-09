@@ -38,11 +38,19 @@ public class PlayerData : ScriptableObject
     public float throwForce = 5f;
     public float throwDistance = 5f;
 
-    [Header("Check MetalicObjetcs")]
+    [Header("Battery")]
     [SerializeField] public float lightMass = 0.5f;
     [SerializeField] public float normalMass = 1f;
-    [SerializeField] public float magneticForce = 10f;
+
+    [Header("Check MetalicObjetcs")]
+    [SerializeField] public float magneticForce = 500f;
     [SerializeField] public float magneticRange = 5f;
     [SerializeField] public LayerMask whatIsMetallic;
+
+    [Header("Boost Settings")]
+    public float boostCost = 20f; // Costo de energía del impulso
+    public float boostSpeed = 15f; // Velocidad del impulso
+    public float boostDuration = 0.3f; // Duración del impulso (en segundos)
+    public float boostCooldown = 1f;
 
 }

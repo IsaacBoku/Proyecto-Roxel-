@@ -23,6 +23,9 @@ public class PlayerInputHadler : MonoBehaviour
     public bool AttractInput { get; private set; }
     public bool InteractInput { get; private set; } // Para interactuar/transferir energía
     public bool InteractInputStop { get; private set; }
+    public bool SwitchPolarityInput { get; private set; }
+    public bool BoostInput { get; private set; } // Nuevo input para el impulso
+    public bool BoostInputStop { get; private set; }
 
     #endregion
     PlayerInput input;
@@ -139,6 +142,28 @@ public class PlayerInputHadler : MonoBehaviour
             MagneticInputStop = true;
         }
     }
+    public void OnSwitchPolarityInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            SwitchPolarityInput = true;
+        }
+    }
+    public void OnBoostInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            BoostInput = true;
+            BoostInputStop = false;
+            Debug.Log("BoostInput activado - Iniciando impulso");
+        }
+        else if (context.canceled)
+        {
+            BoostInput = false;
+            BoostInputStop = true;
+            Debug.Log("BoostInput desactivado - Terminando impulso");
+        }
+    }
     #endregion
     #region UseInput
     public void UseJumpInput() => JumpInput = false;
@@ -147,6 +172,8 @@ public class PlayerInputHadler : MonoBehaviour
     public void UseSeparateInput() => SeparateInput = false;
     public void UseInteractInput() => InteractInput = false;
     public void UseOptionsInput() => OptionsInput = false;
+    public void UseSwitchPolarityInput() => SwitchPolarityInput = false;
+    public void UseBoostInput() => BoostInput = false;
 
     #endregion
     #region UIController

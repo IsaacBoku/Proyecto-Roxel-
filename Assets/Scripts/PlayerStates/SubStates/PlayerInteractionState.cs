@@ -37,15 +37,10 @@ public class PlayerInteractionState : PlayerState
 
                 // Intentar cargar un ChargeableObject
                 ChargeableObject chargeable = obj.GetComponent<ChargeableObject>();
-                if (chargeable != null && battery.energyAmounts > 0)
+                if (chargeable != null)
                 {
-                    float consumedEnergy = chargeable.ReceiveEnergy(battery.energyAmounts);
-                    if (consumedEnergy > 0)
-                    {
-                        battery.energyAmounts -= consumedEnergy;
-                        player.InputHadler.UseInteractInput();
-                        Debug.Log($"Energía transferida: {consumedEnergy}. Energía restante: {battery.energyAmounts}");
-                    }
+                    chargeable.StartCharging(battery);
+                    player.InputHadler.UseInteractInput();
                 }
 
                 // Intentar recargar la batería

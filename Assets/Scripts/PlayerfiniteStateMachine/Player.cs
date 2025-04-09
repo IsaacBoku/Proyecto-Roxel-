@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour
     public PlayerSeparatedState SeparatedState { get; private set; }
     public PlayerThrowState ThrowState { get; private set; }
     public PlayerAimBatteryState AimBatteryState { get; private set; }
+    public PlayerBoostState BoostState { get; private set; }
 
 
     [SerializeField]
@@ -41,6 +43,10 @@ public class Player : MonoBehaviour
     public float maxTimeWithoutBattery = 10f;
     private float currentTime;
     private bool isTimerPaused;
+    private float lastBoostTime;
+
+    [Header("Boost Effects")]
+    [SerializeField] private ParticleSystem boostEffect;
 
     [SerializeField]
     public Transform pushCheck;
@@ -93,6 +99,7 @@ public class Player : MonoBehaviour
         SeparatedState = new PlayerSeparatedState(this, StateMachine, playerData, "Separated");
         ThrowState = new PlayerThrowState(this, StateMachine, playerData, "Throw");
         AimBatteryState = new PlayerAimBatteryState(this, StateMachine, playerData, "Aim");
+        BoostState = new PlayerBoostState(this, StateMachine, playerData, "Boost");
 
         GenerateDots();
     }
@@ -136,14 +143,21 @@ public class Player : MonoBehaviour
         {
             StateMachine.ChangeState(MagneticState);
         }
-        else if (InputHadler.MagneticInputStop)
+        if (InputHadler.SwitchPolarityInput)
         {
-            StateMachine.ChangeState(IdleState);
-            InputHadler.UseMagneticInput();
+            battery.GetComponent<BatteryController>().isPositivePolarity = !battery.GetComponent<BatteryController>().isPositivePolarity;
+            InputHadler.UseSwitchPolarityInput();
+            Debug.Log("Polaridad cambiada a: " + (battery.GetComponent<BatteryController>().isPositivePolarity ? "Positiva" : "Negativa"));
         }
         if (InputHadler.ThrowInput && !isSeparated)
         {
             StateMachine.ChangeState(AimBatteryState);
+        }
+        if (InputHadler.BoostInput && !isSeparated && Time.time >= lastBoostTime + playerData.boostCooldown)
+        {
+            StateMachine.ChangeState(BoostState);
+            lastBoostTime = Time.time;
+            if (boostEffect != null) boostEffect.Play();
         }
         if (isSeparated && !isTimerPaused)
         {
