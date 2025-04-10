@@ -46,6 +46,14 @@ public class Player : MonoBehaviour
     private bool isTimerPaused;
     private bool isTimerResetting;
 
+    [Header("Battery Movement")]
+    [SerializeField] private float batterySpeed = 5f; // Velocidad de interpolación para el movimiento suave
+    [SerializeField] private float batteryAmplitude = 0.1f; // Amplitud del movimiento de flotación
+    [SerializeField] private float batteryFrequency = 2f; // Frecuencia del movimiento de flotación
+    [SerializeField] private float bounceAmplitude = 0.05f; // Amplitud del rebote basado en la velocidad del jugador
+    private Vector2 targetBatteryPosition; // Posición objetivo de la batería (encima de la cabeza)
+    private float floatTimer; // Temporizador para el movimiento de flotación
+
     [Header("Timer Settings")]
     [SerializeField] private float timerResetDuration = 2f; // Duración para que el temporizador llegue a 0 (en segundos)
 
@@ -124,7 +132,7 @@ public class Player : MonoBehaviour
         {
             SeparateBattery();
         }
-        else if (InputHadler.SeparateInput && isSeparated)
+        else if (InputHadler.SeparateInput && isSeparated && StateMachine.CurrentState != AimBatteryState)
         {
             ReuniteBattery();
         }
@@ -176,6 +184,24 @@ public class Player : MonoBehaviour
         if (!isSeparated && currentTime > 0 && !isTimerResetting)
         {
             StartCoroutine(ResetTimerProgressively());
+        }
+
+        if (!isSeparated)
+        {
+            Vector2 targetPos = (Vector2)transform.position + targetBatteryPosition;
+            floatTimer += Time.deltaTime;
+            float floatOffset = Mathf.Sin(floatTimer * batteryFrequency) * batteryAmplitude;
+            targetPos += new Vector2(0f, floatOffset);
+
+            Vector2 velocityOffset = -CurrentVelocity * bounceAmplitude;
+            targetPos += velocityOffset;
+
+            battery.transform.position = Vector2.Lerp(battery.transform.position, targetPos, batterySpeed * Time.deltaTime);
+
+            // Añade una rotación suave basada en la velocidad del jugador
+            float rotationAngle = CurrentVelocity.x * 2f; // Ajusta el factor de rotación según sea necesario
+            Quaternion targetRotation = Quaternion.Euler(0f, 0f, rotationAngle);
+            battery.transform.rotation = Quaternion.Lerp(battery.transform.rotation, targetRotation, batterySpeed * Time.deltaTime);
         }
     }
     private void FixedUpdate()
@@ -275,29 +301,37 @@ public class Player : MonoBehaviour
     }
     private void SeparateBattery()
     {
-        // Posiciona la batería encima de la cabeza antes de separarla
+        // Calcula la posición objetivo en el espacio del mundo (encima de la cabeza del personaje)
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        Vector2 headPosition;
         if (sr != null)
         {
             float headY = sr.bounds.extents.y;
-            battery.transform.localPosition = new Vector2(0f, headY - 1f);
+            headPosition = (Vector2)transform.position + new Vector2(0f, headY - 1f);
         }
         else
         {
-            battery.transform.localPosition = new Vector2(0f, 0.1f);
+            headPosition = (Vector2)transform.position + new Vector2(0f, 0.1f);
         }
 
+        // Separa la batería del jugador
         battery.transform.parent = null;
 
+        // Establece la posición de la batería directamente en el espacio del mundo
+        battery.transform.position = headPosition;
+
+        // Configura el Rigidbody2D para que la batería sea dinámica
         Rigidbody2D rb = battery.GetComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Dynamic;
-        rb.linearVelocity = Vector2.zero; // Asegura que no tenga velocidad inicial
-        rb.angularVelocity = 0f; // Asegura que no tenga rotación inicial
-        rb.gravityScale = 1f; // Restaura la gravedad para que caiga después de ser lanzada
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+        rb.gravityScale = 1f;
 
         isSeparated = true;
         StateMachine.ChangeState(SeparatedState);
         InputHadler.UseSeparateInput();
+
+        floatTimer = 0f;
     }
     private void ReuniteBattery()
     {
@@ -322,7 +356,8 @@ public class Player : MonoBehaviour
 
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         float headY = sr != null ? sr.bounds.extents.y : 0.5f;
-        Vector2 targetPos = (Vector2)transform.position + new Vector2(0f, headY - 1f);
+        targetBatteryPosition = new Vector2(0f, headY - 1f);
+        Vector2 targetPos = (Vector2)transform.position + targetBatteryPosition;
 
         while (elapsedTime < moveDuration)
         {
@@ -331,9 +366,8 @@ public class Player : MonoBehaviour
             yield return null;
         }
 
-        battery.transform.parent = transform;
-        battery.transform.localPosition = new Vector2(0f, headY - 1f);
-        battery.transform.localRotation = Quaternion.identity;
+        battery.transform.position = targetPos;
+        battery.transform.rotation = Quaternion.identity;
         if (collider != null) collider.enabled = true;
 
         isSeparated = false;

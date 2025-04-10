@@ -337,6 +337,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6180866891073243732, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
+      propertyPath: batterySpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6180866891073243732, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
+      propertyPath: batteryAmplitude
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
