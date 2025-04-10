@@ -41,19 +41,24 @@ public class PlayerInteractionState : PlayerState
                 {
                     chargeable.StartCharging(battery);
                     player.InputHadler.UseInteractInput();
+                    stateMachine.ChangeState(player.IdleState);
+                    return; // Salimos para evitar procesar más interacciones
                 }
 
-                // Intentar recargar la batería
+                // Intentar recargar la batería con un BatteryCharger
                 BatteryCharger charger = obj.GetComponent<BatteryCharger>();
                 if (charger != null)
                 {
                     charger.StartCharging();
                     player.InputHadler.UseInteractInput();
+                    stateMachine.ChangeState(player.IdleState);
+                    //return;
                 }
             }
-            stateMachine.ChangeState(player.IdleState);
         }
-        else if (!player.InputHadler.InteractInput)
+
+        // Si no se presiona "E" o no hay interacción válida, vuelve al estado Idle
+        if (!player.InputHadler.InteractInput || !player.CheckInteraction())
         {
             stateMachine.ChangeState(player.IdleState);
         }
