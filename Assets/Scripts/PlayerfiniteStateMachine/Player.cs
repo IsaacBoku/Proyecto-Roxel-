@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     public Animator Anim {  get; private set; }
     public PlayerInputHadler InputHadler { get; private set; }
     public Rigidbody2D rb {  get; private set; }
+    private SpriteRenderer sr;
 
     #endregion
     #region Check Transforms
@@ -43,13 +44,14 @@ public class Player : MonoBehaviour
     public float maxTimeWithoutBattery = 10f;
     public float currentTime;
     private bool isTimerPaused;
-    private float lastBoostTime;
+    private bool isTimerResetting;
+
+    [Header("Timer Settings")]
+    [SerializeField] private float timerResetDuration = 2f; // Duración para que el temporizador llegue a 0 (en segundos)
 
     [Header("Boost Effects")]
     [SerializeField] private ParticleSystem boostEffect;
-
-    [SerializeField]
-    public Transform pushCheck;
+    private float lastBoostTime;
 
     [SerializeField]
     public Transform InteractionCheck;
@@ -91,6 +93,8 @@ public class Player : MonoBehaviour
         AimBatteryState = new PlayerAimBatteryState(this, StateMachine, playerData, "Aim");
         BoostState = new PlayerBoostState(this, StateMachine, playerData, "Boost");
 
+        sr = GetComponent<SpriteRenderer>();
+
         GenerateDots();
     }
     private void Start()
@@ -101,6 +105,7 @@ public class Player : MonoBehaviour
         healthSystem = GetComponent<PlayerHealthSystem>();
 
         playerData.movementVeclocity = 8;
+        currentTime = 0f;
 
         originalSpeed = playerData.movementVeclocity;
 
@@ -149,7 +154,7 @@ public class Player : MonoBehaviour
             lastBoostTime = Time.time;
             if (boostEffect != null) boostEffect.Play();
         }*/
-        if (isSeparated && !isTimerPaused)
+        if (isSeparated && !isTimerPaused && !isTimerResetting)
         {
             float distanceToBattery = Vector2.Distance(transform.position, battery.transform.position);
             if (distanceToBattery > playerData.safeRange)
@@ -166,9 +171,11 @@ public class Player : MonoBehaviour
                 Debug.Log($"Batería dentro del rango seguro ({distanceToBattery}/{playerData.safeRange}). Temporizador pausado.");
             }
         }
-        if (!isSeparated && currentTime > 0)
+
+        // Si la batería regresa al jugador, inicia la disminución progresiva del temporizador
+        if (!isSeparated && currentTime > 0 && !isTimerResetting)
         {
-            ResetTimer();
+            StartCoroutine(ResetTimerProgressively());
         }
     }
     private void FixedUpdate()
@@ -178,9 +185,27 @@ public class Player : MonoBehaviour
     }
     #endregion
     #region Set Functions
+    private IEnumerator ResetTimerProgressively()
+    {
+        isTimerResetting = true;
+        float startTime = currentTime;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < timerResetDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            currentTime = Mathf.Lerp(startTime, 0f, elapsedTime / timerResetDuration);
+            Debug.Log($"Disminuyendo temporizador progresivamente: {currentTime}/{playerData.maxTimeWithoutBattery}");
+            yield return null;
+        }
+
+        currentTime = 0f;
+        isTimerResetting = false;
+        Debug.Log("Temporizador reiniciado progresivamente a 0.");
+    }
     public void ResetTimer()
     {
-        currentTime = 0f;
+       StartCoroutine(ResetTimerProgressively());
     }
     public bool IsTimerPaused
     {
@@ -276,7 +301,6 @@ public class Player : MonoBehaviour
     {
         FacingDirection *= -1;
         transform.Rotate(0.0f,180.0f,0.0f);
-        pushCheck.Rotate(0.0f, 180.0f, 0.0f);
     }
     private void GenerateDots()
     {
@@ -289,9 +313,6 @@ public class Player : MonoBehaviour
     }
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(pushCheck.transform.position, (Vector2)pushCheck.transform.position + Vector2.right * FacingDirection * playerData.distance);
-
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, playerData.safeRange);
     }
