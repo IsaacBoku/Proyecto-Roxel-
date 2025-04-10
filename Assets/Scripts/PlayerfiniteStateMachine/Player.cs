@@ -275,23 +275,72 @@ public class Player : MonoBehaviour
     }
     private void SeparateBattery()
     {
+        // Posiciona la batería encima de la cabeza antes de separarla
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            float headY = sr.bounds.extents.y;
+            battery.transform.localPosition = new Vector2(0f, headY - 1f);
+        }
+        else
+        {
+            battery.transform.localPosition = new Vector2(0f, 0.1f);
+        }
+
         battery.transform.parent = null;
-        battery.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+
+        Rigidbody2D rb = battery.GetComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.linearVelocity = Vector2.zero; // Asegura que no tenga velocidad inicial
+        rb.angularVelocity = 0f; // Asegura que no tenga rotación inicial
+        rb.gravityScale = 1f; // Restaura la gravedad para que caiga después de ser lanzada
+
         isSeparated = true;
         StateMachine.ChangeState(SeparatedState);
         InputHadler.UseSeparateInput();
-        ResetTimer();
     }
     private void ReuniteBattery()
     {
+        StartCoroutine(MoveBatteryToPlayer());
+    }
+    private IEnumerator MoveBatteryToPlayer()
+    {
+        Rigidbody2D rb = battery.GetComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+        rb.gravityScale = 0f;
+        rb.Sleep();
+
+        Collider2D collider = battery.GetComponent<Collider2D>();
+        if (collider != null) collider.enabled = false;
+
+        float elapsedTime = 0f;
+        float moveDuration = 0.5f;
+        Vector2 startPos = battery.transform.position;
+        battery.transform.parent = null;
+
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        float headY = sr != null ? sr.bounds.extents.y : 0.5f;
+        Vector2 targetPos = (Vector2)transform.position + new Vector2(0f, headY - 1f);
+
+        while (elapsedTime < moveDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            battery.transform.position = Vector2.Lerp(startPos, targetPos, elapsedTime / moveDuration);
+            yield return null;
+        }
+
         battery.transform.parent = transform;
-        battery.transform.localPosition = Vector2.zero; // Ajusta según tu diseño
-        battery.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+        battery.transform.localPosition = new Vector2(0f, headY - 1f);
+        battery.transform.localRotation = Quaternion.identity;
+        if (collider != null) collider.enabled = true;
+
         isSeparated = false;
         StateMachine.ChangeState(IdleState);
         InputHadler.UseSeparateInput();
+        Debug.Log("Batería recogida y colocada encima de la cabeza.");
     }
-
     #endregion
     #region Other Functions
 
