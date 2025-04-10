@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
     public GameObject battery;
     public bool isSeparated = false;
     public float maxTimeWithoutBattery = 10f;
-    private float currentTime;
+    public float currentTime;
     private bool isTimerPaused;
     private float lastBoostTime;
 
@@ -53,16 +53,6 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     public Transform InteractionCheck;
-
-    [SerializeField]
-    public Transform ObjectPosition;
-    [SerializeField]
-    public GameObject ObjectInteraction;
-
-
-    [SerializeField]
-    public Transform playerCheck;
-    
 
     #endregion
     #region Other Variables
@@ -153,12 +143,12 @@ public class Player : MonoBehaviour
         {
             StateMachine.ChangeState(AimBatteryState);
         }
-        if (InputHadler.BoostInput && !isSeparated && Time.time >= lastBoostTime + playerData.boostCooldown)
+        /*if (InputHadler.BoostInput && !isSeparated && Time.time >= lastBoostTime + playerData.boostCooldown)
         {
             StateMachine.ChangeState(BoostState);
             lastBoostTime = Time.time;
             if (boostEffect != null) boostEffect.Play();
-        }
+        }*/
         if (isSeparated && !isTimerPaused)
         {
             currentTime += Time.deltaTime;
