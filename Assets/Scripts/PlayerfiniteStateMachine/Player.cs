@@ -151,12 +151,24 @@ public class Player : MonoBehaviour
         }*/
         if (isSeparated && !isTimerPaused)
         {
-            currentTime += Time.deltaTime;
-            Debug.Log($"Tiempo sin batería: {currentTime}/{maxTimeWithoutBattery}");
-            if (currentTime >= maxTimeWithoutBattery)
+            float distanceToBattery = Vector2.Distance(transform.position, battery.transform.position);
+            if (distanceToBattery > playerData.safeRange)
             {
-                StateMachine.ChangeState(DeadState);
+                currentTime += Time.deltaTime;
+                Debug.Log($"Tiempo sin batería (fuera de rango): {currentTime}/{playerData.maxTimeWithoutBattery}. Distancia: {distanceToBattery}");
+                if (currentTime >= playerData.maxTimeWithoutBattery)
+                {
+                    StateMachine.ChangeState(DeadState);
+                }
             }
+            else
+            {
+                Debug.Log($"Batería dentro del rango seguro ({distanceToBattery}/{playerData.safeRange}). Temporizador pausado.");
+            }
+        }
+        if (!isSeparated && currentTime > 0)
+        {
+            ResetTimer();
         }
     }
     private void FixedUpdate()
@@ -278,8 +290,10 @@ public class Player : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-
         Gizmos.DrawLine(pushCheck.transform.position, (Vector2)pushCheck.transform.position + Vector2.right * FacingDirection * playerData.distance);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, playerData.safeRange);
     }
     #endregion
 }

@@ -47,6 +47,10 @@ public class PlayerData : ScriptableObject
     [SerializeField] public float magneticRange = 5f;
     [SerializeField] public LayerMask whatIsMetallic;
 
+    [Header("Battery Settings")]
+    public float maxTimeWithoutBattery = 10f; // Tiempo máximo sin la batería antes de morir
+    public float safeRange = 3f;
+
     [Header("Boost Settings")]
     public float boostCost = 20f; // Costo de energía del impulso
     public float boostSpeed = 15f; // Velocidad del impulso
