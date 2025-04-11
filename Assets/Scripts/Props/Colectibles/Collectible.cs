@@ -2,38 +2,38 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
-    [SerializeField] private int energyValue = 10; // Energía que otorga al recolectar
-    [SerializeField] private int crystalValue = 1; // Cantidad de cristales que otorga (por si quieres que algunos cristales valgan más)
-    [SerializeField] private ParticleSystem collectEffect; // Efecto visual al recolectar
-    [SerializeField] private AudioSource collectSound; // Sonido al recolectar
-    private bool isCollected = false; // Para evitar recolectar el mismo cristal más de una vez
+    [SerializeField] private int energyValue = 10;
+    [SerializeField] private int crystalValue = 1;
+    [SerializeField] private bool isSpecial = false; // Indica si es un cristal especial
+    [SerializeField] private ParticleSystem collectEffect;
+    [SerializeField] private AudioSource collectSound;
+    private bool isCollected = false;
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (isCollected) return; // Evita recolectar más de una vez
+        if (isCollected) return;
 
         if (other.CompareTag("Player"))
         {
             Player player = other.GetComponent<Player>();
             if (player != null && player.battery != null)
             {
-                isCollected = true; // Marca el cristal como recolectado
+                isCollected = true;
 
-                // Aumenta la energía de la batería
+                int finalEnergyValue = isSpecial ? energyValue * 2 : energyValue; // Duplica la energía si es especial
+                int finalCrystalValue = isSpecial ? crystalValue * 3 : crystalValue; // Triplica los cristales si es especial
+
                 BatteryController battery = player.battery.GetComponent<BatteryController>();
-                battery.energyAmounts += energyValue;
+                battery.energyAmounts += finalEnergyValue;
                 battery.energyAmounts = Mathf.Clamp(battery.energyAmounts, 0f, battery.maxEnergy);
 
-                // Añade el cristal al contador del jugador
-                player.AddCrystal(crystalValue);
+                player.AddCrystal(finalCrystalValue);
 
-                // Reproduce efectos visuales y auditivos
                 if (collectEffect != null) collectEffect.Play();
                 if (collectSound != null) collectSound.Play();
 
-                Debug.Log($"Recolectado cristal de energía: +{energyValue} energía, +{crystalValue} cristal(es)");
+                Debug.Log($"Recolectado cristal de energía: +{finalEnergyValue} energía, +{finalCrystalValue} cristal(es)");
 
-                // Destruye el cristal después de un pequeño retraso para que los efectos se reproduzcan
                 Destroy(gameObject, 0.5f);
             }
         }
