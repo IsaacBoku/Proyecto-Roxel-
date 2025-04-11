@@ -26,6 +26,8 @@ public class PlayerInputHadler : MonoBehaviour
     public bool SwitchPolarityInput { get; private set; }
     public bool BoostInput { get; private set; } // Nuevo input para el impulso
     public bool BoostInputStop { get; private set; }
+    public bool UpgradesInput { get; private set; }
+    public bool UpgradesInputStop { get; private set; }
 
     #endregion
     PlayerInput input;
@@ -102,6 +104,18 @@ public class PlayerInputHadler : MonoBehaviour
             OptionsInputStop = true;
         }
     }
+    public void OnUpgradesInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            UpgradesInput = true;
+            UpgradesInputStop = false;
+        }
+        if (context.canceled)
+        {
+            UpgradesInput = true;
+        }
+    }
     public void OnSeparateInput(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -172,6 +186,7 @@ public class PlayerInputHadler : MonoBehaviour
     public void UseSeparateInput() => SeparateInput = false;
     public void UseInteractInput() => InteractInput = false;
     public void UseOptionsInput() => OptionsInput = false;
+    public void UseUpgradesInput() => UpgradesInput = false;
     public void UseSwitchPolarityInput() => SwitchPolarityInput = false;
     public void UseBoostInput() => BoostInput = false;
 

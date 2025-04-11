@@ -19,15 +19,11 @@ MonoBehaviour:
   amountOfJumps: 1
   coyoteTime: 0.2
   variableJumpHeightMultiplier: 0.5
-  distance: 0.05
-  boxMask:
-    serializedVersion: 2
-    m_Bits: 439
   groundCheckRadius: 0.3
   whatIsGround:
     serializedVersion: 2
     m_Bits: 384
-  interactionRadius: 0.75
+  interactionRadius: 0.5
   whatIsInteractable:
     serializedVersion: 2
     m_Bits: 1024
@@ -40,3 +36,9 @@ MonoBehaviour:
   whatIsMetallic:
     serializedVersion: 2
     m_Bits: 256
+  maxTimeWithoutBattery: 12
+  safeRange: 3
+  boostCost: 20
+  boostSpeed: 15
+  boostDuration: 0.3
+  boostCooldown: 1
