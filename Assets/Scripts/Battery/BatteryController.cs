@@ -9,6 +9,6 @@ public class BatteryController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"Batería colisionó con: {other.name}");
+        //Debug.Log($"Batería colisionó con: {other.name}");
     }
 }

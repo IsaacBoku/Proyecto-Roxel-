@@ -5,9 +5,9 @@ using UnityEngine;
 public enum UpgradeType
 {
     None,
-    MaxTimeWithoutBattery, // Aumenta el tiempo máximo sin la batería
-    MaxEnergy,            // Aumenta la capacidad máxima de energía de la batería
-    MagneticRange         // Aumenta el rango de la habilidad magnética
+    MaxTimeWithoutBattery,
+    MaxEnergy,
+    MagneticRange
 }
 
 public class Player : MonoBehaviour
@@ -80,11 +80,11 @@ public class Player : MonoBehaviour
     private float lastBoostTime;
 
 
-    [Header("Interaction Settings")]
+    [Header("Interactable Indicator")]
     [SerializeField]
     public Transform InteractionCheck;
     [SerializeField] private InteractableIndicator globalIndicator; // Indicador global
-    private InteractableObject lastInteractable;
+    private GameObject lastInteractable; // Cambiado a GameObject para evitar dependencia de InteractableObject
     #endregion
 
     #region Other Variables
@@ -152,8 +152,17 @@ public class Player : MonoBehaviour
         playerUI = FindAnyObjectByType<PlayerUI>();
         upgradeSelectionUI = FindAnyObjectByType<UpgradeSelectionUI>();
 
-        globalIndicator.Hide();
         StateMachine.Intialize(IdleState);
+
+        // Ocultar el indicador global al inicio
+        if (globalIndicator != null)
+        {
+            globalIndicator.Hide();
+        }
+        else
+        {
+            Debug.LogWarning("GlobalIndicator no está asignado en el script Player.");
+        }
     }
 
     private void Update()
@@ -171,7 +180,8 @@ public class Player : MonoBehaviour
             ReuniteBattery();
         }
 
-        if (InputHadler.InteractInput && CheckInteraction())
+        bool canInteract = CheckInteraction();
+        if (InputHadler.InteractInput && canInteract)
         {
             StateMachine.ChangeState(InteractionState);
         }
@@ -234,6 +244,7 @@ public class Player : MonoBehaviour
             battery.transform.rotation = Quaternion.Lerp(battery.transform.rotation, targetRotation, batterySpeed * Time.deltaTime);
         }
 
+        // Actualizar el indicador de interacción
         UpdateInteractableIndicator();
     }
 
@@ -316,11 +327,6 @@ public class Player : MonoBehaviour
         return Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
     }
 
-    public bool CheckIfPush()
-    {
-        return Physics2D.Raycast(transform.position, Vector2.right * transform.transform.localScale.x, playerData.distance, playerData.boxMask);
-    }
-
     public void CheckIfShouldFlip(int xInput)
     {
         if (xInput != 0 && xInput != FacingDirection)
@@ -331,28 +337,48 @@ public class Player : MonoBehaviour
 
     public bool CheckInteraction()
     {
+        if (InteractionCheck == null)
+        {
+            Debug.LogError("InteractionCheck es null. No se puede detectar interacción.");
+            return false;
+        }
+
         Collider2D detectedObject = Physics2D.OverlapCircle(InteractionCheck.position, playerData.interactionRadius, playerData.whatIsInteractable);
 
         if (detectedObject != null)
         {
-            lastInteractable = detectedObject.GetComponent<InteractableObject>();
+            lastInteractable = detectedObject.gameObject;
+            Debug.Log($"Objeto interactuable detectado: {lastInteractable.name} en posición {lastInteractable.transform.position}");
             return true;
         }
 
         lastInteractable = null;
+        Debug.Log("Ningún objeto interactuable detectado.");
         return false;
     }
+
     private void UpdateInteractableIndicator()
     {
         if (lastInteractable != null)
         {
-            globalIndicator.Show();
-            // Posicionar el indicador encima del objeto interactuable
-            globalIndicator.transform.position = lastInteractable.transform.position + new Vector3(0f, 1f, 0f);
+            if (globalIndicator != null)
+            {
+                globalIndicator.Show();
+                globalIndicator.transform.position = lastInteractable.transform.position + new Vector3(0f, 1f, 0f);
+                Debug.Log($"Indicador mostrado en posición: {globalIndicator.transform.position}");
+            }
+            else
+            {
+                Debug.LogWarning("GlobalIndicator es null. Asegúrate de asignarlo en el Inspector.");
+            }
         }
         else
         {
-            globalIndicator.Hide();
+            if (globalIndicator != null)
+            {
+                globalIndicator.Hide();
+                Debug.Log("Indicador ocultado.");
+            }
         }
     }
 
@@ -456,6 +482,12 @@ public class Player : MonoBehaviour
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, playerData.safeRange);
+
+        if (InteractionCheck != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(InteractionCheck.position, playerData.interactionRadius);
+        }
     }
     #endregion
 
@@ -558,7 +590,6 @@ public class Player : MonoBehaviour
 
     public int GetDisplayedCrystals()
     {
-        // Muestra los cristales en un rango de 0 a 4 (por ejemplo, si tienes 7 cristales, muestra 2/5)
         return collectedCrystals % crystalsPerUpgrade;
     }
 

@@ -22,16 +22,12 @@ public class PlayerData : ScriptableObject
     public float coyoteTime = 0.2f;
     public float variableJumpHeightMultiplier = 0.5f;
 
-    [Header("Push State")]
-    public float distance = 1f;
-    public LayerMask boxMask;
-
     [Header("Check Ground")]
     public float groundCheckRadius = 0.3f;
     public LayerMask whatIsGround;
 
     [Header("Check Interaction")]
-    public float interactionRadius = 0.5f;
+    public float interactionRadius = 1f;
     public LayerMask whatIsInteractable;
 
     [Header("Check ThrowBattery")]
