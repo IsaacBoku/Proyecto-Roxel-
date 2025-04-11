@@ -79,8 +79,12 @@ public class Player : MonoBehaviour
     [SerializeField] private ParticleSystem boostEffect;
     private float lastBoostTime;
 
+
+    [Header("Interaction Settings")]
     [SerializeField]
     public Transform InteractionCheck;
+    [SerializeField] private InteractableIndicator globalIndicator; // Indicador global
+    private InteractableObject lastInteractable;
     #endregion
 
     #region Other Variables
@@ -148,6 +152,7 @@ public class Player : MonoBehaviour
         playerUI = FindAnyObjectByType<PlayerUI>();
         upgradeSelectionUI = FindAnyObjectByType<UpgradeSelectionUI>();
 
+        globalIndicator.Hide();
         StateMachine.Intialize(IdleState);
     }
 
@@ -228,6 +233,8 @@ public class Player : MonoBehaviour
             Quaternion targetRotation = Quaternion.Euler(0f, 0f, rotationAngle);
             battery.transform.rotation = Quaternion.Lerp(battery.transform.rotation, targetRotation, batterySpeed * Time.deltaTime);
         }
+
+        UpdateInteractableIndicator();
     }
 
     private void FixedUpdate()
@@ -328,10 +335,25 @@ public class Player : MonoBehaviour
 
         if (detectedObject != null)
         {
+            lastInteractable = detectedObject.GetComponent<InteractableObject>();
             return true;
         }
 
+        lastInteractable = null;
         return false;
+    }
+    private void UpdateInteractableIndicator()
+    {
+        if (lastInteractable != null)
+        {
+            globalIndicator.Show();
+            // Posicionar el indicador encima del objeto interactuable
+            globalIndicator.transform.position = lastInteractable.transform.position + new Vector3(0f, 1f, 0f);
+        }
+        else
+        {
+            globalIndicator.Hide();
+        }
     }
 
     private void SeparateBattery()
@@ -443,7 +465,6 @@ public class Player : MonoBehaviour
         collectedCrystals += crystalValue;
         Debug.Log($"Cristales recolectados: {collectedCrystals}/{crystalsPerUpgrade}");
 
-        // Solo muestra la UI de selección si hay suficientes cristales y no hay una selección activa
         if (collectedCrystals >= crystalsPerUpgrade && !isUpgradeSelectionActive)
         {
             if (upgradeSelectionUI != null)
@@ -535,11 +556,17 @@ public class Player : MonoBehaviour
         return collectedCrystals / crystalsPerUpgrade;
     }
 
+    public int GetDisplayedCrystals()
+    {
+        // Muestra los cristales en un rango de 0 a 4 (por ejemplo, si tienes 7 cristales, muestra 2/5)
+        return collectedCrystals % crystalsPerUpgrade;
+    }
+
     private void UpdateCrystalUI()
     {
         if (playerUI != null)
         {
-            playerUI.UpdateCrystalUI(collectedCrystals);
+            playerUI.UpdateCrystalUI(GetDisplayedCrystals(), collectedCrystals);
         }
     }
 

@@ -11,7 +11,7 @@ public class UpgradeSelectionUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI maxEnergyDescription;
     [SerializeField] private Button magneticRangeButton;
     [SerializeField] private TextMeshProUGUI magneticRangeDescription;
-    [SerializeField] private Button cancelButton; // Botón para cancelar
+    [SerializeField] private Button cancelButton;
     private Player player;
 
     void Start()
