@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
     private float originalMaxEnergy;
     private PlayerUI playerUI;
     private UpgradeSelectionUI upgradeSelectionUI;
-    private bool isUpgradeSelectionActive = false; // Para evitar múltiples selecciones simultáneas
+    private bool isUpgradeSelectionActive = false;
 
     [Header("Timer Settings")]
     [SerializeField] private float timerResetDuration = 2f;
@@ -448,7 +448,7 @@ public class Player : MonoBehaviour
         {
             if (upgradeSelectionUI != null)
             {
-                isUpgradeSelectionActive = true; // Marca que la selección está activa
+                isUpgradeSelectionActive = true;
                 upgradeSelectionUI.ShowUpgradeSelection();
             }
             else
@@ -462,14 +462,12 @@ public class Player : MonoBehaviour
 
     public void ApplyUpgrade(UpgradeType upgrade)
     {
-        // Verifica si hay suficientes cristales para aplicar la mejora
         if (collectedCrystals < crystalsPerUpgrade)
         {
             Debug.LogWarning("No hay suficientes cristales para aplicar una mejora.");
             return;
         }
 
-        // Aplica la mejora
         switch (upgrade)
         {
             case UpgradeType.MaxTimeWithoutBattery:
@@ -497,11 +495,9 @@ public class Player : MonoBehaviour
                 break;
         }
 
-        // Resta los cristales después de aplicar la mejora
         collectedCrystals -= crystalsPerUpgrade;
-        isUpgradeSelectionActive = false; // Permite nuevas selecciones
+        isUpgradeSelectionActive = false;
 
-        // Verifica si hay suficientes cristales para otra mejora
         if (collectedCrystals >= crystalsPerUpgrade)
         {
             if (upgradeSelectionUI != null)
@@ -516,6 +512,27 @@ public class Player : MonoBehaviour
 
         ShowUpgradeNotification(upgrade);
         UpdateCrystalUI();
+    }
+
+    public void CancelUpgradeSelection()
+    {
+        isUpgradeSelectionActive = false;
+
+        if (collectedCrystals >= crystalsPerUpgrade)
+        {
+            if (upgradeSelectionUI != null)
+            {
+                isUpgradeSelectionActive = true;
+                upgradeSelectionUI.ShowUpgradeSelection();
+            }
+        }
+
+        UpdateCrystalUI();
+    }
+
+    public int GetAvailableUpgrades()
+    {
+        return collectedCrystals / crystalsPerUpgrade;
     }
 
     private void UpdateCrystalUI()
