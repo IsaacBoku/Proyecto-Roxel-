@@ -70,6 +70,7 @@ public class Player : MonoBehaviour
     private float originalMaxEnergy;
     private PlayerUI playerUI;
     private UpgradeSelectionUI upgradeSelectionUI;
+    private bool isUpgradeSelectionActive = false; // Para evitar múltiples selecciones simultáneas
 
     [Header("Timer Settings")]
     [SerializeField] private float timerResetDuration = 2f;
@@ -136,7 +137,7 @@ public class Player : MonoBehaviour
         originalSpeed = playerData.movementVeclocity;
 
         FacingDirection = 1;
-        currentTime = 0f; // Inicializa currentTime en 0
+        currentTime = 0f;
 
         originalMaxTimeWithoutBattery = maxTimeWithoutBattery;
         if (battery != null)
@@ -187,14 +188,6 @@ public class Player : MonoBehaviour
             StateMachine.ChangeState(AimBatteryState);
         }
 
-        /*if (InputHadler.BoostInput && !isSeparated && Time.time >= lastBoostTime + playerData.boostCooldown)
-        {
-            StateMachine.ChangeState(BoostState);
-            lastBoostTime = Time.time;
-            if (boostEffect != null) boostEffect.Play();
-        }*/
-
-        // Lógica del temporizador cuando la batería está separada
         if (isSeparated && !isTimerPaused && !isTimerResetting)
         {
             float distanceToBattery = Vector2.Distance(transform.position, battery.transform.position);
@@ -214,7 +207,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        // Si la batería regresa al jugador, inicia la disminución progresiva del temporizador
         if (!isSeparated && currentTime > 0 && !isTimerResetting)
         {
             StartCoroutine(ResetTimerProgressively());
@@ -370,7 +362,7 @@ public class Player : MonoBehaviour
         InputHadler.UseSeparateInput();
 
         floatTimer = 0f;
-        currentTime = 0f; // Reinicia el temporizador al separar la batería
+        currentTime = 0f;
     }
 
     private void ReuniteBattery()
@@ -451,18 +443,18 @@ public class Player : MonoBehaviour
         collectedCrystals += crystalValue;
         Debug.Log($"Cristales recolectados: {collectedCrystals}/{crystalsPerUpgrade}");
 
-        while (collectedCrystals >= crystalsPerUpgrade)
+        // Solo muestra la UI de selección si hay suficientes cristales y no hay una selección activa
+        if (collectedCrystals >= crystalsPerUpgrade && !isUpgradeSelectionActive)
         {
             if (upgradeSelectionUI != null)
             {
+                isUpgradeSelectionActive = true; // Marca que la selección está activa
                 upgradeSelectionUI.ShowUpgradeSelection();
             }
             else
             {
-                ApplyUpgrade(UpgradeType.MaxTimeWithoutBattery);
+                Debug.LogWarning("UpgradeSelectionUI no encontrado en la escena. No se puede seleccionar una mejora.");
             }
-
-            collectedCrystals -= crystalsPerUpgrade;
         }
 
         UpdateCrystalUI();
@@ -470,11 +462,19 @@ public class Player : MonoBehaviour
 
     public void ApplyUpgrade(UpgradeType upgrade)
     {
+        // Verifica si hay suficientes cristales para aplicar la mejora
+        if (collectedCrystals < crystalsPerUpgrade)
+        {
+            Debug.LogWarning("No hay suficientes cristales para aplicar una mejora.");
+            return;
+        }
+
+        // Aplica la mejora
         switch (upgrade)
         {
             case UpgradeType.MaxTimeWithoutBattery:
                 maxTimeWithoutBattery += 2f;
-                playerData.maxTimeWithoutBattery = maxTimeWithoutBattery; // Sincroniza con playerData
+                playerData.maxTimeWithoutBattery = maxTimeWithoutBattery;
                 Debug.Log($"Mejora desbloqueada: +2 segundos sin batería. Nuevo valor: {maxTimeWithoutBattery}");
                 break;
 
@@ -497,10 +497,25 @@ public class Player : MonoBehaviour
                 break;
         }
 
+        // Resta los cristales después de aplicar la mejora
+        collectedCrystals -= crystalsPerUpgrade;
+        isUpgradeSelectionActive = false; // Permite nuevas selecciones
+
+        // Verifica si hay suficientes cristales para otra mejora
+        if (collectedCrystals >= crystalsPerUpgrade)
+        {
+            if (upgradeSelectionUI != null)
+            {
+                isUpgradeSelectionActive = true;
+                upgradeSelectionUI.ShowUpgradeSelection();
+            }
+        }
+
         if (upgradeEffect != null) upgradeEffect.Play();
         if (upgradeSound != null) upgradeSound.Play();
 
         ShowUpgradeNotification(upgrade);
+        UpdateCrystalUI();
     }
 
     private void UpdateCrystalUI()
