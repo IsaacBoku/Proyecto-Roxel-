@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public enum UpgradeType
@@ -8,8 +7,9 @@ public enum UpgradeType
     None,
     MaxTimeWithoutBattery, // Aumenta el tiempo máximo sin la batería
     MaxEnergy,            // Aumenta la capacidad máxima de energía de la batería
-    MagneticRange         // Aumenta el rango de la habilidad magnética (si tienes una)
+    MagneticRange         // Aumenta el rango de la habilidad magnética
 }
+
 public class Player : MonoBehaviour
 {
     #region State Variables
@@ -21,26 +21,26 @@ public class Player : MonoBehaviour
     public PlayerLandState LandState { get; private set; }
     public PlayerPushState PushState { get; private set; }
     public PlayerInteractionState InteractionState { get; private set; }
-    public PlayerMagneticState MagneticState {  get; private set; }
+    public PlayerMagneticState MagneticState { get; private set; }
     public PlayerDeadState DeadState { get; private set; }
     public PlayerSeparatedState SeparatedState { get; private set; }
     public PlayerThrowState ThrowState { get; private set; }
     public PlayerAimBatteryState AimBatteryState { get; private set; }
     public PlayerBoostState BoostState { get; private set; }
 
-
     [SerializeField]
     private PlayerData playerData;
 
     private PlayerHealthSystem healthSystem;
     #endregion
-    #region Components
-    public Animator Anim {  get; private set; }
-    public PlayerInputHadler InputHadler { get; private set; }
-    public Rigidbody2D rb {  get; private set; }
-    private SpriteRenderer sr;
 
+    #region Components
+    public Animator Anim { get; private set; }
+    public PlayerInputHadler InputHadler { get; private set; }
+    public Rigidbody2D rb { get; private set; }
+    private SpriteRenderer sr;
     #endregion
+
     #region Check Transforms
     [SerializeField]
     private Transform groundCheck;
@@ -54,12 +54,12 @@ public class Player : MonoBehaviour
     private bool isTimerResetting;
 
     [Header("Battery Movement")]
-    [SerializeField] private float batterySpeed = 5f; // Velocidad de interpolación para el movimiento suave
-    [SerializeField] private float batteryAmplitude = 0.1f; // Amplitud del movimiento de flotación
-    [SerializeField] private float batteryFrequency = 2f; // Frecuencia del movimiento de flotación
-    [SerializeField] private float bounceAmplitude = 0.05f; // Amplitud del rebote basado en la velocidad del jugador
-    private Vector2 targetBatteryPosition; // Posición objetivo de la batería (encima de la cabeza)
-    private float floatTimer; // Temporizador para el movimiento de flotación
+    [SerializeField] private float batterySpeed = 5f;
+    [SerializeField] private float batteryAmplitude = 0.1f;
+    [SerializeField] private float batteryFrequency = 2f;
+    [SerializeField] private float bounceAmplitude = 0.05f;
+    private Vector2 targetBatteryPosition;
+    private float floatTimer;
 
     [Header("Progression Settings")]
     [SerializeField] private int crystalsPerUpgrade = 5;
@@ -69,9 +69,10 @@ public class Player : MonoBehaviour
     private float originalMaxTimeWithoutBattery;
     private float originalMaxEnergy;
     private PlayerUI playerUI;
+    private UpgradeSelectionUI upgradeSelectionUI;
 
     [Header("Timer Settings")]
-    [SerializeField] private float timerResetDuration = 2f; // Duración para que el temporizador llegue a 0 (en segundos)
+    [SerializeField] private float timerResetDuration = 2f;
 
     [Header("Boost Effects")]
     [SerializeField] private ParticleSystem boostEffect;
@@ -79,8 +80,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     public Transform InteractionCheck;
-
     #endregion
+
     #region Other Variables
     public Vector2 CurrentVelocity { get; private set; }
     public int FacingDirection { get; private set; }
@@ -90,6 +91,7 @@ public class Player : MonoBehaviour
     public float originalSpeed;
     private Vector2 workspace;
     #endregion
+
     #region Aim Dots
     [Header("Aim Dots")]
     [SerializeField] private int numberOfDots = 10;
@@ -98,16 +100,17 @@ public class Player : MonoBehaviour
     private GameObject[] aimDots;
     public GameObject[] AimDots => aimDots;
     #endregion
+
     #region Unity Callback Functions
     private void Awake()
     {
         StateMachine = new PlayerStateMachine();
 
-        IdleState = new PlayerIdleState(this,StateMachine,playerData,"Idle");
-        MoveState = new PlayerMoveState(this, StateMachine, playerData,"Move");
-        JumpState = new PlayerJumpState(this, StateMachine, playerData,"Air");
-        AirState = new PlayerAirState(this, StateMachine, playerData,"Air");
-        LandState = new PlayerLandState(this, StateMachine, playerData,"Land");
+        IdleState = new PlayerIdleState(this, StateMachine, playerData, "Idle");
+        MoveState = new PlayerMoveState(this, StateMachine, playerData, "Move");
+        JumpState = new PlayerJumpState(this, StateMachine, playerData, "Air");
+        AirState = new PlayerAirState(this, StateMachine, playerData, "Air");
+        LandState = new PlayerLandState(this, StateMachine, playerData, "Land");
         PushState = new PlayerPushState(this, StateMachine, playerData, "Push");
         InteractionState = new PlayerInteractionState(this, StateMachine, playerData, "Interaction");
         MagneticState = new PlayerMagneticState(this, StateMachine, playerData, "Magnetic");
@@ -121,6 +124,7 @@ public class Player : MonoBehaviour
 
         GenerateDots();
     }
+
     private void Start()
     {
         Anim = GetComponent<Animator>();
@@ -129,12 +133,10 @@ public class Player : MonoBehaviour
         healthSystem = GetComponent<PlayerHealthSystem>();
 
         playerData.movementVeclocity = 8;
-        currentTime = 0f;
-
         originalSpeed = playerData.movementVeclocity;
 
         FacingDirection = 1;
-        currentTime = maxTimeWithoutBattery;
+        currentTime = 0f; // Inicializa currentTime en 0
 
         originalMaxTimeWithoutBattery = maxTimeWithoutBattery;
         if (battery != null)
@@ -143,9 +145,11 @@ public class Player : MonoBehaviour
         }
 
         playerUI = FindAnyObjectByType<PlayerUI>();
+        upgradeSelectionUI = FindAnyObjectByType<UpgradeSelectionUI>();
 
         StateMachine.Intialize(IdleState);
     }
+
     private void Update()
     {
         Debug.Log(CheckIfGrounded());
@@ -166,35 +170,41 @@ public class Player : MonoBehaviour
             StateMachine.ChangeState(InteractionState);
         }
 
-        if (InputHadler.MagneticInput) // Cambia al estado magnético
+        if (InputHadler.MagneticInput)
         {
             StateMachine.ChangeState(MagneticState);
         }
+
         if (InputHadler.SwitchPolarityInput)
         {
             battery.GetComponent<BatteryController>().isPositivePolarity = !battery.GetComponent<BatteryController>().isPositivePolarity;
             InputHadler.UseSwitchPolarityInput();
             Debug.Log("Polaridad cambiada a: " + (battery.GetComponent<BatteryController>().isPositivePolarity ? "Positiva" : "Negativa"));
         }
+
         if (InputHadler.ThrowInput && !isSeparated)
         {
             StateMachine.ChangeState(AimBatteryState);
         }
+
         /*if (InputHadler.BoostInput && !isSeparated && Time.time >= lastBoostTime + playerData.boostCooldown)
         {
             StateMachine.ChangeState(BoostState);
             lastBoostTime = Time.time;
             if (boostEffect != null) boostEffect.Play();
         }*/
+
+        // Lógica del temporizador cuando la batería está separada
         if (isSeparated && !isTimerPaused && !isTimerResetting)
         {
             float distanceToBattery = Vector2.Distance(transform.position, battery.transform.position);
             if (distanceToBattery > playerData.safeRange)
             {
                 currentTime += Time.deltaTime;
-                Debug.Log($"Tiempo sin batería (fuera de rango): {currentTime}/{playerData.maxTimeWithoutBattery}. Distancia: {distanceToBattery}");
-                if (currentTime >= playerData.maxTimeWithoutBattery)
+                Debug.Log($"Tiempo sin batería (fuera de rango): {currentTime}/{maxTimeWithoutBattery}. Distancia: {distanceToBattery}");
+                if (currentTime >= maxTimeWithoutBattery)
                 {
+                    Debug.Log("Tiempo sin batería agotado. El jugador muere.");
                     StateMachine.ChangeState(DeadState);
                 }
             }
@@ -222,18 +232,18 @@ public class Player : MonoBehaviour
 
             battery.transform.position = Vector2.Lerp(battery.transform.position, targetPos, batterySpeed * Time.deltaTime);
 
-            // Añade una rotación suave basada en la velocidad del jugador
-            float rotationAngle = CurrentVelocity.x * 2f; // Ajusta el factor de rotación según sea necesario
+            float rotationAngle = CurrentVelocity.x * 2f;
             Quaternion targetRotation = Quaternion.Euler(0f, 0f, rotationAngle);
             battery.transform.rotation = Quaternion.Lerp(battery.transform.rotation, targetRotation, batterySpeed * Time.deltaTime);
         }
     }
+
     private void FixedUpdate()
     {
         StateMachine.CurrentState.PhysicsUpdate();
-
     }
     #endregion
+
     #region Set Functions
     private IEnumerator ResetTimerProgressively()
     {
@@ -245,7 +255,7 @@ public class Player : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             currentTime = Mathf.Lerp(startTime, 0f, elapsedTime / timerResetDuration);
-            Debug.Log($"Disminuyendo temporizador progresivamente: {currentTime}/{playerData.maxTimeWithoutBattery}");
+            Debug.Log($"Disminuyendo temporizador progresivamente: {currentTime}/{maxTimeWithoutBattery}");
             yield return null;
         }
 
@@ -253,28 +263,31 @@ public class Player : MonoBehaviour
         isTimerResetting = false;
         Debug.Log("Temporizador reiniciado progresivamente a 0.");
     }
+
     public void ResetTimer()
     {
-       StartCoroutine(ResetTimerProgressively());
+        StartCoroutine(ResetTimerProgressively());
     }
+
     public bool IsTimerPaused
     {
         get => isTimerPaused;
         set => isTimerPaused = value;
     }
+
     public void SetVelocityX(float velocity)
     {
         float finalVelocity = velocity;
-        
+
         if (isOnConveyorBelt)
         {
             if (Mathf.Sign(velocity) != Mathf.Sign(conveyorDirection))
             {
-                finalVelocity *= 0.5f; 
+                finalVelocity *= 0.5f;
             }
             else
             {
-                finalVelocity *= 1.2f; 
+                finalVelocity *= 1.2f;
             }
         }
 
@@ -282,6 +295,7 @@ public class Player : MonoBehaviour
         rb.linearVelocity = workspace;
         CurrentVelocity = workspace;
     }
+
     public void SetVelocityY(float velocity)
     {
         float finalVelocity = velocity;
@@ -290,28 +304,32 @@ public class Player : MonoBehaviour
         rb.linearVelocity = workspace;
         CurrentVelocity = workspace;
     }
+
     public void SetConveyorDirection(float direction)
     {
         conveyorDirection = direction;
     }
-
     #endregion
+
     #region Check Functions
     public bool CheckIfGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, playerData.whatIsGround);
     }
+
     public bool CheckIfPush()
     {
-        return  Physics2D.Raycast(transform.position, Vector2.right * transform.transform.localScale.x, playerData.distance, playerData.boxMask);
+        return Physics2D.Raycast(transform.position, Vector2.right * transform.transform.localScale.x, playerData.distance, playerData.boxMask);
     }
+
     public void CheckIfShouldFlip(int xInput)
     {
-        if(xInput !=0 && xInput != FacingDirection)
+        if (xInput != 0 && xInput != FacingDirection)
         {
             Flip();
         }
     }
+
     public bool CheckInteraction()
     {
         Collider2D detectedObject = Physics2D.OverlapCircle(InteractionCheck.position, playerData.interactionRadius, playerData.whatIsInteractable);
@@ -323,9 +341,9 @@ public class Player : MonoBehaviour
 
         return false;
     }
+
     private void SeparateBattery()
     {
-        // Calcula la posición objetivo en el espacio del mundo (encima de la cabeza del personaje)
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         Vector2 headPosition;
         if (sr != null)
@@ -338,13 +356,9 @@ public class Player : MonoBehaviour
             headPosition = (Vector2)transform.position + new Vector2(0f, 0.1f);
         }
 
-        // Separa la batería del jugador
         battery.transform.parent = null;
-
-        // Establece la posición de la batería directamente en el espacio del mundo
         battery.transform.position = headPosition;
 
-        // Configura el Rigidbody2D para que la batería sea dinámica
         Rigidbody2D rb = battery.GetComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.linearVelocity = Vector2.zero;
@@ -356,11 +370,14 @@ public class Player : MonoBehaviour
         InputHadler.UseSeparateInput();
 
         floatTimer = 0f;
+        currentTime = 0f; // Reinicia el temporizador al separar la batería
     }
+
     private void ReuniteBattery()
     {
         StartCoroutine(MoveBatteryToPlayer());
     }
+
     private IEnumerator MoveBatteryToPlayer()
     {
         Rigidbody2D rb = battery.GetComponent<Rigidbody2D>();
@@ -400,15 +417,17 @@ public class Player : MonoBehaviour
         Debug.Log("Batería recogida y colocada encima de la cabeza.");
     }
     #endregion
-    #region Other Functions
 
-    private void AnimationTrigger()=> StateMachine.CurrentState.AnimationTrigger();
-    private void AnimationFinishTrigger()=> StateMachine.CurrentState.AnimationFinishTrigger();
+    #region Other Functions
+    private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();
+    private void AnimationFinishTrigger() => StateMachine.CurrentState.AnimationFinishTrigger();
+
     private void Flip()
     {
         FacingDirection *= -1;
-        transform.Rotate(0.0f,180.0f,0.0f);
+        transform.Rotate(0.0f, 180.0f, 0.0f);
     }
+
     private void GenerateDots()
     {
         aimDots = new GameObject[numberOfDots];
@@ -418,14 +437,15 @@ public class Player : MonoBehaviour
             aimDots[i].SetActive(false);
         }
     }
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, playerData.safeRange);
     }
     #endregion
-    #region Upgrade Functions
 
+    #region Upgrade Functions
     public void AddCrystal(int crystalValue)
     {
         collectedCrystals += crystalValue;
@@ -433,22 +453,29 @@ public class Player : MonoBehaviour
 
         while (collectedCrystals >= crystalsPerUpgrade)
         {
-            UnlockUpgrade();
+            if (upgradeSelectionUI != null)
+            {
+                upgradeSelectionUI.ShowUpgradeSelection();
+            }
+            else
+            {
+                ApplyUpgrade(UpgradeType.MaxTimeWithoutBattery);
+            }
+
             collectedCrystals -= crystalsPerUpgrade;
         }
 
         UpdateCrystalUI();
     }
 
-    private void UnlockUpgrade()
+    public void ApplyUpgrade(UpgradeType upgrade)
     {
-        UpgradeType upgrade = ChooseUpgrade();
-
         switch (upgrade)
         {
             case UpgradeType.MaxTimeWithoutBattery:
                 maxTimeWithoutBattery += 2f;
-                Debug.Log("Mejora desbloqueada: +2 segundos sin batería");
+                playerData.maxTimeWithoutBattery = maxTimeWithoutBattery; // Sincroniza con playerData
+                Debug.Log($"Mejora desbloqueada: +2 segundos sin batería. Nuevo valor: {maxTimeWithoutBattery}");
                 break;
 
             case UpgradeType.MaxEnergy:
@@ -457,7 +484,7 @@ public class Player : MonoBehaviour
                     BatteryController batteryController = battery.GetComponent<BatteryController>();
                     batteryController.maxEnergy += 20f;
                     batteryController.energyAmounts = Mathf.Clamp(batteryController.energyAmounts, 0f, batteryController.maxEnergy);
-                    Debug.Log("Mejora desbloqueada: +20 de capacidad máxima de energía");
+                    Debug.Log($"Mejora desbloqueada: +20 de capacidad máxima de energía. Nuevo valor: {batteryController.maxEnergy}");
                 }
                 break;
 
@@ -474,18 +501,6 @@ public class Player : MonoBehaviour
         if (upgradeSound != null) upgradeSound.Play();
 
         ShowUpgradeNotification(upgrade);
-    }
-
-    private UpgradeType ChooseUpgrade()
-    {
-        int upgradeCount = (collectedCrystals / crystalsPerUpgrade) % 3;
-        switch (upgradeCount)
-        {
-            case 0: return UpgradeType.MaxTimeWithoutBattery;
-            case 1: return UpgradeType.MaxEnergy;
-            case 2: return UpgradeType.MagneticRange;
-            default: return UpgradeType.None;
-        }
     }
 
     private void UpdateCrystalUI()
