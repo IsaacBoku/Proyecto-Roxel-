@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum UpgradeType
+{
+    None,
+    MaxTimeWithoutBattery, // Aumenta el tiempo máximo sin la batería
+    MaxEnergy,            // Aumenta la capacidad máxima de energía de la batería
+    MagneticRange         // Aumenta el rango de la habilidad magnética (si tienes una)
+}
 public class Player : MonoBehaviour
 {
     #region State Variables
@@ -53,6 +60,15 @@ public class Player : MonoBehaviour
     [SerializeField] private float bounceAmplitude = 0.05f; // Amplitud del rebote basado en la velocidad del jugador
     private Vector2 targetBatteryPosition; // Posición objetivo de la batería (encima de la cabeza)
     private float floatTimer; // Temporizador para el movimiento de flotación
+
+    [Header("Progression Settings")]
+    [SerializeField] private int crystalsPerUpgrade = 5;
+    [SerializeField] private ParticleSystem upgradeEffect;
+    [SerializeField] private AudioSource upgradeSound;
+    private int collectedCrystals = 0;
+    private float originalMaxTimeWithoutBattery;
+    private float originalMaxEnergy;
+    private PlayerUI playerUI;
 
     [Header("Timer Settings")]
     [SerializeField] private float timerResetDuration = 2f; // Duración para que el temporizador llegue a 0 (en segundos)
@@ -119,6 +135,14 @@ public class Player : MonoBehaviour
 
         FacingDirection = 1;
         currentTime = maxTimeWithoutBattery;
+
+        originalMaxTimeWithoutBattery = maxTimeWithoutBattery;
+        if (battery != null)
+        {
+            originalMaxEnergy = battery.GetComponent<BatteryController>().maxEnergy;
+        }
+
+        playerUI = FindAnyObjectByType<PlayerUI>();
 
         StateMachine.Intialize(IdleState);
     }
@@ -398,6 +422,86 @@ public class Player : MonoBehaviour
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, playerData.safeRange);
+    }
+    #endregion
+    #region Upgrade Functions
+
+    public void AddCrystal(int crystalValue)
+    {
+        collectedCrystals += crystalValue;
+        Debug.Log($"Cristales recolectados: {collectedCrystals}/{crystalsPerUpgrade}");
+
+        while (collectedCrystals >= crystalsPerUpgrade)
+        {
+            UnlockUpgrade();
+            collectedCrystals -= crystalsPerUpgrade;
+        }
+
+        UpdateCrystalUI();
+    }
+
+    private void UnlockUpgrade()
+    {
+        UpgradeType upgrade = ChooseUpgrade();
+
+        switch (upgrade)
+        {
+            case UpgradeType.MaxTimeWithoutBattery:
+                maxTimeWithoutBattery += 2f;
+                Debug.Log("Mejora desbloqueada: +2 segundos sin batería");
+                break;
+
+            case UpgradeType.MaxEnergy:
+                if (battery != null)
+                {
+                    BatteryController batteryController = battery.GetComponent<BatteryController>();
+                    batteryController.maxEnergy += 20f;
+                    batteryController.energyAmounts = Mathf.Clamp(batteryController.energyAmounts, 0f, batteryController.maxEnergy);
+                    Debug.Log("Mejora desbloqueada: +20 de capacidad máxima de energía");
+                }
+                break;
+
+            case UpgradeType.MagneticRange:
+                Debug.Log("Mejora desbloqueada: +1 al rango magnético");
+                break;
+
+            default:
+                Debug.LogWarning("No se seleccionó ninguna mejora válida");
+                break;
+        }
+
+        if (upgradeEffect != null) upgradeEffect.Play();
+        if (upgradeSound != null) upgradeSound.Play();
+
+        ShowUpgradeNotification(upgrade);
+    }
+
+    private UpgradeType ChooseUpgrade()
+    {
+        int upgradeCount = (collectedCrystals / crystalsPerUpgrade) % 3;
+        switch (upgradeCount)
+        {
+            case 0: return UpgradeType.MaxTimeWithoutBattery;
+            case 1: return UpgradeType.MaxEnergy;
+            case 2: return UpgradeType.MagneticRange;
+            default: return UpgradeType.None;
+        }
+    }
+
+    private void UpdateCrystalUI()
+    {
+        if (playerUI != null)
+        {
+            playerUI.UpdateCrystalUI(collectedCrystals);
+        }
+    }
+
+    private void ShowUpgradeNotification(UpgradeType upgrade)
+    {
+        if (playerUI != null)
+        {
+            playerUI.ShowUpgradeNotification($"¡Mejora desbloqueada: {upgrade}!");
+        }
     }
     #endregion
 }
