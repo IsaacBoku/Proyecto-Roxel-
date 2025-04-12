@@ -32,7 +32,7 @@ MonoBehaviour:
   lightMass: 5.49
   normalMass: 5
   magneticForce: 8.01
-  magneticRange: 113.9
+  magneticRange: 1
   whatIsMetallic:
     serializedVersion: 2
     m_Bits: 256

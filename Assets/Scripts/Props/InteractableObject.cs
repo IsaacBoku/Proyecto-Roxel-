@@ -6,17 +6,11 @@ public class InteractableObject : MonoBehaviour
 
     public void ShowIndicator()
     {
-        if (indicator != null)
-        {
-            indicator.Show();
-        }
+
     }
 
     public void HideIndicator()
     {
-        if (indicator != null)
-        {
-            indicator.Hide();
-        }
+
     }
 }

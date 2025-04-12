@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class InteractableIndicator : MonoBehaviour
@@ -8,12 +9,8 @@ public class InteractableIndicator : MonoBehaviour
     [SerializeField] private float oscillateSpeed = 2f; // Velocidad de oscilación
     [SerializeField] private float oscillateAmount = 0.2f; // Amplitud de oscilación
     private float blinkTimer = 0f;
-    private Vector3 initialLocalPosition;
+    private Vector3 basePosition;
 
-    void Start()
-    {
-        initialLocalPosition = transform.localPosition;
-    }
     void Update()
     {
         blinkTimer += Time.deltaTime * blinkSpeed;
@@ -22,13 +19,16 @@ public class InteractableIndicator : MonoBehaviour
         spriteColor.a = alpha;
         indicatorSprite.color = spriteColor;
 
-        // Oscilación hacia arriba y abajo
+        // Oscilación hacia arriba y abajo, relativa a la posición base
         float offsetY = Mathf.Sin(Time.time * oscillateSpeed) * oscillateAmount;
-        transform.localPosition = initialLocalPosition + new Vector3(0f, offsetY, 0f);
+        transform.position = basePosition + new Vector3(0f, offsetY, 0f);
     }
 
-    public void Show()
+    public void Show(Vector3 targetPosition)
     {
+        basePosition = targetPosition + new Vector3(0f, 1f, 0f); // Ajuste de 1 unidad hacia arriba
+        transform.position = basePosition;
+
         indicatorSprite.enabled = true;
         indicatorAnimator.SetBool("IsVisible", true);
     }
