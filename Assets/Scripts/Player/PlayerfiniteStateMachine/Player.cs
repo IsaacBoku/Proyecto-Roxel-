@@ -52,6 +52,8 @@ public class Player : MonoBehaviour
     public float currentTime;
     private bool isTimerPaused;
     private bool isTimerResetting;
+    private SpriteRenderer batterySpriteRenderer;
+    private Color batteryOriginalColor;
 
     [Header("Battery Movement")]
     [SerializeField] private float batterySpeed = 5f;
@@ -147,6 +149,8 @@ public class Player : MonoBehaviour
         if (battery != null)
         {
             originalMaxEnergy = battery.GetComponent<BatteryController>().maxEnergy;
+            batterySpriteRenderer = battery.GetComponent<SpriteRenderer>();
+            batteryOriginalColor = batterySpriteRenderer.color;
         }
 
         playerUI = FindAnyObjectByType<PlayerUI>();
@@ -196,6 +200,13 @@ public class Player : MonoBehaviour
             battery.GetComponent<BatteryController>().isPositivePolarity = !battery.GetComponent<BatteryController>().isPositivePolarity;
             InputHadler.UseSwitchPolarityInput();
             Debug.Log("Polaridad cambiada a: " + (battery.GetComponent<BatteryController>().isPositivePolarity ? "Positiva" : "Negativa"));
+
+            // Efecto de cambio de color
+            if (batterySpriteRenderer != null)
+            {
+                StopCoroutine(FlashBatteryColor());
+                StartCoroutine(FlashBatteryColor());
+            }
         }
 
         if (InputHadler.ThrowInput && !isSeparated)
@@ -272,6 +283,13 @@ public class Player : MonoBehaviour
         currentTime = 0f;
         isTimerResetting = false;
         Debug.Log("Temporizador reiniciado progresivamente a 0.");
+    }
+    private IEnumerator FlashBatteryColor()
+    {
+        Color flashColor = battery.GetComponent<BatteryController>().isPositivePolarity ? Color.red : Color.blue;
+        batterySpriteRenderer.color = flashColor;
+        yield return new WaitForSeconds(0.3f);
+        batterySpriteRenderer.color = batteryOriginalColor;
     }
 
     public void ResetTimer()
