@@ -34,7 +34,7 @@ public class Collectible : MonoBehaviour
 
                 Debug.Log($"Recolectado cristal de energía: +{finalEnergyValue} energía, +{finalCrystalValue} cristal(es)");
 
-                Destroy(gameObject, 0.5f);
+                Destroy(gameObject, 0.2f);
             }
         }
     }

@@ -515,20 +515,25 @@ public class Player : MonoBehaviour
         collectedCrystals += crystalValue;
         Debug.Log($"Cristales recolectados: {collectedCrystals}/{crystalsPerUpgrade}");
 
-        if (collectedCrystals >= crystalsPerUpgrade && !isUpgradeSelectionActive)
+        PlayerUI playerUI = FindAnyObjectByType<PlayerUI>();
+        if (playerUI != null)
+        {
+            playerUI.UpdateCrystalUI(collectedCrystals % crystalsPerUpgrade, collectedCrystals);
+        }
+
+        if (collectedCrystals >= crystalsPerUpgrade)
         {
             if (upgradeSelectionUI != null)
             {
-                isUpgradeSelectionActive = true;
                 upgradeSelectionUI.ShowUpgradeSelection();
             }
             else
             {
-                Debug.LogWarning("UpgradeSelectionUI no encontrado en la escena. No se puede seleccionar una mejora.");
+                Debug.LogWarning("UpgradeSelectionUI es null. No se puede seleccionar una mejora.");
             }
         }
 
-        UpdateCrystalUI();
+        //UpdateCrystalUI();
     }
 
     public void ApplyUpgrade(UpgradeType upgrade)

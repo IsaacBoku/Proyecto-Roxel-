@@ -16,10 +16,13 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private float notificationDuration = 3f;
     [SerializeField] private float blinkSpeed = 2f;
     [SerializeField] private float blinkThreshold = 0.8f; // Parpadea cuando el temporizador está al 80%
+    [SerializeField] private float barLerpSpeed = 5f; // Velocidad de la transición suave
     private Player player;
     private BatteryController batteryController; // Para acceder a la energía de la batería
     private int crystalsPerUpgrade;
     private float blinkTimer = 0f;
+    private float energyTargetValue; // Valor objetivo para la barra de energía
+    private float timerTargetValue;  // Valor objetivo para la barra del temporizador
 
     void Start()
     {
@@ -37,6 +40,7 @@ public class PlayerUI : MonoBehaviour
             batteryController = player.battery.GetComponent<BatteryController>();
             energyBar.maxValue = batteryController.maxEnergy;
             energyBar.value = batteryController.energyAmounts;
+            energyTargetValue = energyBar.value; // Inicializar el valor objetivo
         }
         else
         {
@@ -45,6 +49,7 @@ public class PlayerUI : MonoBehaviour
 
         timerBar.maxValue = player.maxTimeWithoutBattery;
         timerBar.value = player.currentTime;
+        timerTargetValue = timerBar.value; // Inicializar el valor objetivo
     }
 
     void Update()
@@ -54,7 +59,10 @@ public class PlayerUI : MonoBehaviour
         {
             // Actualizar el valor máximo por si ha cambiado (por ejemplo, tras una mejora)
             energyBar.maxValue = batteryController.maxEnergy;
-            energyBar.value = batteryController.energyAmounts;
+            energyTargetValue = batteryController.energyAmounts;
+
+            // Transición suave para la barra de energía
+            energyBar.value = Mathf.Lerp(energyBar.value, energyTargetValue, Time.deltaTime * barLerpSpeed);
 
             // Mostrar el texto de la energía (por ejemplo, "75/100")
             energyBarText.text = $"{Mathf.RoundToInt(energyBar.value)}/{Mathf.RoundToInt(energyBar.maxValue)}";
@@ -77,7 +85,10 @@ public class PlayerUI : MonoBehaviour
 
         // Actualizar la barra del temporizador
         timerBar.maxValue = player.maxTimeWithoutBattery; // Actualizar el valor máximo por si ha cambiado
-        timerBar.value = player.currentTime;
+        timerTargetValue = player.currentTime;
+
+        // Transición suave para la barra del temporizador
+        timerBar.value = Mathf.Lerp(timerBar.value, timerTargetValue, Time.deltaTime * barLerpSpeed);
         timerBarText.text = $"{Mathf.RoundToInt(timerBar.value)}/{Mathf.RoundToInt(timerBar.maxValue)}";
 
         // Calcular el porcentaje del temporizador
