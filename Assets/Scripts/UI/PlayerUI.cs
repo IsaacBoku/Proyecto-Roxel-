@@ -9,8 +9,10 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI availableUpgradesText;
     [SerializeField] private Slider energyBar; // Barra de energía
     [SerializeField] private Slider timerBar; // Barra del temporizador
-    [SerializeField] private Image energyBarFill; // Asigna el componente Image del Fill del EnergyBar
-    [SerializeField] private Image timerBarFill;  // Asigna el componente Image del Fill del TimerBar
+    [SerializeField] private Image energyBarFill; // Componente Image del Fill del EnergyBar
+    [SerializeField] private Image timerBarFill;  // Componente Image del Fill del TimerBar
+    [SerializeField] private TextMeshProUGUI energyBarText; // Texto dentro de la barra de energía
+    [SerializeField] private TextMeshProUGUI timerBarText;  // Texto dentro de la barra del temporizador
     [SerializeField] private float notificationDuration = 3f;
     [SerializeField] private float blinkSpeed = 2f;
     [SerializeField] private float blinkThreshold = 0.8f; // Parpadea cuando el temporizador está al 80%
@@ -47,14 +49,55 @@ public class PlayerUI : MonoBehaviour
 
     void Update()
     {
+        // Actualizar la barra de energía
         if (batteryController != null)
         {
+            // Actualizar el valor máximo por si ha cambiado (por ejemplo, tras una mejora)
+            energyBar.maxValue = batteryController.maxEnergy;
             energyBar.value = batteryController.energyAmounts;
+
+            // Mostrar el texto de la energía (por ejemplo, "75/100")
+            energyBarText.text = $"{Mathf.RoundToInt(energyBar.value)}/{Mathf.RoundToInt(energyBar.maxValue)}";
+
+            // Cambiar el color de la barra de energía según su porcentaje
+            float energyPercentage = energyBar.value / energyBar.maxValue;
+            if (energyPercentage <= 0.3f)
+            {
+                energyBarFill.color = Color.red; // Rojo cuando está baja (30% o menos)
+            }
+            else if (energyPercentage <= 0.6f)
+            {
+                energyBarFill.color = Color.Lerp(Color.red, Color.yellow, (energyPercentage - 0.3f) / 0.3f); // Transición de rojo a amarillo
+            }
+            else
+            {
+                energyBarFill.color = Color.Lerp(Color.yellow, Color.green, (energyPercentage - 0.6f) / 0.4f); // Transición de amarillo a verde
+            }
         }
 
+        // Actualizar la barra del temporizador
+        timerBar.maxValue = player.maxTimeWithoutBattery; // Actualizar el valor máximo por si ha cambiado
         timerBar.value = player.currentTime;
+        timerBarText.text = $"{Mathf.RoundToInt(timerBar.value)}/{Mathf.RoundToInt(timerBar.maxValue)}";
+
+        // Calcular el porcentaje del temporizador
         float timerPercentage = timerBar.value / timerBar.maxValue;
 
+        // Cambiar el color de la barra del temporizador según su porcentaje
+        if (timerPercentage <= 0.3f)
+        {
+            timerBarFill.color = Color.green; // Verde cuando está baja (30% o menos)
+        }
+        else if (timerPercentage <= 0.6f)
+        {
+            timerBarFill.color = Color.Lerp(Color.green, Color.yellow, (timerPercentage - 0.3f) / 0.3f); // Transición de verde a amarillo
+        }
+        else
+        {
+            timerBarFill.color = Color.Lerp(Color.yellow, Color.red, (timerPercentage - 0.6f) / 0.4f); // Transición de amarillo a rojo
+        }
+
+        // Efecto de parpadeo cuando el temporizador está cerca de agotarse
         if (timerPercentage >= blinkThreshold)
         {
             blinkTimer += Time.deltaTime * blinkSpeed;
