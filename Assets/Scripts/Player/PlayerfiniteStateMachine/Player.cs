@@ -167,6 +167,24 @@ public class Player : MonoBehaviour
         {
             Debug.LogWarning("GlobalIndicator no está asignado en el script Player.");
         }
+
+        if (playerUI == null)
+        {
+            playerUI = FindAnyObjectByType<PlayerUI>();
+            if (playerUI == null)
+            {
+                Debug.LogWarning("PlayerUI no encontrado en la escena. Asegúrate de que esté presente.");
+            }
+        }
+
+        if (upgradeSelectionUI == null)
+        {
+            upgradeSelectionUI = FindAnyObjectByType<UpgradeSelectionUI>();
+            if (upgradeSelectionUI == null)
+            {
+                Debug.LogWarning("UpgradeSelectionUI no encontrado en la escena. Asegúrate de que esté presente.");
+            }
+        }
     }
 
     private void Update()
@@ -515,25 +533,42 @@ public class Player : MonoBehaviour
         collectedCrystals += crystalValue;
         Debug.Log($"Cristales recolectados: {collectedCrystals}/{crystalsPerUpgrade}");
 
-        PlayerUI playerUI = FindAnyObjectByType<PlayerUI>();
         if (playerUI != null)
         {
             playerUI.UpdateCrystalUI(collectedCrystals % crystalsPerUpgrade, collectedCrystals);
         }
+        else
+        {
+            Debug.LogWarning("PlayerUI es null. No se puede actualizar la UI de cristales.");
+        }
 
         if (collectedCrystals >= crystalsPerUpgrade)
         {
-            if (upgradeSelectionUI != null)
+            if (playerUI != null)
             {
-                upgradeSelectionUI.ShowUpgradeSelection();
+                // Mostrar el mensaje de notificación
+                playerUI.ShowUpgradeNotification("¡Has recolectado 5 cristales! Puedes mejorar");
+                // Retrasar la aparición del panel de mejoras
+                Invoke(nameof(ShowUpgradeSelectionAfterDelay), playerUI.NotificationDuration);
             }
             else
             {
-                Debug.LogWarning("UpgradeSelectionUI es null. No se puede seleccionar una mejora.");
+                Debug.LogWarning("PlayerUI es null. No se puede mostrar la notificación.");
+                // Mostrar el panel inmediatamente si no hay PlayerUI
+                ShowUpgradeSelectionAfterDelay();
             }
         }
-
-        //UpdateCrystalUI();
+    }
+    private void ShowUpgradeSelectionAfterDelay()
+    {
+        if (upgradeSelectionUI != null)
+        {
+            upgradeSelectionUI.ShowUpgradeSelection();
+        }
+        else
+        {
+            Debug.LogWarning("UpgradeSelectionUI es null. No se puede seleccionar una mejora.");
+        }
     }
 
     public void ApplyUpgrade(UpgradeType upgrade)

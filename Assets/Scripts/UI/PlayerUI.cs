@@ -24,6 +24,9 @@ public class PlayerUI : MonoBehaviour
     private float energyTargetValue; // Valor objetivo para la barra de energía
     private float timerTargetValue;  // Valor objetivo para la barra del temporizador
 
+    // Propiedad pública para acceder a notificationDuration
+    public float NotificationDuration => notificationDuration;
+
     void Start()
     {
         player = FindAnyObjectByType<Player>();
