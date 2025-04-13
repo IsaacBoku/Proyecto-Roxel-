@@ -394,6 +394,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ee408f43-332a-4861-8e65-34cd71b3b553
     m_ActionName: 'Gameplay/Boost[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UpgradeSelectionUI, Assembly-CSharp
+        m_MethodName: ShowUpgradeSelection
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0e928c78-fdf3-458d-a743-983cd4da54bc
+    m_ActionName: 'Gameplay/UISelectionUpgrade[/Keyboard/i]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -465,9 +481,13 @@ MonoBehaviour:
   batteryAmplitude: 0.1
   batteryFrequency: 2
   bounceAmplitude: 0.05
+  crystalsPerUpgrade: 5
+  upgradeEffect: {fileID: 0}
+  upgradeSound: {fileID: 0}
   timerResetDuration: 2
   boostEffect: {fileID: 0}
   InteractionCheck: {fileID: 289189624859510397}
+  globalIndicator: {fileID: 0}
   originalSpeed: 0
   numberOfDots: 10
   dotPrefab: {fileID: 1806446307295189743, guid: c26b053cf4fffe24c869f5fdd3df4168, type: 3}
