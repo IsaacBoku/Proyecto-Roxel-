@@ -309,7 +309,7 @@ public class Controller_Menus : MonoBehaviour
 
     public void Button_Options()
     {
-        OpenOptionsDirectly();
+        OpenMenu(optionsMenuPanel);
     }
 
     public void Button_Controls()
