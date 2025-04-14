@@ -41,6 +41,20 @@ public class PlayerInputHadler : MonoBehaviour
     private void Start()
     {
         input = GetComponent<PlayerInput>();
+
+        // Registrar el inputHandler en MenuSystems (si usas PlayerInputRegistrar)
+        if (Controller_Menus.Instance != null)
+        {
+            Controller_Menus.Instance.RegisterInputHandler(this);
+        }
+
+        // Cargar las teclas personalizadas desde ControlsSettings
+        ControlsSettings controlsSettings = FindAnyObjectByType<ControlsSettings>();
+        if (controlsSettings != null)
+        {
+            controlsSettings.InitializeActions();
+            controlsSettings.ApplyKeyBindings(this);
+        }
     }
     private void Update()
     {

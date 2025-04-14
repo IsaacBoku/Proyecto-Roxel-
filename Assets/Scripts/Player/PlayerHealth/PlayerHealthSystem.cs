@@ -30,7 +30,7 @@ public class PlayerHealthSystem : MonoBehaviour
     {
         fx = GetComponent<EntityFX>();
         Debug.Log(currentHealth);
-        animhealth.SetInteger("Vida", 2);
+        //animhealth.SetInteger("Vida", 2);
     }
     private void Update()
     {

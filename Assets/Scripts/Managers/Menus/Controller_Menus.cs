@@ -23,6 +23,10 @@ public class Controller_Menus : MonoBehaviour
     [Header("Dependencies")]
     private PlayerInputHadler inputHandler; // Script de manejo de input (null en MainMenu)
     [SerializeField] private MenuEventSystemHadler menuEventSystem; // Sistema de eventos para la UI
+    [SerializeField] private CanvasGroup fadePanel; // Panel de transición para el fade
+
+    [Header("Transition Settings")]
+    [SerializeField] private float fadeDuration = 1f; // Duración del fade en segundos
 
     private bool isPaused = false; // Estado de pausa del juego
     private MenuPanel currentMenuPanel; // Panel actualmente activo
@@ -44,11 +48,14 @@ public class Controller_Menus : MonoBehaviour
             return;
         }
 
-        // Inicializar la pila de menús
         menuStack = new Stack<MenuPanel>();
-
-        // Asegurarse de que todos los paneles tengan referencias a sus animadores
         InitializeMenuPanels();
+
+        if (fadePanel != null)
+        {
+            DontDestroyOnLoad(fadePanel.gameObject);
+            fadePanel.alpha = 0f; // Asegurarse de que el panel de transición esté invisible al inicio
+        }
     }
 
     private void Start()
@@ -71,6 +78,12 @@ public class Controller_Menus : MonoBehaviour
             menuEventSystem.enabled = false;
             CloseAllMenus();
         }
+
+        // Iniciar con un fade in desde negro
+        if (fadePanel != null)
+        {
+            StartCoroutine(FadeIn());
+        }
     }
 
     private void OnEnable()
@@ -88,6 +101,12 @@ public class Controller_Menus : MonoBehaviour
         UpdateSceneContext();
         hasInputHandler = false; // Resetear para buscar en la nueva escena
         FindInputHandler(); // Buscar el inputHandler en la nueva escena
+
+        // Hacer un fade in al cargar la nueva escena
+        if (fadePanel != null)
+        {
+            StartCoroutine(FadeIn());
+        }
     }
 
     private void Update()
@@ -127,6 +146,13 @@ public class Controller_Menus : MonoBehaviour
         {
             Debug.Log($"PlayerInputHadler encontrado en la escena: {SceneManager.GetActiveScene().name}");
             hasInputHandler = true;
+
+            // Notificar a ControlsSettings para inicializar las acciones
+            ControlsSettings controlsSettings = FindAnyObjectByType<ControlsSettings>();
+            if (controlsSettings != null)
+            {
+                controlsSettings.InitializeActions();
+            }
         }
     }
     // Método para que el PlayerInputHadler se registre automáticamente
@@ -135,6 +161,13 @@ public class Controller_Menus : MonoBehaviour
         inputHandler = newInputHandler;
         hasInputHandler = true;
         Debug.Log($"PlayerInputHadler registrado en MenuSystems: {SceneManager.GetActiveScene().name}");
+
+        // Notificar a ControlsSettings para inicializar las acciones
+        ControlsSettings controlsSettings = FindAnyObjectByType<ControlsSettings>();
+        if (controlsSettings != null)
+        {
+            controlsSettings.InitializeActions();
+        }
     }
 
     // Método para desregistrar el inputHandler (opcional, por si necesitas limpiarlo)
@@ -300,6 +333,60 @@ public class Controller_Menus : MonoBehaviour
         menuPanel.Close();
         yield return new WaitForSecondsRealtime(menuPanel.AnimationDuration);
     }
+    public void Button_ChangeScene(string sceneName)
+    {
+        if (!string.IsNullOrEmpty(sceneName))
+        {
+            StartCoroutine(LoadSceneWithTransition(sceneName));
+        }
+        else
+        {
+            Debug.LogWarning("No hay escena asignada.");
+        }
+    }
+
+    private IEnumerator LoadSceneWithTransition(string sceneName)
+    {
+        // Fade out
+        if (fadePanel != null)
+        {
+            float elapsedTime = 0f;
+            while (elapsedTime < fadeDuration)
+            {
+                elapsedTime += Time.unscaledDeltaTime; // Usar unscaledDeltaTime para que el fade funcione incluso si Time.timeScale = 0
+                fadePanel.alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
+                yield return null;
+            }
+            fadePanel.alpha = 1f; // Asegurarse de que esté completamente opaco
+        }
+
+        // Detener música y efectos de sonido
+        Time.timeScale = 1f;
+        AudioManager.instance.StopMusic();
+        AudioManager.instance.StopAllSFX();
+
+        // Cargar la nueva escena
+        SceneManager.LoadScene(sceneName);
+
+        // El fade in se manejará en OnSceneLoaded
+    }
+
+    private IEnumerator FadeIn()
+    {
+        // Fade in desde negro
+        if (fadePanel != null)
+        {
+            float elapsedTime = 0f;
+            fadePanel.alpha = 1f; // Asegurarse de que esté completamente opaco al inicio
+            while (elapsedTime < fadeDuration)
+            {
+                elapsedTime += Time.unscaledDeltaTime;
+                fadePanel.alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+                yield return null;
+            }
+            fadePanel.alpha = 0f; // Asegurarse de que esté completamente transparente
+        }
+    }
 
     // Métodos de los botones
     public void Button_Resume()
@@ -330,22 +417,6 @@ public class Controller_Menus : MonoBehaviour
     public void Button_Back()
     {
         CloseCurrentMenu();
-    }
-
-    public void Button_ChangeScene(string sceneName)
-    {
-        if (!string.IsNullOrEmpty(sceneName))
-        {
-            Time.timeScale = 1f;
-            AudioManager.instance.StopMusic();
-            AudioManager.instance.StopAllSFX();
-            SceneManager.LoadScene(sceneName);
-            Debug.Log($"Ha cambiado a la escena: {sceneName}");
-        }
-        else
-        {
-            Debug.LogWarning("No hay escena asignada.");
-        }
     }
 
     public void Button_QuitPanel()
