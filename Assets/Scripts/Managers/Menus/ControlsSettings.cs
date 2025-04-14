@@ -56,6 +56,8 @@ public class ControlsSettings : MonoBehaviour
     {
         if (isRebinding) return;
 
+        InitializeActions();
+
         // Asegurarse de que las acciones estén inicializadas antes de reasignar
         if (!actionsInitialized)
         {

@@ -62,7 +62,7 @@ public class Controller_Menus : MonoBehaviour
     {
         // Detectar la escena actual
         UpdateSceneContext();
-        FindInputHandler(); // Buscar el inputHandler al iniciar
+        StartCoroutine(TryFindInputHandler());
 
 
         if (isGameScene)
@@ -100,7 +100,7 @@ public class Controller_Menus : MonoBehaviour
     {
         UpdateSceneContext();
         hasInputHandler = false; // Resetear para buscar en la nueva escena
-        FindInputHandler(); // Buscar el inputHandler en la nueva escena
+        StartCoroutine(TryFindInputHandler());
 
         // Hacer un fade in al cargar la nueva escena
         if (fadePanel != null)
@@ -133,27 +133,33 @@ public class Controller_Menus : MonoBehaviour
         }
     }
 
-    private void FindInputHandler()
+    private IEnumerator TryFindInputHandler()
     {
-        if (hasInputHandler) return; // No buscar si ya lo encontramos
-
-        inputHandler = FindAnyObjectByType<PlayerInputHadler>();
-        if (inputHandler == null)
+        // Intentar buscar el inputHandler varias veces para manejar retrasos en la instanciación
+        for (int i = 0; i < 5; i++)
         {
-            Debug.Log("No se encontró PlayerInputHadler en la escena: " + SceneManager.GetActiveScene().name);
-        }
-        else
-        {
-            Debug.Log($"PlayerInputHadler encontrado en la escena: {SceneManager.GetActiveScene().name}");
-            hasInputHandler = true;
+            if (hasInputHandler) yield break; // Salir si ya lo encontramos
 
-            // Notificar a ControlsSettings para inicializar las acciones
-            ControlsSettings controlsSettings = FindAnyObjectByType<ControlsSettings>();
-            if (controlsSettings != null)
+            inputHandler = FindAnyObjectByType<PlayerInputHadler>();
+            if (inputHandler != null)
             {
-                controlsSettings.InitializeActions();
+                Debug.Log($"PlayerInputHadler encontrado en la escena: {SceneManager.GetActiveScene().name} (intento {i + 1})");
+                hasInputHandler = true;
+
+                // Notificar a ControlsSettings para inicializar las acciones
+                ControlsSettings controlsSettings = FindAnyObjectByType<ControlsSettings>();
+                if (controlsSettings != null)
+                {
+                    controlsSettings.InitializeActions();
+                }
+                yield break;
             }
+
+            Debug.Log($"PlayerInputHadler no encontrado en la escena: {SceneManager.GetActiveScene().name} (intento {i + 1})");
+            yield return new WaitForSeconds(0.1f); // Esperar un breve momento antes de volver a intentar
         }
+
+        Debug.LogWarning("No se encontró PlayerInputHadler después de varios intentos en la escena: " + SceneManager.GetActiveScene().name);
     }
     // Método para que el PlayerInputHadler se registre automáticamente
     public void RegisterInputHandler(PlayerInputHadler newInputHandler)
