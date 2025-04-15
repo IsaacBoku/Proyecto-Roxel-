@@ -29,12 +29,19 @@ public class GameInitializer : MonoBehaviour
             // GameObject audioManagerPrefab = Resources.Load<GameObject>("Prefabs/AudioManager");
             // Instantiate(audioManagerPrefab);
         }
+        // Asegurarse de que ControlsSettings esté instanciado
+        if (VFXManager.Instance == null)
+        {
+            Debug.Log("VFXManager no encontrado. Asegúrate de que el prefab de VFXManager esté en la escena.");
+        }
 
         // Cargar configuraciones de audio
         LoadAudioSettings();
 
         // Cargar configuraciones gráficas
         LoadGraphicsSettings();
+
+        LoadVFXSettings();
 
         // Cargar configuraciones de controles (ya se manejan en ControlsSettings, pero podemos asegurarnos)
         LoadControlsSettings();
@@ -52,8 +59,13 @@ public class GameInitializer : MonoBehaviour
         {
             float musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
             float sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+            bool musicMuted = PlayerPrefs.GetInt("MusicMuted", 0) == 1;
+            bool sfxMuted = PlayerPrefs.GetInt("SFXMuted", 0) == 1;
+
             AudioManager.instance.SetMusicVolume(musicVolume);
             AudioManager.instance.SetSFXVolume(sfxVolume);
+            AudioManager.instance.SetMusicMute(musicMuted);
+            AudioManager.instance.SetSFXMute(sfxMuted);
             Debug.Log($"Configuraciones de audio cargadas: MusicVolume={musicVolume}, SFXVolume={sfxVolume}");
         }
         else
@@ -67,6 +79,24 @@ public class GameInitializer : MonoBehaviour
         int qualityLevel = PlayerPrefs.GetInt("QualityLevel", QualitySettings.GetQualityLevel());
         QualitySettings.SetQualityLevel(qualityLevel, true);
         Debug.Log($"Configuraciones gráficas cargadas: QualityLevel={QualitySettings.names[qualityLevel]}");
+    }
+
+    private void LoadVFXSettings()
+    {
+        if (VFXManager.Instance != null)
+        {
+            bool vfxEnabled = PlayerPrefs.GetInt("VFXEnabled", 1) == 1;
+            float vfxIntensity = PlayerPrefs.GetFloat("VFXIntensity", 1f);
+
+            VFXManager.Instance.SetVFXEnabled(vfxEnabled);
+            VFXManager.Instance.SetVFXIntensity(vfxIntensity);
+
+            Debug.Log($"Configuraciones de VFX cargadas: VFXEnabled={vfxEnabled}, VFXIntensity={vfxIntensity}");
+        }
+        else
+        {
+            Debug.LogWarning("VFXManager no está inicializado. No se pudieron cargar las configuraciones de VFX.");
+        }
     }
 
     private void LoadControlsSettings()
