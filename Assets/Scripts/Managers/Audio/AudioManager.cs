@@ -35,6 +35,15 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
+        // Verificar que musicSource esté asignado
+        if (musicSource == null)
+        {
+            Debug.LogWarning("MusicSource no está asignado en AudioManager. Creando uno nuevo.");
+            musicSource = gameObject.AddComponent<AudioSource>();
+            musicSource.playOnAwake = false;
+            musicSource.loop = true;
+        }
+
         // Inicializar el pool de AudioSource para SFX
         sfxSources = new List<AudioSource>();
         for (int i = 0; i < sfxChannels; i++)
@@ -44,8 +53,7 @@ public class AudioManager : MonoBehaviour
             sfxSources.Add(source);
         }
 
-        // Cargar configuraciones guardadas
-        LoadSettings();
+        // No cargamos configuraciones aquí; dejamos que GameInitializer lo haga
     }
 
     private void Start()
@@ -188,32 +196,16 @@ public class AudioManager : MonoBehaviour
     #endregion
 
     #region Volume and Mute Controls
-    public void ToggleMusic()
+    public void SetMusicVolume(float volume)
     {
-        musicSource.mute = !musicSource.mute;
-        PlayerPrefs.SetInt("MusicMuted", musicSource.mute ? 1 : 0);
+        volume = Mathf.Clamp01(volume);
+        musicSource.volume = volume;
+        PlayerPrefs.SetFloat("MusicVolume", volume);
         PlayerPrefs.Save();
+        Debug.Log($"Volumen de música establecido en: {volume}");
     }
 
-    public void ToggleSFX()
-    {
-        bool newMuteState = !sfxSources[0].mute;
-        foreach (AudioSource source in sfxSources)
-        {
-            source.mute = newMuteState;
-        }
-        PlayerPrefs.SetInt("SFXMuted", newMuteState ? 1 : 0);
-        PlayerPrefs.Save();
-    }
-
-    public void MusicVolume(float volume)
-    {
-        musicSource.volume = Mathf.Clamp01(volume);
-        PlayerPrefs.SetFloat("MusicVolume", musicSource.volume);
-        PlayerPrefs.Save();
-    }
-
-    public void SFXVolume(float volume)
+    public void SetSFXVolume(float volume)
     {
         volume = Mathf.Clamp01(volume);
         foreach (AudioSource source in sfxSources)
@@ -222,24 +214,75 @@ public class AudioManager : MonoBehaviour
         }
         PlayerPrefs.SetFloat("SFXVolume", volume);
         PlayerPrefs.Save();
+        Debug.Log($"Volumen de SFX establecido en: {volume}");
+    }
+
+    public void SetMusicMute(bool mute)
+    {
+        musicSource.mute = mute;
+        PlayerPrefs.SetInt("MusicMuted", mute ? 1 : 0);
+        PlayerPrefs.Save();
+        Debug.Log($"Música silenciada: {mute}");
+    }
+
+    public void SetSFXMute(bool mute)
+    {
+        foreach (AudioSource source in sfxSources)
+        {
+            source.mute = mute;
+        }
+        PlayerPrefs.SetInt("SFXMuted", mute ? 1 : 0);
+        PlayerPrefs.Save();
+        Debug.Log($"SFX silenciados: {mute}");
+    }
+
+    public void ToggleMusic()
+    {
+        SetMusicMute(!musicSource.mute);
+    }
+
+    public void ToggleSFX()
+    {
+        SetSFXMute(!sfxSources[0].mute);
+    }
+
+    public float GetMusicVolume()
+    {
+        return musicSource.volume;
+    }
+
+    public float GetSFXVolume()
+    {
+        return sfxSources.Count > 0 ? sfxSources[0].volume : 1f;
+    }
+
+    public bool IsMusicMuted()
+    {
+        return musicSource.mute;
+    }
+
+    public bool IsSFXMuted()
+    {
+        return sfxSources.Count > 0 && sfxSources[0].mute;
     }
 
     private void LoadSettings()
     {
         // Cargar configuraciones guardadas
-        musicSource.volume = PlayerPrefs.GetFloat("MusicVolume", 1f);
+        float musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
         float sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        bool musicMuted = PlayerPrefs.GetInt("MusicMuted", 0) == 1;
+        bool sfxMuted = PlayerPrefs.GetInt("SFXMuted", 0) == 1;
+
+        musicSource.volume = musicVolume;
         foreach (AudioSource source in sfxSources)
         {
             source.volume = sfxVolume;
-        }
-
-        musicSource.mute = PlayerPrefs.GetInt("MusicMuted", 0) == 1;
-        bool sfxMuted = PlayerPrefs.GetInt("SFXMuted", 0) == 1;
-        foreach (AudioSource source in sfxSources)
-        {
             source.mute = sfxMuted;
         }
+        musicSource.mute = musicMuted;
+
+        Debug.Log($"Configuraciones de audio cargadas: MusicVolume={musicVolume}, SFXVolume={sfxVolume}, MusicMuted={musicMuted}, SFXMuted={sfxMuted}");
     }
     #endregion
 }

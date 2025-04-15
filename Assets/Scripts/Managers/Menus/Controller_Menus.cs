@@ -54,7 +54,7 @@ public class Controller_Menus : MonoBehaviour
         if (fadePanel != null)
         {
             DontDestroyOnLoad(fadePanel.gameObject);
-            fadePanel.alpha = 0f; // Asegurarse de que el panel de transición esté invisible al inicio
+            fadePanel.alpha = 0f;
         }
     }
 
@@ -67,9 +67,8 @@ public class Controller_Menus : MonoBehaviour
 
         if (isGameScene)
         {
-            // Cerrar todos los menús al inicio
             CloseAllMenus();
-            ResumeGame(); // Asegurarse de que el juego comience sin pausa en escenas de juego
+            ResumeGame();
         }
         else
         {
@@ -83,6 +82,13 @@ public class Controller_Menus : MonoBehaviour
         if (fadePanel != null)
         {
             StartCoroutine(FadeIn());
+        }
+
+        // Asegurarse de que las configuraciones estén cargadas
+        ControlsSettings controlsSettings = FindAnyObjectByType<ControlsSettings>();
+        if (controlsSettings != null)
+        {
+            controlsSettings.InitializeActions();
         }
     }
 

@@ -23,8 +23,8 @@ public class ControlsSettings : MonoBehaviour
 
     private void Start()
     {
-        LoadKeyBindings(); // Cargar las asignaciones guardadas
-        InitializeActions();
+        //LoadKeyBindings(); // Cargar las asignaciones guardadas
+        //InitializeActions();
         SetupRebindButtons(); // Configurar los botones de reasignación
     }
 

@@ -63,7 +63,7 @@ public class UIController : MonoBehaviour
     {
         if (musicSlider != null)
         {
-            AudioManager.instance.MusicVolume(musicSlider.value);
+            AudioManager.instance.SetMusicVolume(musicSlider.value);
         }
     }
 
@@ -72,7 +72,7 @@ public class UIController : MonoBehaviour
     {
         if (sfxSlider != null)
         {
-            AudioManager.instance.SFXVolume(sfxSlider.value);
+            AudioManager.instance.SetSFXVolume(sfxSlider.value);
         }
     }
 
