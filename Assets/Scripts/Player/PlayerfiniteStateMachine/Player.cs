@@ -72,7 +72,7 @@ public class Player : MonoBehaviour
     private float originalMaxEnergy;
     private PlayerUI playerUI;
     private UpgradeSelectionUI upgradeSelectionUI;
-    private bool isUpgradeSelectionActive = false;
+    bool isUpgradeSelectionActive = false;
 
     [Header("Timer Settings")]
     [SerializeField] private float timerResetDuration = 2f;

@@ -8,8 +8,8 @@ public class Controller_Menus : MonoBehaviour
     public static Controller_Menus Instance { get; private set; } // Singleton
 
     [Header("Scene Names")]
-    [SerializeField] private string sceneMenu = "MainMenu"; // Escena del menú principal
-    [SerializeField] private string sceneRetry = "GameScene"; // Escena para reintentar el nivel
+    //[SerializeField] private string sceneMenu = "MainMenu"; // Escena del menú principal
+    //[SerializeField] private string sceneRetry = "GameScene"; // Escena para reintentar el nivel
     [SerializeField] private List<string> gameScenes = new List<string> { "Prueba" }; // Lista de escenas de juego
 
     [Header("Menu Panels")]
