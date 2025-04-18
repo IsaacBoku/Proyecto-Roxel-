@@ -3,7 +3,7 @@ using UnityEngine;
 public class MenuPanel
 {
     [SerializeField] private string panelName; // Nombre del panel (para depuración)
-    [SerializeField] private GameObject panelObject; // GameObject del panel
+    [SerializeField] public GameObject panelObject; // GameObject del panel
     [SerializeField] private Animator animator; // Animador del panel (si tiene animaciones)
     [SerializeField] private string openAnimationParameter = "Open"; // Nombre del parámetro de animación para abrir
     [SerializeField] private float animationDuration = 1f; // Duración de la animación

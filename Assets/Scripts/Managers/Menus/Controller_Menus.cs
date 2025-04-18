@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,29 +8,29 @@ public class Controller_Menus : MonoBehaviour
     public static Controller_Menus Instance { get; private set; } // Singleton
 
     [Header("Scene Names")]
-    //[SerializeField] private string sceneMenu = "MainMenu"; // Escena del menú principal
+    //[SerializeField] private string sceneMenu = "MainMenu"; // Escena del menÃº principal
     //[SerializeField] private string sceneRetry = "GameScene"; // Escena para reintentar el nivel
     [SerializeField] private List<string> gameScenes = new List<string> { "Prueba" }; // Lista de escenas de juego
 
     [Header("Menu Panels")]
-    [SerializeField] private MenuPanel pauseMenuPanel; // Panel del menú de pausa
-    [SerializeField] private MenuPanel optionsMenuPanel; // Panel del menú de opciones
-    [SerializeField] private MenuPanel controlsMenuPanel; // Panel del submenú de controles
-    [SerializeField] private MenuPanel audioMenuPanel; // Panel del submenú de audio
-    [SerializeField] private MenuPanel graphicsMenuPanel; // Panel del submenú de gráficos
-    [SerializeField] private MenuPanel quitPanel; // Panel de confirmación de salida
+    [SerializeField] private MenuPanel pauseMenuPanel; // Panel del menÃº de pausa
+    [SerializeField] private MenuPanel optionsMenuPanel; // Panel del menÃº de opciones
+    [SerializeField] private MenuPanel controlsMenuPanel; // Panel del submenÃº de controles
+    [SerializeField] private MenuPanel audioMenuPanel; // Panel del submenÃº de audio
+    [SerializeField] private MenuPanel graphicsMenuPanel; // Panel del submenÃº de grÃ¡ficos
+    [SerializeField] private MenuPanel quitPanel; // Panel de confirmaciÃ³n de salida
 
     [Header("Dependencies")]
     private PlayerInputHadler inputHandler; // Script de manejo de input (null en MainMenu)
     [SerializeField] private MenuEventSystemHadler menuEventSystem; // Sistema de eventos para la UI
-    [SerializeField] private CanvasGroup fadePanel; // Panel de transición para el fade
+    [SerializeField] private CanvasGroup fadePanel; // Panel de transiciÃ³n para el fade
 
     [Header("Transition Settings")]
-    [SerializeField] private float fadeDuration = 1f; // Duración del fade en segundos
+    [SerializeField] private float fadeDuration = 1f; // DuraciÃ³n del fade en segundos
 
     private bool isPaused = false; // Estado de pausa del juego
     private MenuPanel currentMenuPanel; // Panel actualmente activo
-    private Stack<MenuPanel> menuStack; // Pila para manejar la navegación entre menús
+    private Stack<MenuPanel> menuStack; // Pila para manejar la navegaciÃ³n entre menÃºs
     private bool isGameScene = false; // Indica si estamos en una escena de juego
     private bool hasInputHandler = false; // Para evitar buscar si ya lo encontramos
 
@@ -84,7 +84,7 @@ public class Controller_Menus : MonoBehaviour
             StartCoroutine(FadeIn());
         }
 
-        // Asegurarse de que las configuraciones estén cargadas
+        // Asegurarse de que las configuraciones estÃ©n cargadas
         ControlsSettings controlsSettings = FindAnyObjectByType<ControlsSettings>();
         if (controlsSettings != null)
         {
@@ -125,14 +125,14 @@ public class Controller_Menus : MonoBehaviour
         }
     }
 
-    // Detectar si estamos en una escena de juego o en el menú principal
+    // Detectar si estamos en una escena de juego o en el menÃº principal
     private void UpdateSceneContext()
     {
         string currentScene = SceneManager.GetActiveScene().name;
         isGameScene = gameScenes.Contains(currentScene);
-        Debug.Log($"Escena actual: {currentScene}, ¿Es escena de juego? {isGameScene}");
+        Debug.Log($"Escena actual: {currentScene}, Â¿Es escena de juego? {isGameScene}");
 
-        // Asegurarse de que el inputHandler esté asignado solo en escenas de juego
+        // Asegurarse de que el inputHandler estÃ© asignado solo en escenas de juego
         if (!isGameScene)
         {
             inputHandler = null;
@@ -141,7 +141,7 @@ public class Controller_Menus : MonoBehaviour
 
     private IEnumerator TryFindInputHandler()
     {
-        // Intentar buscar el inputHandler varias veces para manejar retrasos en la instanciación
+        // Intentar buscar el inputHandler varias veces para manejar retrasos en la instanciaciÃ³n
         for (int i = 0; i < 5; i++)
         {
             if (hasInputHandler) yield break; // Salir si ya lo encontramos
@@ -165,9 +165,9 @@ public class Controller_Menus : MonoBehaviour
             yield return new WaitForSeconds(0.1f); // Esperar un breve momento antes de volver a intentar
         }
 
-        Debug.LogWarning("No se encontró PlayerInputHadler después de varios intentos en la escena: " + SceneManager.GetActiveScene().name);
+        Debug.LogWarning("No se encontrÃ³ PlayerInputHadler despuÃ©s de varios intentos en la escena: " + SceneManager.GetActiveScene().name);
     }
-    // Método para que el PlayerInputHadler se registre automáticamente
+    // MÃ©todo para que el PlayerInputHadler se registre automÃ¡ticamente
     public void RegisterInputHandler(PlayerInputHadler newInputHandler)
     {
         inputHandler = newInputHandler;
@@ -182,7 +182,7 @@ public class Controller_Menus : MonoBehaviour
         }
     }
 
-    // Método para desregistrar el inputHandler (opcional, por si necesitas limpiarlo)
+    // MÃ©todo para desregistrar el inputHandler (opcional, por si necesitas limpiarlo)
     public void UnregisterInputHandler()
     {
         inputHandler = null;
@@ -190,7 +190,7 @@ public class Controller_Menus : MonoBehaviour
         Debug.Log("PlayerInputHadler desregistrado de MenuSystems");
     }
 
-    // Inicializar los paneles de menú
+    // Inicializar los paneles de menÃº
     private void InitializeMenuPanels()
     {
         pauseMenuPanel?.Initialize();
@@ -250,51 +250,63 @@ public class Controller_Menus : MonoBehaviour
         AudioManager.instance.PlaySFX("MenuClose");
     }
 
-    // Abrir un menú
+    // Abrir un menÃº
     public void OpenMenu(MenuPanel menuPanel)
     {
         if (menuPanel == null) return;
 
-        // Si hay un menú abierto, cerrarlo primero
+        // Si hay un menÃº abierto, cerrarlo primero y esperar a que termine
         if (currentMenuPanel != null && currentMenuPanel != menuPanel)
         {
-            StartCoroutine(CloseMenuCoroutine(currentMenuPanel));
+            StartCoroutine(CloseAndOpenMenuCoroutine(currentMenuPanel, menuPanel));
         }
-
-        // Abrir el nuevo menú
-        menuStack.Push(menuPanel);
-        currentMenuPanel = menuPanel;
-        StartCoroutine(OpenMenuCoroutine(menuPanel));
+        else
+        {
+            // Abrir el nuevo menÃº directamente
+            menuStack.Push(menuPanel);
+            currentMenuPanel = menuPanel;
+            StartCoroutine(OpenMenuCoroutine(menuPanel));
+        }
 
         AudioManager.instance.PlaySFX("ButtonClick");
     }
+    private IEnumerator CloseAndOpenMenuCoroutine(MenuPanel menuToClose, MenuPanel menuToOpen)
+    {
+        // Cerrar el menÃº actual
+        yield return StartCoroutine(CloseMenuCoroutine(menuToClose));
 
-    // Abrir directamente el menú de opciones (para MainMenu)
+        // Abrir el nuevo menÃº
+        menuStack.Push(menuToOpen);
+        currentMenuPanel = menuToOpen;
+        yield return StartCoroutine(OpenMenuCoroutine(menuToOpen));
+    }
+
+    // Abrir directamente el menÃº de opciones (para MainMenu)
     public void OpenOptionsDirectly()
     {
         if (isGameScene)
         {
-            PauseGame(); // En escenas de juego, abrir el menú de pausa primero
+            PauseGame(); // En escenas de juego, abrir el menÃº de pausa primero
         }
         else
         {
-            // En MainMenu, abrir directamente el menú de opciones
-            Debug.Log("Abriendo directamente el menú de opciones en MainMenu");
+            // En MainMenu, abrir directamente el menÃº de opciones
+            Debug.Log("Abriendo directamente el menÃº de opciones en MainMenu");
             Cursor.visible = true;
             menuEventSystem.enabled = true;
 
-            // Asegurarse de que todos los demás paneles estén cerrados
+            // Asegurarse de que todos los demÃ¡s paneles estÃ©n cerrados
             CloseAllMenus();
 
-            // Abrir el menú de opciones
+            // Abrir el menÃº de opciones
             OpenMenu(optionsMenuPanel);
         }
     }
 
-    // Cerrar el menú actual y volver al anterior
+    // Cerrar el menÃº actual y volver al anterior
     private void CloseCurrentMenu()
     {
-        if (menuStack.Count <= 1)
+        if (menuStack.Count == 0)
         {
             if (isGameScene)
             {
@@ -304,7 +316,7 @@ public class Controller_Menus : MonoBehaviour
             {
                 CloseAllMenus();
                 menuEventSystem.enabled = false;
-                Cursor.visible = true; // En MainMenu, mantener el cursor visible
+                Cursor.visible = true;
             }
             return;
         }
@@ -312,13 +324,29 @@ public class Controller_Menus : MonoBehaviour
         StartCoroutine(CloseMenuCoroutine(currentMenuPanel));
         menuStack.Pop();
 
-        currentMenuPanel = menuStack.Peek();
-        StartCoroutine(OpenMenuCoroutine(currentMenuPanel));
+        if (menuStack.Count > 0)
+        {
+            currentMenuPanel = menuStack.Peek();
+            StartCoroutine(OpenMenuCoroutine(currentMenuPanel));
+        }
+        else
+        {
+            if (isGameScene)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                CloseAllMenus();
+                menuEventSystem.enabled = false;
+                Cursor.visible = true;
+            }
+        }
 
         AudioManager.instance.PlaySFX("ButtonClick");
     }
 
-    // Cerrar todos los menús
+    // Cerrar todos los menÃºs
     private void CloseAllMenus()
     {
         pauseMenuPanel?.CloseImmediate();
@@ -332,18 +360,48 @@ public class Controller_Menus : MonoBehaviour
         currentMenuPanel = null;
     }
 
-    // Corrutina para abrir un menú con animación
+    // Corrutina para abrir un menÃº con animaciÃ³n
     private IEnumerator OpenMenuCoroutine(MenuPanel menuPanel)
     {
+        if (menuPanel == null)
+        {
+            Debug.LogWarning("OpenMenuCoroutine: menuPanel es nulo.");
+            yield break;
+        }
+
         menuPanel.Open();
-        yield return new WaitForSecondsRealtime(menuPanel.AnimationDuration);
+
+        if (menuPanel.AnimationDuration <= 0)
+        {
+            yield return null;
+        }
+        else
+        {
+            yield return new WaitForSecondsRealtime(menuPanel.AnimationDuration);
+        }
+
     }
 
-    // Corrutina para cerrar un menú con animación
+    // Corrutina para cerrar un menÃº con animaciÃ³n
     private IEnumerator CloseMenuCoroutine(MenuPanel menuPanel)
     {
+        if (menuPanel == null)
+        {
+            yield break;
+        }
+
         menuPanel.Close();
-        yield return new WaitForSecondsRealtime(menuPanel.AnimationDuration);
+
+        if (menuPanel.AnimationDuration <= 0)
+        {
+            yield return null;
+        }
+        else
+        {
+            yield return new WaitForSecondsRealtime(menuPanel.AnimationDuration);
+        }
+
+        menuPanel.panelObject.SetActive(false); // Asegurarse de que el GameObject estÃ© desactivado
     }
     public void Button_ChangeScene(string sceneName)
     {
@@ -369,10 +427,10 @@ public class Controller_Menus : MonoBehaviour
                 fadePanel.alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
                 yield return null;
             }
-            fadePanel.alpha = 1f; // Asegurarse de que esté completamente opaco
+            fadePanel.alpha = 1f; // Asegurarse de que estÃ© completamente opaco
         }
 
-        // Detener música y efectos de sonido
+        // Detener mÃºsica y efectos de sonido
         Time.timeScale = 1f;
         AudioManager.instance.StopMusic();
         AudioManager.instance.StopAllSFX();
@@ -380,7 +438,7 @@ public class Controller_Menus : MonoBehaviour
         // Cargar la nueva escena
         SceneManager.LoadScene(sceneName);
 
-        // El fade in se manejará en OnSceneLoaded
+        // El fade in se manejarÃ¡ en OnSceneLoaded
     }
 
     private IEnumerator FadeIn()
@@ -389,18 +447,18 @@ public class Controller_Menus : MonoBehaviour
         if (fadePanel != null)
         {
             float elapsedTime = 0f;
-            fadePanel.alpha = 1f; // Asegurarse de que esté completamente opaco al inicio
+            fadePanel.alpha = 1f; // Asegurarse de que estÃ© completamente opaco al inicio
             while (elapsedTime < fadeDuration)
             {
                 elapsedTime += Time.unscaledDeltaTime;
                 fadePanel.alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
                 yield return null;
             }
-            fadePanel.alpha = 0f; // Asegurarse de que esté completamente transparente
+            fadePanel.alpha = 0f; // Asegurarse de que estÃ© completamente transparente
         }
     }
 
-    // Métodos de los botones
+    // MÃ©todos de los botones
     public void Button_Resume()
     {
         ResumeGame();
