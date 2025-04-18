@@ -23,11 +23,17 @@ public class ChargeableObject : MonoBehaviour
 
     private bool isCharging = false; // Indica si el objeto está en proceso de carga
 
+    [SerializeField] private Material mat;
+
     void Start()
     {
-        if (target != null && !isPowered)
+        if (target != null)
         {
-            target.SetActive(false);
+            target.SetActive(isPowered);
+            if (mat != null)
+            {
+                mat.SetFloat("_Progress", isPowered ? 1f : 0f); // Inicializar según el estado
+            }
         }
     }
 
@@ -45,6 +51,17 @@ public class ChargeableObject : MonoBehaviour
         float energyPerSecond = energyToConsume / chargeDuration;
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
+        // Activar el target al inicio de la carga
+        if (target != null)
+        {
+            target.SetActive(true);
+            if (mat != null)
+            {
+                mat.SetFloat("_Progress", 0f);
+            }
+        }
+
+        // Efectos visuales y de sonido
         if (chargeEffect != null)
         {
             var main = chargeEffect.main;
@@ -59,6 +76,7 @@ public class ChargeableObject : MonoBehaviour
         while (elapsedTime < chargeDuration)
         {
             elapsedTime += Time.deltaTime;
+            float t = elapsedTime / chargeDuration; // Progreso de 0 a 1
             float energyThisFrame = energyPerSecond * Time.deltaTime;
 
             if (battery.energyAmounts < energyThisFrame)
@@ -66,6 +84,10 @@ public class ChargeableObject : MonoBehaviour
                 Debug.Log($"{gameObject.name} no puede activarse: Energía insuficiente durante la carga ({battery.energyAmounts}/{energyThisFrame} requerida en este frame).");
                 isCharging = false;
                 StopEffects();
+                if (target != null)
+                {
+                    target.SetActive(false);
+                }
                 yield break;
             }
 
@@ -76,30 +98,30 @@ public class ChargeableObject : MonoBehaviour
             // Cambia el color progresivamente de rojo a verde
             if (sr != null)
             {
-                float t = elapsedTime / chargeDuration;
                 sr.color = Color.Lerp(Color.red, Color.green, t);
+            }
+
+            // Actualiza _Progress del material del target
+            if (mat != null)
+            {
+                mat.SetFloat("_Progress", t);
             }
 
             yield return null;
         }
 
+        // Finalizar la carga
         if (sr != null)
         {
             sr.color = Color.green;
         }
+        if (mat != null)
+        {
+            mat.SetFloat("_Progress", 1f);
+        }
         isPowered = true;
-        ActivateTarget();
         isCharging = false;
         Debug.Log($"{gameObject.name} ha terminado de cargarse.");
-    }
-
-    private void ActivateTarget()
-    {
-        if (target != null)
-        {
-            target.SetActive(true);
-            Debug.Log($"{gameObject.name} ha sido activado con {requiredEnergy} de energía.");
-        }
     }
 
     private void StopEffects()
@@ -122,6 +144,10 @@ public class ChargeableObject : MonoBehaviour
             if (target != null)
             {
                 target.SetActive(false);
+            }
+            if (mat != null)
+            {
+                mat.SetFloat("_Progress", 0f);
             }
             Debug.Log($"{gameObject.name} ha sido desactivado.");
         }

@@ -534,6 +534,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: GAME-Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 3406277595600963298, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: audioMenuPanel.animationDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3406277595600963298, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: pauseMenuPanel.animationDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3406277595600963298, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: optionsMenuPanel.animationDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3406277595600963298, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: controlsMenuPanel.animationDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3406277595600963298, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: graphicsMenuPanel.animationDuration
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5144677803453534574, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -6291,6 +6311,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1702820932}
     m_Modifications:
+    - target: {fileID: 218732735568565511, guid: fe0e234365e17fd4eb100673a11bf032, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1986151938842964700, guid: fe0e234365e17fd4eb100673a11bf032, type: 3}
       propertyPath: m_LocalPosition.x
       value: -22.992498
@@ -6331,10 +6355,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4087718347925725409, guid: fe0e234365e17fd4eb100673a11bf032, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4087718347925725409, guid: fe0e234365e17fd4eb100673a11bf032, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 4157751614915333964, guid: fe0e234365e17fd4eb100673a11bf032, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 935824729, guid: 040f65784f1433a44894e9201833e0dd, type: 3}
+    - target: {fileID: 4157751614915333964, guid: fe0e234365e17fd4eb100673a11bf032, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4157751614915333964, guid: fe0e234365e17fd4eb100673a11bf032, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: bb4818f17f265194f8994a1878b39b70, type: 2}
     - target: {fileID: 4652538749970010214, guid: fe0e234365e17fd4eb100673a11bf032, type: 3}
       propertyPath: m_Name
       value: ChargeablePlataform
       objectReference: {fileID: 0}
+    - target: {fileID: 6504566124883157803, guid: fe0e234365e17fd4eb100673a11bf032, type: 3}
+      propertyPath: mat
+      value: 
+      objectReference: {fileID: 2100000, guid: bb4818f17f265194f8994a1878b39b70, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
