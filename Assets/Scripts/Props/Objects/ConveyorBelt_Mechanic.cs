@@ -35,4 +35,9 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
             player.SetConveyorDirection(0f); // Resetear la dirección de la cinta al salir
         }
     }
+    public void ToggleDirection(bool state)
+    {
+        isReversed = state;
+        Debug.Log($"Cinta transportadora {gameObject.name} dirección: {(isReversed ? "Invertida" : "Normal")}.");
+    }
 }

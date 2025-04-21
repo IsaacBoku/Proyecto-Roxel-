@@ -31,28 +31,40 @@ public class PlayerInteractionState : PlayerState
         if (player.InputHadler.InteractInput && player.CheckInteraction())
         {
             Collider2D obj = Physics2D.OverlapCircle(player.InteractionCheck.position, playerData.interactionRadius, playerData.whatIsInteractable);
-            if (obj != null && player.battery != null)
+            if (obj != null)
             {
-                BatteryController battery = player.battery.GetComponent<BatteryController>();
-
-                // Intentar cargar un ChargeableObject
-                ChargeableObject chargeable = obj.GetComponent<ChargeableObject>();
-                if (chargeable != null)
+                // Intentar interactuar con un botón
+                Lever_Mechanic lever = obj.GetComponent<Lever_Mechanic>();
+                if (lever != null)
                 {
-                    chargeable.StartCharging(battery);
+                    lever.Interact();
                     player.InputHadler.UseInteractInput();
                     stateMachine.ChangeState(player.IdleState);
-                    return; // Salimos para evitar procesar más interacciones
+                    return;
                 }
 
-                // Intentar recargar la batería con un BatteryCharger
-                BatteryCharger charger = obj.GetComponent<BatteryCharger>();
-                if (charger != null)
+                // Intentar cargar un ChargeableObject (requiere batería)
+                if (player.battery != null)
                 {
-                    charger.StartCharging();
-                    player.InputHadler.UseInteractInput();
-                    stateMachine.ChangeState(player.IdleState);
-                    //return;
+                    BatteryController battery = player.battery.GetComponent<BatteryController>();
+                    ChargeableObject chargeable = obj.GetComponent<ChargeableObject>();
+                    if (chargeable != null)
+                    {
+                        chargeable.StartCharging(battery);
+                        player.InputHadler.UseInteractInput();
+                        stateMachine.ChangeState(player.IdleState);
+                        return;
+                    }
+
+                    // Intentar recargar la batería con un BatteryCharger
+                    BatteryCharger charger = obj.GetComponent<BatteryCharger>();
+                    if (charger != null)
+                    {
+                        charger.StartCharging();
+                        player.InputHadler.UseInteractInput();
+                        stateMachine.ChangeState(player.IdleState);
+                        return;
+                    }
                 }
             }
         }

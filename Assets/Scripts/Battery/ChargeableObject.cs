@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChargeableObject : MonoBehaviour
+public class ChargeableObject : InteractableBase
 {
+    // Enum para tipos de objetivos
     public enum TargetType
     {
         Door,
         Laser
     }
+
+    // Clase para objetivos
     [System.Serializable]
     public class TargetEntry
     {
@@ -18,72 +21,87 @@ public class ChargeableObject : MonoBehaviour
     }
 
     [SerializeField]
-    private GameObject target;
-
-    [SerializeField]
     private List<TargetEntry> targets = new List<TargetEntry>();
-
-
-    [SerializeField]
-    private bool isPowered = false;
 
     [SerializeField]
     private float requiredEnergy = 50f;
 
     [SerializeField]
-    private ParticleSystem chargeEffect;
-
-    [SerializeField]
-    private AudioSource chargeSound;
-
-    [SerializeField]
     private float chargeDuration = 2f;
 
-    private bool isCharging = false; 
+    [SerializeField]
+    private Material mat; // Material para animación con shaders (exclusivo)
 
-    [SerializeField] private Material mat;
+    private bool isCharging = false;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+        // Inicializar objetivos
         foreach (var target in targets)
         {
-            if (target.targetObject != null)
+            if (target.targetObject == null)
             {
-                switch (target.type)
-                {
-                    case TargetType.Door:
-                        target.activable = target.targetObject.GetComponent<Door_Mechanic>();
-                        break;
-                    case TargetType.Laser:
-                        target.activable = target.targetObject.GetComponent<Laser_Mechanic>();
-                        break;
-                }
-
-                if (target.activable != null)
-                {
-                    target.activable.Toggle(isPowered);
-                    target.activable.SetIgnoreTrigger(true);
-                }
-                else
-                {
-                    Debug.LogWarning($"El objetivo {target.targetObject.name} no tiene un componente {target.type} válido.");
-                }
+                Debug.LogWarning($"ChargeableObject '{gameObject.name}': Un objetivo en la lista 'Targets' no tiene GameObject asignado.");
+                continue;
             }
+
+            switch (target.type)
+            {
+                case TargetType.Door:
+                    target.activable = target.targetObject.GetComponent<Door_Mechanic>();
+                    break;
+                case TargetType.Laser:
+                    target.activable = target.targetObject.GetComponent<Laser_Mechanic>();
+                    break;
+            }
+
+            if (target.activable == null)
+            {
+                Debug.LogWarning($"ChargeableObject '{gameObject.name}': El objetivo '{target.targetObject.name}' no tiene un componente {target.type} válido.");
+                continue;
+            }
+
+            // Solo llamar a Toggle si activable es válido
+            target.activable.Toggle(isActive);
+            target.activable.SetIgnoreTrigger(true);
         }
 
-        if (target != null)
+        // Inicializar material
+        if (mat != null)
         {
-            target.SetActive(isPowered);
-            if (mat != null)
-            {
-                mat.SetFloat("_Progress", isPowered ? 1f : 0f);
-            }
+            mat.SetFloat("_Progress", isActive ? 1f : 0f);
         }
+    }
+
+    public override void Interact()
+    {
+        Debug.Log($"{gameObject.name} requiere una batería para interactuar.");
     }
 
     public void StartCharging(BatteryController battery)
     {
-        if (isCharging || isPowered) return;
+        if (isCharging || isActive) return;
+
+        if (battery == null)
+        {
+            isActive = true;
+            foreach (var target in targets)
+            {
+                if (target.activable != null)
+                {
+                    target.activable.Toggle(true);
+                }
+            }
+            UpdateVisuals(true);
+            if (mat != null)
+            {
+                mat.SetFloat("_Progress", 1f);
+            }
+            Debug.Log($"{gameObject.name} activado directamente (sin batería).");
+            return;
+        }
+
         StartCoroutine(ChargeProgressively(battery));
     }
 
@@ -95,24 +113,7 @@ public class ChargeableObject : MonoBehaviour
         float energyPerSecond = energyToConsume / chargeDuration;
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
-        if (target != null)
-        {
-            target.SetActive(true);
-            if (mat != null)
-            {
-                mat.SetFloat("_Progress", 0f);
-            }
-        }
-        if (chargeEffect != null)
-        {
-            var main = chargeEffect.main;
-            main.startColor = Color.green;
-            chargeEffect.Play();
-        }
-        if (chargeSound != null)
-        {
-            chargeSound.Play();
-        }
+        // Activar objetivos y efectos
         foreach (var target in targets)
         {
             if (target.activable != null)
@@ -120,6 +121,9 @@ public class ChargeableObject : MonoBehaviour
                 target.activable.Toggle(true);
             }
         }
+        UpdateVisuals(true);
+
+        // Inicializar material
         if (mat != null)
         {
             mat.SetFloat("_Progress", 0f);
@@ -128,24 +132,24 @@ public class ChargeableObject : MonoBehaviour
         while (elapsedTime < chargeDuration)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / chargeDuration; 
+            float t = elapsedTime / chargeDuration;
             float energyThisFrame = energyPerSecond * Time.deltaTime;
 
             if (battery.energyAmounts < energyThisFrame)
             {
-                Debug.Log($"{gameObject.name} no puede activarse: Energía insuficiente durante la carga ({battery.energyAmounts}/{energyThisFrame} requerida en este frame).");
+                Debug.Log($"{gameObject.name} no puede activarse: Energía insuficiente ({battery.energyAmounts}/{energyThisFrame} requerida en este frame).");
                 isCharging = false;
-                StopEffects();
-                if (target != null)
-                {
-                    target.SetActive(false);
-                }
                 foreach (var target in targets)
                 {
                     if (target.activable != null)
                     {
                         target.activable.Toggle(false);
                     }
+                }
+                UpdateVisuals(false);
+                if (mat != null)
+                {
+                    mat.SetFloat("_Progress", 0f);
                 }
                 yield break;
             }
@@ -167,6 +171,8 @@ public class ChargeableObject : MonoBehaviour
             yield return null;
         }
 
+        isActive = true;
+        isCharging = false;
         if (sr != null)
         {
             sr.color = Color.green;
@@ -175,32 +181,14 @@ public class ChargeableObject : MonoBehaviour
         {
             mat.SetFloat("_Progress", 1f);
         }
-        isPowered = true;
-        isCharging = false;
         Debug.Log($"{gameObject.name} ha terminado de cargarse.");
-    }
-
-    private void StopEffects()
-    {
-        if (chargeEffect != null)
-        {
-            chargeEffect.Stop();
-        }
-        if (chargeSound != null)
-        {
-            chargeSound.Stop();
-        }
     }
 
     public void Deactivate()
     {
-        if (isPowered)
+        if (isActive)
         {
-            isPowered = false;
-            if (target != null)
-            {
-                target.SetActive(false);
-            }
+            isActive = false;
             foreach (var target in targets)
             {
                 if (target.activable != null)
@@ -208,17 +196,12 @@ public class ChargeableObject : MonoBehaviour
                     target.activable.Toggle(false);
                 }
             }
+            UpdateVisuals(false);
             if (mat != null)
             {
                 mat.SetFloat("_Progress", 0f);
             }
             Debug.Log($"{gameObject.name} ha sido desactivado.");
         }
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = isPowered ? Color.green : Color.red;
-        Gizmos.DrawWireSphere(transform.position, 0.5f);
     }
 }
