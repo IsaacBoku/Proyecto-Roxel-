@@ -76,29 +76,20 @@ public class ChargeableObject : InteractableBase
 
     public override void Interact()
     {
-        Debug.Log($"{gameObject.name} requiere una batería para interactuar.");
+        Debug.Log($"ChargeableObject '{gameObject.name}': Necesitas una batería para interactuar.");
     }
 
     public void StartCharging(BatteryController battery)
     {
-        if (isCharging || isActive) return;
+        if (isCharging || isActive)
+        {
+            Debug.Log($"ChargeableObject '{gameObject.name}': Ya está cargando o activo.");
+            return;
+        }
 
         if (battery == null)
         {
-            isActive = true;
-            foreach (var target in targets)
-            {
-                if (target.activable != null)
-                {
-                    target.activable.Toggle(true);
-                }
-            }
-            UpdateVisuals(true);
-            if (mat != null)
-            {
-                mat.SetFloat("_Progress", 1f);
-            }
-            Debug.Log($"{gameObject.name} activado directamente (sin batería).");
+            Debug.Log($"ChargeableObject '{gameObject.name}': No se puede interactuar sin una batería.");
             return;
         }
 
@@ -156,7 +147,7 @@ public class ChargeableObject : InteractableBase
 
             battery.energyAmounts -= energyThisFrame;
             battery.energyAmounts = Mathf.Clamp(battery.energyAmounts, 0f, battery.maxEnergy);
-            Debug.Log($"Consumiendo energía progresivamente: {energyThisFrame}. Energía restante: {battery.energyAmounts}");
+            //Debug.Log($"Consumiendo energía progresivamente: {energyThisFrame}. Energía restante: {battery.energyAmounts}");
 
             if (sr != null)
             {

@@ -33,45 +33,81 @@ public class PlayerInteractionState : PlayerState
             Collider2D obj = Physics2D.OverlapCircle(player.InteractionCheck.position, playerData.interactionRadius, playerData.whatIsInteractable);
             if (obj != null)
             {
-                // Intentar interactuar con un botón
+                Debug.Log($"PlayerInteractionState: Intentando interactuar con {obj.name}. Tiene batería: {(player.battery != null ? "Sí" : "No")}");
+
+                // Intentar interactuar con una palanca
                 Lever_Mechanic lever = obj.GetComponent<Lever_Mechanic>();
                 if (lever != null)
                 {
+                    Debug.Log($"PlayerInteractionState: Interactuando con palanca {obj.name}.");
                     lever.Interact();
                     player.InputHadler.UseInteractInput();
                     stateMachine.ChangeState(player.IdleState);
                     return;
                 }
 
-                // Intentar cargar un ChargeableObject (requiere batería)
-                if (player.battery != null)
+                // Intentar interactuar con un ChargeableObject
+                ChargeableObject chargeable = obj.GetComponent<ChargeableObject>();
+                if (chargeable != null)
                 {
+                    if (player.battery == null)
+                    {
+                        Debug.Log($"PlayerInteractionState: No se puede interactuar con {obj.name}. Necesitas una batería.");
+                        chargeable.Interact();
+                        player.InputHadler.UseInteractInput();
+                        stateMachine.ChangeState(player.IdleState);
+                        return;
+                    }
+
                     BatteryController battery = player.battery.GetComponent<BatteryController>();
-                    ChargeableObject chargeable = obj.GetComponent<ChargeableObject>();
-                    if (chargeable != null)
+                    if (battery == null)
                     {
-                        chargeable.StartCharging(battery);
+                        Debug.LogWarning($"PlayerInteractionState: El objeto batería en {player.battery.name} no tiene BatteryController.");
+                        chargeable.Interact();
                         player.InputHadler.UseInteractInput();
                         stateMachine.ChangeState(player.IdleState);
                         return;
                     }
 
-                    // Intentar recargar la batería con un BatteryCharger
-                    BatteryCharger charger = obj.GetComponent<BatteryCharger>();
-                    if (charger != null)
-                    {
-                        charger.StartCharging();
-                        player.InputHadler.UseInteractInput();
-                        stateMachine.ChangeState(player.IdleState);
-                        return;
-                    }
+                    Debug.Log($"PlayerInteractionState: Iniciando carga en {obj.name} con batería {player.battery.name}.");
+                    chargeable.StartCharging(battery);
+                    player.InputHadler.UseInteractInput();
+                    stateMachine.ChangeState(player.IdleState);
+                    return;
                 }
-            }
-        }
 
-        // Si no se presiona "E" o no hay interacción válida, vuelve al estado Idle
-        if (!player.InputHadler.InteractInput || !player.CheckInteraction())
+                // Intentar recargar la batería con un BatteryCharger
+                BatteryCharger charger = obj.GetComponent<BatteryCharger>();
+                if (charger != null)
+                {
+                    if (player.battery == null)
+                    {
+                        Debug.Log($"PlayerInteractionState: No se puede interactuar con {obj.name}. Necesitas una batería para recargar.");
+                        player.InputHadler.UseInteractInput();
+                        stateMachine.ChangeState(player.IdleState);
+                        return;
+                    }
+
+                    Debug.Log($"PlayerInteractionState: Iniciando recarga en {obj.name}.");
+                    charger.StartCharging();
+                    player.InputHadler.UseInteractInput();
+                    stateMachine.ChangeState(player.IdleState);
+                    return;
+                }
+
+                Debug.Log($"PlayerInteractionState: El objeto {obj.name} no es una palanca, ChargeableObject, ni BatteryCharger.");
+            }
+            else
+            {
+                Debug.Log("PlayerInteractionState: No se detectó ningún objeto interactuable.");
+            }
+
+            player.InputHadler.UseInteractInput();
+            stateMachine.ChangeState(player.IdleState);
+        }
+        else
         {
+            // Si no se presiona "E" o no hay interacción válida, vuelve al estado Idle
             stateMachine.ChangeState(player.IdleState);
         }
     }
