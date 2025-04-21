@@ -7,6 +7,9 @@ public class ChargeableObject : MonoBehaviour
     private GameObject target;
 
     [SerializeField]
+    private GameObject targetDoor; // Referencia al GameObject de la puerta con Door_Mechanic
+
+    [SerializeField]
     private bool isPowered = false;
 
     [SerializeField]
@@ -25,8 +28,20 @@ public class ChargeableObject : MonoBehaviour
 
     [SerializeField] private Material mat;
 
+    private Door_Mechanic doorMechanic; // Referencia al componente Door_Mechanic
+
     void Start()
     {
+        if (targetDoor != null)
+        {
+            doorMechanic = targetDoor.GetComponent<Door_Mechanic>();
+            if (doorMechanic != null)
+            {
+                doorMechanic.Toggle(isPowered); // Establecer estado inicial de la puerta
+                doorMechanic.ignoreTrigger = true; // Ignorar triggers si está controlada por energía
+            }
+        }
+
         if (target != null)
         {
             target.SetActive(isPowered);
@@ -73,6 +88,16 @@ public class ChargeableObject : MonoBehaviour
             chargeSound.Play();
         }
 
+        // Abrir la puerta al inicio de la carga
+        if (doorMechanic != null)
+        {
+            doorMechanic.Toggle(true); // Abrir la puerta
+            if (mat != null)
+            {
+                mat.SetFloat("_Progress", 0f);
+            }
+        }
+
         while (elapsedTime < chargeDuration)
         {
             elapsedTime += Time.deltaTime;
@@ -87,6 +112,11 @@ public class ChargeableObject : MonoBehaviour
                 if (target != null)
                 {
                     target.SetActive(false);
+                }
+
+                if (doorMechanic != null)
+                {
+                    doorMechanic.Toggle(false); // Cerrar la puerta si falla
                 }
                 yield break;
             }
@@ -144,6 +174,11 @@ public class ChargeableObject : MonoBehaviour
             if (target != null)
             {
                 target.SetActive(false);
+            }
+
+            if (doorMechanic != null)
+            {
+                doorMechanic.Toggle(false); // Cerrar la puerta
             }
             if (mat != null)
             {
