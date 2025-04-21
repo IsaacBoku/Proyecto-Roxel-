@@ -17,7 +17,7 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
 
         float direction = isReversed ? -1f : 1f;
         Vector2 conveyorForce = new Vector2(speed * direction, 0);
-        rb.AddForce(conveyorForce, ForceMode2D.Force);
+        rb.AddForce(conveyorForce, ForceMode2D.Impulse);
 
         Player player = collision.GetComponent<Player>();
         if (player != null)
