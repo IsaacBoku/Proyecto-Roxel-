@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door_Mechanic : MonoBehaviour
+public class Door_Mechanic : MonoBehaviour, IActivable
 {
     Animator ani;
     private BoxCollider2D colliderTrigger;
@@ -62,6 +62,10 @@ public class Door_Mechanic : MonoBehaviour
             DoorOpen();
         else
             DoorClosed();
+    }
+    public void SetIgnoreTrigger(bool ignore)
+    {
+        ignoreTrigger = ignore;
     }
     private void OnDrawGizmos()
     {

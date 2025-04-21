@@ -1,13 +1,28 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class ChargeableObject : MonoBehaviour
 {
+    public enum TargetType
+    {
+        Door,
+        Laser
+    }
+    [System.Serializable]
+    public class TargetEntry
+    {
+        public TargetType type;
+        public GameObject targetObject;
+        [HideInInspector] public IActivable activable;
+    }
+
     [SerializeField]
     private GameObject target;
 
     [SerializeField]
-    private GameObject targetDoor; // Referencia al GameObject de la puerta con Door_Mechanic
+    private List<TargetEntry> targets = new List<TargetEntry>();
+
 
     [SerializeField]
     private bool isPowered = false;
@@ -22,23 +37,37 @@ public class ChargeableObject : MonoBehaviour
     private AudioSource chargeSound;
 
     [SerializeField]
-    private float chargeDuration = 2f; // Duración de la carga progresiva (en segundos)
+    private float chargeDuration = 2f;
 
-    private bool isCharging = false; // Indica si el objeto está en proceso de carga
+    private bool isCharging = false; 
 
     [SerializeField] private Material mat;
 
-    private Door_Mechanic doorMechanic; // Referencia al componente Door_Mechanic
-
     void Start()
     {
-        if (targetDoor != null)
+        foreach (var target in targets)
         {
-            doorMechanic = targetDoor.GetComponent<Door_Mechanic>();
-            if (doorMechanic != null)
+            if (target.targetObject != null)
             {
-                doorMechanic.Toggle(isPowered); // Establecer estado inicial de la puerta
-                doorMechanic.ignoreTrigger = true; // Ignorar triggers si está controlada por energía
+                switch (target.type)
+                {
+                    case TargetType.Door:
+                        target.activable = target.targetObject.GetComponent<Door_Mechanic>();
+                        break;
+                    case TargetType.Laser:
+                        target.activable = target.targetObject.GetComponent<Laser_Mechanic>();
+                        break;
+                }
+
+                if (target.activable != null)
+                {
+                    target.activable.Toggle(isPowered);
+                    target.activable.SetIgnoreTrigger(true);
+                }
+                else
+                {
+                    Debug.LogWarning($"El objetivo {target.targetObject.name} no tiene un componente {target.type} válido.");
+                }
             }
         }
 
@@ -47,14 +76,14 @@ public class ChargeableObject : MonoBehaviour
             target.SetActive(isPowered);
             if (mat != null)
             {
-                mat.SetFloat("_Progress", isPowered ? 1f : 0f); // Inicializar según el estado
+                mat.SetFloat("_Progress", isPowered ? 1f : 0f);
             }
         }
     }
 
     public void StartCharging(BatteryController battery)
     {
-        if (isCharging || isPowered) return; // No permite nuevas interacciones si ya está cargando o activado
+        if (isCharging || isPowered) return;
         StartCoroutine(ChargeProgressively(battery));
     }
 
@@ -66,7 +95,6 @@ public class ChargeableObject : MonoBehaviour
         float energyPerSecond = energyToConsume / chargeDuration;
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
-        // Activar el target al inicio de la carga
         if (target != null)
         {
             target.SetActive(true);
@@ -75,8 +103,6 @@ public class ChargeableObject : MonoBehaviour
                 mat.SetFloat("_Progress", 0f);
             }
         }
-
-        // Efectos visuales y de sonido
         if (chargeEffect != null)
         {
             var main = chargeEffect.main;
@@ -87,21 +113,22 @@ public class ChargeableObject : MonoBehaviour
         {
             chargeSound.Play();
         }
-
-        // Abrir la puerta al inicio de la carga
-        if (doorMechanic != null)
+        foreach (var target in targets)
         {
-            doorMechanic.Toggle(true); // Abrir la puerta
-            if (mat != null)
+            if (target.activable != null)
             {
-                mat.SetFloat("_Progress", 0f);
+                target.activable.Toggle(true);
             }
+        }
+        if (mat != null)
+        {
+            mat.SetFloat("_Progress", 0f);
         }
 
         while (elapsedTime < chargeDuration)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / chargeDuration; // Progreso de 0 a 1
+            float t = elapsedTime / chargeDuration; 
             float energyThisFrame = energyPerSecond * Time.deltaTime;
 
             if (battery.energyAmounts < energyThisFrame)
@@ -113,10 +140,12 @@ public class ChargeableObject : MonoBehaviour
                 {
                     target.SetActive(false);
                 }
-
-                if (doorMechanic != null)
+                foreach (var target in targets)
                 {
-                    doorMechanic.Toggle(false); // Cerrar la puerta si falla
+                    if (target.activable != null)
+                    {
+                        target.activable.Toggle(false);
+                    }
                 }
                 yield break;
             }
@@ -125,13 +154,11 @@ public class ChargeableObject : MonoBehaviour
             battery.energyAmounts = Mathf.Clamp(battery.energyAmounts, 0f, battery.maxEnergy);
             Debug.Log($"Consumiendo energía progresivamente: {energyThisFrame}. Energía restante: {battery.energyAmounts}");
 
-            // Cambia el color progresivamente de rojo a verde
             if (sr != null)
             {
                 sr.color = Color.Lerp(Color.red, Color.green, t);
             }
 
-            // Actualiza _Progress del material del target
             if (mat != null)
             {
                 mat.SetFloat("_Progress", t);
@@ -140,7 +167,6 @@ public class ChargeableObject : MonoBehaviour
             yield return null;
         }
 
-        // Finalizar la carga
         if (sr != null)
         {
             sr.color = Color.green;
@@ -175,10 +201,12 @@ public class ChargeableObject : MonoBehaviour
             {
                 target.SetActive(false);
             }
-
-            if (doorMechanic != null)
+            foreach (var target in targets)
             {
-                doorMechanic.Toggle(false); // Cerrar la puerta
+                if (target.activable != null)
+                {
+                    target.activable.Toggle(false);
+                }
             }
             if (mat != null)
             {

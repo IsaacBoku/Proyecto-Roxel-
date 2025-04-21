@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Laser_Mechanic : MonoBehaviour
+public class Laser_Mechanic : MonoBehaviour, IActivable
 {
     Animator ani;
 
@@ -70,6 +70,10 @@ public class Laser_Mechanic : MonoBehaviour
         else
             LaserClosed();
     }
+    public void SetIgnoreTrigger(bool ignore)
+    {
+        ignoreTrigger = ignore;
+    }
     private void OnDrawGizmos()
     {
         if (!ignoreTrigger)
@@ -79,4 +83,5 @@ public class Laser_Mechanic : MonoBehaviour
             Gizmos.DrawWireCube(transform.position, new Vector2(box.size.x, box.size.y));
         }
     }
+
 }
