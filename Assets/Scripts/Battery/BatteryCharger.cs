@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BatteryCharger : MonoBehaviour
+public class BatteryCharger : InteractableBase
 {
     [SerializeField]
     private float chargeRate = 20f;
@@ -9,7 +9,7 @@ public class BatteryCharger : MonoBehaviour
     private float maxEnergy = 100f;
 
     [SerializeField]
-    private float fixedChargeAmount = 30f; 
+    private float fixedChargeAmount = 30f;
 
     [SerializeField]
     private bool isReusable = true;
@@ -29,12 +29,16 @@ public class BatteryCharger : MonoBehaviour
     private bool hasCharged = false;
     private bool isDisabled = false;
 
+    // Propiedades públicas para acceder desde Player
+    public bool IsReusable => isReusable;
+    public bool IsDisabled => isDisabled;
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && other.GetComponent<Player>().battery != null)
         {
             battery = other.GetComponent<Player>().battery.GetComponent<BatteryController>();
-            Debug.Log("Batería detectada en zona de carga");
+            Debug.Log($"BatteryCharger '{gameObject.name}': Batería detectada en zona de carga");
         }
     }
 
@@ -50,8 +54,13 @@ public class BatteryCharger : MonoBehaviour
                 hasCharged = false;
             }
             StopEffects();
-            Debug.Log("Batería salió de la zona de carga");
+            Debug.Log($"BatteryCharger '{gameObject.name}': Batería salió de la zona de carga");
         }
+    }
+
+    public override void Interact()
+    {
+        StartCharging();
     }
 
     public void StartCharging()
@@ -61,15 +70,15 @@ public class BatteryCharger : MonoBehaviour
             isCharging = true;
             chargedAmount = 0f;
             PlayEffects();
-            Debug.Log("Comenzando a recargar batería");
+            Debug.Log($"BatteryCharger '{gameObject.name}': Comenzando a recargar batería");
         }
         else if (isDisabled)
         {
-            Debug.Log("Este cargador no es reutilizable y ya ha sido usado.");
+            Debug.Log($"BatteryCharger '{gameObject.name}': Este cargador no es reutilizable y ya ha sido usado.");
         }
         else if (hasCharged)
         {
-            Debug.Log("Este cargador ya ha sido usado en esta entrada.");
+            Debug.Log($"BatteryCharger '{gameObject.name}': Este cargador ya ha sido usado en esta entrada.");
         }
     }
 
@@ -90,7 +99,7 @@ public class BatteryCharger : MonoBehaviour
             battery.energyAmounts += energyToAdd;
             battery.energyAmounts = Mathf.Clamp(battery.energyAmounts, 0f, maxEnergy);
 
-            Debug.Log($"Recargando batería: {battery.energyAmounts}/{maxEnergy} (Recargado: {chargedAmount}/{fixedChargeAmount})");
+            Debug.Log($"BatteryCharger '{gameObject.name}': Recargando batería: {battery.energyAmounts}/{maxEnergy} (Recargado: {chargedAmount}/{fixedChargeAmount})");
 
             if (chargedAmount >= fixedChargeAmount || battery.energyAmounts >= maxEnergy)
             {
@@ -102,7 +111,7 @@ public class BatteryCharger : MonoBehaviour
                 }
                 StopEffects();
                 if (completeEffect != null) completeEffect.Play();
-                Debug.Log("Recarga completada: se alcanzó la cantidad fija o el máximo de energía");
+                Debug.Log($"BatteryCharger '{gameObject.name}': Recarga completada: se alcanzó la cantidad fija o el máximo de energía");
             }
         }
     }

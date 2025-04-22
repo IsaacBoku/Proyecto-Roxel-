@@ -4656,7 +4656,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a2dcf4182afdda4692ac16b0240b95c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActive: 0
   effect: {fileID: 0}
   sound: {fileID: 0}
   targets:
@@ -5104,6 +5103,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6401163075291130204, guid: a22279341ee8b5f4cba53d9e8944a698, type: 3}
       propertyPath: maxEnergy
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401163075291130204, guid: a22279341ee8b5f4cba53d9e8944a698, type: 3}
+      propertyPath: chargeRate
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401163075291130204, guid: a22279341ee8b5f4cba53d9e8944a698, type: 3}
+      propertyPath: fixedChargeAmount
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7400074569460387735, guid: a22279341ee8b5f4cba53d9e8944a698, type: 3}

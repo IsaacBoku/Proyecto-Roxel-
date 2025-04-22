@@ -393,18 +393,27 @@ public class Player : MonoBehaviour
                 return;
             }
 
-            // Verificar si el objeto es un ChargeableObject y está activo
+            // Verificar si es un ChargeableObject activo
             ChargeableObject chargeable = lastInteractable.GetComponent<ChargeableObject>();
             if (chargeable != null && chargeable.isActive)
             {
                 Debug.Log($"Indicador ocultado: {lastInteractable.name} es un ChargeableObject con IsActive == true.");
                 globalIndicator.Hide();
+                return;
             }
-            else
+
+            // Verificar si es un BatteryCharger de un solo uso y está deshabilitado
+            BatteryCharger charger = lastInteractable.GetComponent<BatteryCharger>();
+            if (charger != null && !charger.IsReusable && charger.IsDisabled)
             {
-                Debug.Log($"Indicador mostrado para: {lastInteractable.name} en posición {lastInteractable.transform.position}");
-                globalIndicator.Show(lastInteractable.transform.position);
+                Debug.Log($"Indicador ocultado: {lastInteractable.name} es un BatteryCharger de un solo uso con IsDisabled == true.");
+                globalIndicator.Hide();
+                return;
             }
+
+            // Mostrar indicador para todos los demás casos
+            Debug.Log($"Indicador mostrado para: {lastInteractable.name} en posición {lastInteractable.transform.position}");
+            globalIndicator.Show(lastInteractable.transform.position);
         }
         else
         {
