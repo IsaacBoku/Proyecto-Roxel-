@@ -62,10 +62,11 @@ public class ChargeableObject : InteractableBase
             target.activable.Toggle(isActive);
             target.activable.SetIgnoreTrigger(true);
         }
-        if (mat != null)
+
+        /*if (mat != null)
         {
             mat.SetFloat("_Progress", isActive ? 1f : 0f);
-        }
+        }*/
     }
 
     public override void Interact()
@@ -84,7 +85,7 @@ public class ChargeableObject : InteractableBase
         if (battery == null)
         {
             Debug.Log($"ChargeableObject '{gameObject.name}': No se puede interactuar sin una batería.");
-            return;
+            //return;
         }
 
         StartCoroutine(ChargeProgressively(battery));
