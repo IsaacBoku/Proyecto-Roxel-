@@ -8,7 +8,7 @@ public class Laser_Mechanic : MonoBehaviour, IActivable
     [SerializeField] private int damage = 1;
     [SerializeField] private BoxCollider2D colliderTriggers;
     [SerializeField] private BoxCollider2D colliders;
-    public bool ignoreTrigger;
+    public bool ignoreTrigger = false;
 
     private void Start()
     {
@@ -54,11 +54,9 @@ public class Laser_Mechanic : MonoBehaviour, IActivable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (ignoreTrigger)
-            return;
-
         if (collision.CompareTag("Player"))
         {
+            Debug.Log("Me hizo daño");
             var healthSystem = collision.GetComponent<PlayerHealthSystem>();
             if (healthSystem != null)
                 healthSystem.TakeDamage(damage);
@@ -69,11 +67,9 @@ public class Laser_Mechanic : MonoBehaviour, IActivable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (ignoreTrigger)
-            return;
-
         if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Me hizo daño");
             var healthSystem = collision.gameObject.GetComponent<PlayerHealthSystem>();
             if (healthSystem != null)
                 healthSystem.TakeDamage(damage);
