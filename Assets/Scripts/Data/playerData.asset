@@ -31,14 +31,10 @@ MonoBehaviour:
   throwDistance: 5
   lightMass: 5.49
   normalMass: 5
-  magneticForce: 8.01
-  magneticRange: 1
+  magneticForce: 8
+  magneticRange: 10
   whatIsMetallic:
     serializedVersion: 2
     m_Bits: 256
   maxTimeWithoutBattery: 12
   safeRange: 3
-  boostCost: 20
-  boostSpeed: 15
-  boostDuration: 0.3
-  boostCooldown: 1
