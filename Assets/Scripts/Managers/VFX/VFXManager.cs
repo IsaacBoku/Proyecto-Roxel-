@@ -34,25 +34,21 @@ public class VFXManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // Suscribirse al evento de carga de escenas
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
     {
-        // Desuscribirse para evitar fugas de memoria
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Start()
     {
-        // Buscar sistemas de partículas iniciales
         FindAllParticleSystems();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Buscar sistemas de partículas cada vez que se carga una nueva escena
         FindAllParticleSystems();
     }
 

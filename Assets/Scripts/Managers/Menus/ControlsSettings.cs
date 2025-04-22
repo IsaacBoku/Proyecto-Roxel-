@@ -9,30 +9,27 @@ public class ControlsSettings : MonoBehaviour
     [System.Serializable]
     public class KeyBinding
     {
-        public string actionName; // Nombre de la acción (por ejemplo, "Jump", "Pause")
-        public InputActionReference actionReference; // Referencia a la acción del Input System
-        public Button rebindButton; // Botón para reasignar la tecla
-        public TextMeshProUGUI keyText; // Texto que muestra la tecla asignada
-        [HideInInspector] public string bindingPath; // Ruta del binding (por ejemplo, "/Keyboard/space")
+        public string actionName;
+        public InputActionReference actionReference; 
+        public Button rebindButton; 
+        public TextMeshProUGUI keyText; 
+        [HideInInspector] public string bindingPath;
     }
 
-    [SerializeField] private List<KeyBinding> keyBindings; // Lista de asignaciones de teclas
-    private bool isRebinding = false; // Estado para detectar si estamos reasignando
-    private KeyBinding currentBinding; // Acción que estamos reasignando
-    private bool actionsInitialized = false; // Para saber si las acciones ya fueron inicializadas
+    [SerializeField] private List<KeyBinding> keyBindings; 
+    private bool isRebinding = false; 
+    private KeyBinding currentBinding;
+    private bool actionsInitialized = false; 
 
     private void Start()
     {
-        //LoadKeyBindings(); // Cargar las asignaciones guardadas
-        //InitializeActions();
-        SetupRebindButtons(); // Configurar los botones de reasignación
+        SetupRebindButtons();
     }
 
     private void Update()
     {
         if (isRebinding)
         {
-            // Detectar cualquier tecla presionada para iniciar la reasignación
             if (Keyboard.current.anyKey.wasPressedThisFrame)
             {
                 StartInteractiveRebinding();
@@ -58,7 +55,6 @@ public class ControlsSettings : MonoBehaviour
 
         InitializeActions();
 
-        // Asegurarse de que las acciones estén inicializadas antes de reasignar
         if (!actionsInitialized)
         {
             Debug.LogWarning("No se puede reasignar teclas porque las acciones no están inicializadas. Asegúrate de que PlayerInputHadler esté presente en la escena.");
@@ -76,21 +72,21 @@ public class ControlsSettings : MonoBehaviour
         if (currentBinding == null || currentBinding.actionReference == null) return;
 
         var action = currentBinding.actionReference.action;
-        action.Disable(); // Desactivar la acción mientras reasignamos
+        action.Disable();
 
         var rebindOperation = action.PerformInteractiveRebinding()
-            .WithControlsExcluding("Mouse") // Excluir el ratón para evitar bindings no deseados
-            .OnMatchWaitForAnother(0.1f) // Esperar un breve momento para confirmar la tecla
+            .WithControlsExcluding("Mouse") 
+            .OnMatchWaitForAnother(0.1f) 
             .OnComplete(operation =>
             {
-                currentBinding.bindingPath = action.bindings[0].effectivePath; // Guardar la nueva ruta del binding
+                currentBinding.bindingPath = action.bindings[0].effectivePath; 
                 UpdateKeyText(currentBinding);
                 SaveKeyBindings();
                 isRebinding = false;
                 currentBinding = null;
-                action.Enable(); // Reactivar la acción
+                action.Enable(); 
                 AudioManager.instance.PlaySFX("ButtonClick");
-                operation.Dispose(); // Liberar la operación
+                operation.Dispose();
             })
             .OnCancel(operation =>
             {
@@ -138,7 +134,7 @@ public class ControlsSettings : MonoBehaviour
     private void LoadKeyBindings()
     {
 
-        if (!actionsInitialized) return; // No cargar si las acciones no están inicializadas
+        if (!actionsInitialized) return;
 
         foreach (var binding in keyBindings)
         {
@@ -171,7 +167,6 @@ public class ControlsSettings : MonoBehaviour
             return;
         }
 
-        // Asegurarse de que todas las acciones estén inicializadas
         foreach (var binding in keyBindings)
         {
             if (binding.actionReference != null && binding.actionReference.action != null)
@@ -181,13 +176,12 @@ public class ControlsSettings : MonoBehaviour
         }
 
         actionsInitialized = true;
-        LoadKeyBindings(); // Cargar los bindings ahora que las acciones están inicializadas
+        LoadKeyBindings(); 
         Debug.Log("Acciones del Input System inicializadas.");
     }
-    // Método para aplicar las asignaciones al PlayerInputHadler (si es necesario)
+
     public void ApplyKeyBindings(PlayerInputHadler inputHandler)
     {
-        // No es necesario aplicar manualmente, ya que las acciones ya están vinculadas al Input System
         Debug.Log("Bindings aplicados al Input System.");
     }
 }

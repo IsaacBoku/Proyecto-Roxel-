@@ -15,39 +15,31 @@ public class GameInitializer : MonoBehaviour
         if (Controller_Menus.Instance == null)
         {
             Debug.Log("MenuSystems no encontrado. Asegúrate de que el prefab de MenuSystems esté en la escena.");
-            GameObject menuSystemsPrefab = Resources.Load<GameObject>("Prefabs/MenuSystems");
+            GameObject menuSystemsPrefab = Resources.Load<GameObject>("Assets/Prefabs/Managers/GAME-Manager.prefab");
             Instantiate(menuSystemsPrefab);
         }
 
-        // Asegurarse de que AudioManager esté instanciado
         if (AudioManager.instance == null)
         {
             Debug.Log("AudioManager no encontrado. Asegúrate de que el prefab de AudioManager esté en la escena.");
-            // Opcional: Instanciar el prefab de AudioManager si no está presente
-            GameObject audioManagerPrefab = Resources.Load<GameObject>("Prefabs/AudioManager");
+            GameObject audioManagerPrefab = Resources.Load<GameObject>("Assets/Prefabs/Managers/AUDIO-Manager.prefab");
             Instantiate(audioManagerPrefab);
         }
-        // Asegurarse de que ControlsSettings esté instanciado
         if (VFXManager.Instance == null)
         {
             Debug.Log("VFXManager no encontrado. Asegúrate de que el prefab de VFXManager esté en la escena.");
         }
 
-        // Cargar configuraciones de audio
         LoadAudioSettings();
 
-        // Cargar configuraciones gráficas
         LoadGraphicsSettings();
 
         LoadVFXSettings();
 
-        // Cargar configuraciones de controles (ya se manejan en ControlsSettings, pero podemos asegurarnos)
         LoadControlsSettings();
 
-        // Cargar otras configuraciones si las tienes (por ejemplo, datos del jugador)
         LoadPlayerData();
 
-        // Pasar a MainMenu
         SceneManager.LoadScene(mainMenuScene);
     }
 
@@ -113,9 +105,7 @@ public class GameInitializer : MonoBehaviour
 
     private void LoadPlayerData()
     {
-        // Ejemplo: Cargar datos del jugador como el nivel actual o estadísticas
         int currentLevel = PlayerPrefs.GetInt("CurrentLevel", 1);
         Debug.Log($"Datos del jugador cargados: CurrentLevel={currentLevel}");
-        // Aquí podrías cargar más datos, como upgrades o estadísticas del jugador
     }
 }

@@ -5,34 +5,32 @@ using UnityEngine.SceneManagement;
 
 public class Controller_Menus : MonoBehaviour
 {
-    public static Controller_Menus Instance { get; private set; } // Singleton
+    public static Controller_Menus Instance { get; private set; }
 
     [Header("Scene Names")]
-    //[SerializeField] private string sceneMenu = "MainMenu"; // Escena del menú principal
-    //[SerializeField] private string sceneRetry = "GameScene"; // Escena para reintentar el nivel
-    [SerializeField] private List<string> gameScenes = new List<string> { "Prueba" }; // Lista de escenas de juego
+    [SerializeField] private List<string> gameScenes = new List<string> { "Prueba" }; 
 
     [Header("Menu Panels")]
-    [SerializeField] private MenuPanel pauseMenuPanel; // Panel del menú de pausa
-    [SerializeField] private MenuPanel optionsMenuPanel; // Panel del menú de opciones
-    [SerializeField] private MenuPanel controlsMenuPanel; // Panel del submenú de controles
-    [SerializeField] private MenuPanel audioMenuPanel; // Panel del submenú de audio
-    [SerializeField] private MenuPanel graphicsMenuPanel; // Panel del submenú de gráficos
-    [SerializeField] private MenuPanel quitPanel; // Panel de confirmación de salida
+    [SerializeField] private MenuPanel pauseMenuPanel; 
+    [SerializeField] private MenuPanel optionsMenuPanel; 
+    [SerializeField] private MenuPanel controlsMenuPanel; 
+    [SerializeField] private MenuPanel audioMenuPanel; 
+    [SerializeField] private MenuPanel graphicsMenuPanel; 
+    [SerializeField] private MenuPanel quitPanel;
 
     [Header("Dependencies")]
-    private PlayerInputHadler inputHandler; // Script de manejo de input (null en MainMenu)
-    [SerializeField] private MenuEventSystemHadler menuEventSystem; // Sistema de eventos para la UI
-    [SerializeField] private CanvasGroup fadePanel; // Panel de transición para el fade
+    private PlayerInputHadler inputHandler;
+    [SerializeField] private MenuEventSystemHadler menuEventSystem;
+    [SerializeField] private CanvasGroup fadePanel; 
 
     [Header("Transition Settings")]
-    [SerializeField] private float fadeDuration = 1f; // Duración del fade en segundos
+    [SerializeField] private float fadeDuration = 1f; 
 
-    private bool isPaused = false; // Estado de pausa del juego
-    private MenuPanel currentMenuPanel; // Panel actualmente activo
-    private Stack<MenuPanel> menuStack; // Pila para manejar la navegación entre menús
-    private bool isGameScene = false; // Indica si estamos en una escena de juego
-    private bool hasInputHandler = false; // Para evitar buscar si ya lo encontramos
+    private bool isPaused = false; 
+    private MenuPanel currentMenuPanel; 
+    private Stack<MenuPanel> menuStack; 
+    private bool isGameScene = false; 
+    private bool hasInputHandler = false; 
 
     private void Awake()
     {
@@ -60,7 +58,6 @@ public class Controller_Menus : MonoBehaviour
 
     private void Start()
     {
-        // Detectar la escena actual
         UpdateSceneContext();
         StartCoroutine(TryFindInputHandler());
 
@@ -72,19 +69,16 @@ public class Controller_Menus : MonoBehaviour
         }
         else
         {
-            // En el MainMenu, no necesitamos pausar el juego
             Cursor.visible = true;
             menuEventSystem.enabled = false;
             CloseAllMenus();
         }
 
-        // Iniciar con un fade in desde negro
         if (fadePanel != null)
         {
             StartCoroutine(FadeIn());
         }
 
-        // Asegurarse de que las configuraciones estén cargadas
         ControlsSettings controlsSettings = FindAnyObjectByType<ControlsSettings>();
         if (controlsSettings != null)
         {
@@ -105,10 +99,9 @@ public class Controller_Menus : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         UpdateSceneContext();
-        hasInputHandler = false; // Resetear para buscar en la nueva escena
+        hasInputHandler = false;
         StartCoroutine(TryFindInputHandler());
 
-        // Hacer un fade in al cargar la nueva escena
         if (fadePanel != null)
         {
             StartCoroutine(FadeIn());
@@ -117,7 +110,6 @@ public class Controller_Menus : MonoBehaviour
 
     private void Update()
     {
-        // Solo manejar el input de pausa en escenas de juego
         if (isGameScene && inputHandler != null && inputHandler.OptionsInput)
         {
             TogglePause();
@@ -125,14 +117,12 @@ public class Controller_Menus : MonoBehaviour
         }
     }
 
-    // Detectar si estamos en una escena de juego o en el menú principal
     private void UpdateSceneContext()
     {
         string currentScene = SceneManager.GetActiveScene().name;
         isGameScene = gameScenes.Contains(currentScene);
         Debug.Log($"Escena actual: {currentScene}, ¿Es escena de juego? {isGameScene}");
 
-        // Asegurarse de que el inputHandler esté asignado solo en escenas de juego
         if (!isGameScene)
         {
             inputHandler = null;
@@ -141,10 +131,9 @@ public class Controller_Menus : MonoBehaviour
 
     private IEnumerator TryFindInputHandler()
     {
-        // Intentar buscar el inputHandler varias veces para manejar retrasos en la instanciación
         for (int i = 0; i < 5; i++)
         {
-            if (hasInputHandler) yield break; // Salir si ya lo encontramos
+            if (hasInputHandler) yield break; 
 
             inputHandler = FindAnyObjectByType<PlayerInputHadler>();
             if (inputHandler != null)
@@ -152,7 +141,6 @@ public class Controller_Menus : MonoBehaviour
                 Debug.Log($"PlayerInputHadler encontrado en la escena: {SceneManager.GetActiveScene().name} (intento {i + 1})");
                 hasInputHandler = true;
 
-                // Notificar a ControlsSettings para inicializar las acciones
                 ControlsSettings controlsSettings = FindAnyObjectByType<ControlsSettings>();
                 if (controlsSettings != null)
                 {
@@ -162,19 +150,17 @@ public class Controller_Menus : MonoBehaviour
             }
 
             Debug.Log($"PlayerInputHadler no encontrado en la escena: {SceneManager.GetActiveScene().name} (intento {i + 1})");
-            yield return new WaitForSeconds(0.1f); // Esperar un breve momento antes de volver a intentar
+            yield return new WaitForSeconds(0.1f);
         }
 
         Debug.LogWarning("No se encontró PlayerInputHadler después de varios intentos en la escena: " + SceneManager.GetActiveScene().name);
     }
-    // Método para que el PlayerInputHadler se registre automáticamente
     public void RegisterInputHandler(PlayerInputHadler newInputHandler)
     {
         inputHandler = newInputHandler;
         hasInputHandler = true;
         Debug.Log($"PlayerInputHadler registrado en MenuSystems: {SceneManager.GetActiveScene().name}");
 
-        // Notificar a ControlsSettings para inicializar las acciones
         ControlsSettings controlsSettings = FindAnyObjectByType<ControlsSettings>();
         if (controlsSettings != null)
         {
@@ -182,7 +168,6 @@ public class Controller_Menus : MonoBehaviour
         }
     }
 
-    // Método para desregistrar el inputHandler (opcional, por si necesitas limpiarlo)
     public void UnregisterInputHandler()
     {
         inputHandler = null;
@@ -190,7 +175,6 @@ public class Controller_Menus : MonoBehaviour
         Debug.Log("PlayerInputHadler desregistrado de MenuSystems");
     }
 
-    // Inicializar los paneles de menú
     private void InitializeMenuPanels()
     {
         pauseMenuPanel?.Initialize();
@@ -201,7 +185,6 @@ public class Controller_Menus : MonoBehaviour
         quitPanel?.Initialize();
     }
 
-    // Cambiar entre pausa y reanudar
     private void TogglePause()
     {
         if (isPaused)
@@ -214,7 +197,6 @@ public class Controller_Menus : MonoBehaviour
         }
     }
 
-    // Pausar el juego
     private void PauseGame()
     {
         isPaused = true;
@@ -232,7 +214,6 @@ public class Controller_Menus : MonoBehaviour
         AudioManager.instance.PlaySFX("MenuOpen");
     }
 
-    // Reanudar el juego
     private void ResumeGame()
     {
         isPaused = false;
@@ -250,19 +231,16 @@ public class Controller_Menus : MonoBehaviour
         AudioManager.instance.PlaySFX("MenuClose");
     }
 
-    // Abrir un menú
     public void OpenMenu(MenuPanel menuPanel)
     {
         if (menuPanel == null) return;
 
-        // Si hay un menú abierto, cerrarlo primero y esperar a que termine
         if (currentMenuPanel != null && currentMenuPanel != menuPanel)
         {
             StartCoroutine(CloseAndOpenMenuCoroutine(currentMenuPanel, menuPanel));
         }
         else
         {
-            // Abrir el nuevo menú directamente
             menuStack.Push(menuPanel);
             currentMenuPanel = menuPanel;
             StartCoroutine(OpenMenuCoroutine(menuPanel));
@@ -272,38 +250,31 @@ public class Controller_Menus : MonoBehaviour
     }
     private IEnumerator CloseAndOpenMenuCoroutine(MenuPanel menuToClose, MenuPanel menuToOpen)
     {
-        // Cerrar el menú actual
         yield return StartCoroutine(CloseMenuCoroutine(menuToClose));
 
-        // Abrir el nuevo menú
         menuStack.Push(menuToOpen);
         currentMenuPanel = menuToOpen;
         yield return StartCoroutine(OpenMenuCoroutine(menuToOpen));
     }
 
-    // Abrir directamente el menú de opciones (para MainMenu)
     public void OpenOptionsDirectly()
     {
         if (isGameScene)
         {
-            PauseGame(); // En escenas de juego, abrir el menú de pausa primero
+            PauseGame(); 
         }
         else
         {
-            // En MainMenu, abrir directamente el menú de opciones
             Debug.Log("Abriendo directamente el menú de opciones en MainMenu");
             Cursor.visible = true;
             menuEventSystem.enabled = true;
 
-            // Asegurarse de que todos los demás paneles estén cerrados
             CloseAllMenus();
 
-            // Abrir el menú de opciones
             OpenMenu(optionsMenuPanel);
         }
     }
 
-    // Cerrar el menú actual y volver al anterior
     private void CloseCurrentMenu()
     {
         if (menuStack.Count == 0)
@@ -346,7 +317,6 @@ public class Controller_Menus : MonoBehaviour
         AudioManager.instance.PlaySFX("ButtonClick");
     }
 
-    // Cerrar todos los menús
     private void CloseAllMenus()
     {
         pauseMenuPanel?.CloseImmediate();
@@ -360,7 +330,6 @@ public class Controller_Menus : MonoBehaviour
         currentMenuPanel = null;
     }
 
-    // Corrutina para abrir un menú con animación
     private IEnumerator OpenMenuCoroutine(MenuPanel menuPanel)
     {
         if (menuPanel == null)
@@ -382,7 +351,6 @@ public class Controller_Menus : MonoBehaviour
 
     }
 
-    // Corrutina para cerrar un menú con animación
     private IEnumerator CloseMenuCoroutine(MenuPanel menuPanel)
     {
         if (menuPanel == null)
@@ -401,7 +369,7 @@ public class Controller_Menus : MonoBehaviour
             yield return new WaitForSecondsRealtime(menuPanel.AnimationDuration);
         }
 
-        menuPanel.panelObject.SetActive(false); // Asegurarse de que el GameObject esté desactivado
+        menuPanel.panelObject.SetActive(false);
     }
     public void Button_ChangeScene(string sceneName)
     {
@@ -423,42 +391,36 @@ public class Controller_Menus : MonoBehaviour
             float elapsedTime = 0f;
             while (elapsedTime < fadeDuration)
             {
-                elapsedTime += Time.unscaledDeltaTime; // Usar unscaledDeltaTime para que el fade funcione incluso si Time.timeScale = 0
+                elapsedTime += Time.unscaledDeltaTime;
                 fadePanel.alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
                 yield return null;
             }
-            fadePanel.alpha = 1f; // Asegurarse de que esté completamente opaco
+            fadePanel.alpha = 1f;
         }
 
-        // Detener música y efectos de sonido
         Time.timeScale = 1f;
         AudioManager.instance.StopMusic();
         AudioManager.instance.StopAllSFX();
 
-        // Cargar la nueva escena
         SceneManager.LoadScene(sceneName);
-
-        // El fade in se manejará en OnSceneLoaded
     }
 
     private IEnumerator FadeIn()
     {
-        // Fade in desde negro
         if (fadePanel != null)
         {
             float elapsedTime = 0f;
-            fadePanel.alpha = 1f; // Asegurarse de que esté completamente opaco al inicio
+            fadePanel.alpha = 1f;
             while (elapsedTime < fadeDuration)
             {
                 elapsedTime += Time.unscaledDeltaTime;
                 fadePanel.alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
                 yield return null;
             }
-            fadePanel.alpha = 0f; // Asegurarse de que esté completamente transparente
+            fadePanel.alpha = 0f; 
         }
     }
 
-    // Métodos de los botones
     public void Button_Resume()
     {
         ResumeGame();

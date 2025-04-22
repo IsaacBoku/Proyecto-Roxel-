@@ -7,10 +7,10 @@ using UnityEngine.UI;
 public class GraphicsSettings : MonoBehaviour
 {
     [Header("UI Elements")]
-    [SerializeField] private TMP_Dropdown qualityDropdown; // Dropdown para niveles de calidad
-    [SerializeField] private Toggle vfxToggle; // Toggle para habilitar/deshabilitar VFX
-    [SerializeField] private Slider vfxIntensitySlider; // Slider para ajustar la intensidad de los VFX
-    [SerializeField] private TextMeshProUGUI vfxIntensityText; // Texto para mostrar el valor del slider
+    [SerializeField] private TMP_Dropdown qualityDropdown;
+    [SerializeField] private Toggle vfxToggle; 
+    [SerializeField] private Slider vfxIntensitySlider;
+    [SerializeField] private TextMeshProUGUI vfxIntensityText;
 
     [Header("Resolution Settings")]
     [SerializeField] private TMP_Dropdown resolutionDropdown;
@@ -20,13 +20,9 @@ public class GraphicsSettings : MonoBehaviour
 
     private void Start()
     {
-        // Cargar configuraciones iniciales
         LoadSettings();
-
-        // Configurar eventos de los elementos de UI
         SetupUIEvents();
 
-        // Configurar las resoluciones
         resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
         List<string> options = new List<string>();
@@ -50,7 +46,6 @@ public class GraphicsSettings : MonoBehaviour
 
     private void LoadSettings()
     {
-        // Configurar el dropdown de calidad
         if (qualityDropdown != null)
         {
             qualityDropdown.ClearOptions();
@@ -59,7 +54,6 @@ public class GraphicsSettings : MonoBehaviour
             qualityDropdown.RefreshShownValue();
         }
 
-        // Configurar el toggle y slider de VFX
         if (VFXManager.Instance != null)
         {
             if (vfxToggle != null)

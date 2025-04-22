@@ -3,13 +3,12 @@ using UnityEngine.UI;
 
 public class Controller_MainMenu : MonoBehaviour
 {
-    [SerializeField] private Button startButton; // Botón de Start
-    [SerializeField] private Button optionsButton; // Botón de Options
-    [SerializeField] private string startSceneName = "Level1"; // Escena a cargar al presionar Start
+    [SerializeField] private Button startButton; 
+    [SerializeField] private Button optionsButton; 
+    [SerializeField] private string startSceneName = "Level1";
 
     private void Start()
     {
-        // Buscar el Controller_Menus persistente
         Controller_Menus controller = Controller_Menus.Instance;
         if (controller == null)
         {
@@ -17,10 +16,9 @@ public class Controller_MainMenu : MonoBehaviour
             return;
         }
 
-        // Configurar el evento OnClick del botón Start
         if (startButton != null)
         {
-            startButton.onClick.RemoveAllListeners(); // Limpiar eventos previos
+            startButton.onClick.RemoveAllListeners();
             startButton.onClick.AddListener(() => controller.Button_ChangeScene(startSceneName));
         }
         else
@@ -28,10 +26,9 @@ public class Controller_MainMenu : MonoBehaviour
             Debug.LogWarning("StartButton no asignado en MainMenuButtonSetup.");
         }
 
-        // Configurar el evento OnClick del botón Options
         if (optionsButton != null)
         {
-            optionsButton.onClick.RemoveAllListeners(); // Limpiar eventos previos
+            optionsButton.onClick.RemoveAllListeners();
             optionsButton.onClick.AddListener(controller.OpenOptionsDirectly);
         }
         else

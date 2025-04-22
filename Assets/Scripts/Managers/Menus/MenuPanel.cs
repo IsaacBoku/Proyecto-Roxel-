@@ -2,17 +2,16 @@ using UnityEngine;
 [System.Serializable]
 public class MenuPanel
 {
-    [SerializeField] private string panelName; // Nombre del panel (para depuración)
-    [SerializeField] public GameObject panelObject; // GameObject del panel
-    [SerializeField] private Animator animator; // Animador del panel (si tiene animaciones)
-    [SerializeField] private string openAnimationParameter = "Open"; // Nombre del parámetro de animación para abrir
-    [SerializeField] private float animationDuration = 1f; // Duración de la animación
+    [SerializeField] private string panelName;
+    [SerializeField] public GameObject panelObject;
+    [SerializeField] private Animator animator;
+    [SerializeField] private string openAnimationParameter = "Open";
+    [SerializeField] private float animationDuration = 1f;
 
     private bool isOpen = false;
 
     public float AnimationDuration => animationDuration;
 
-    // Inicializar el panel
     public void Initialize()
     {
         if (panelObject != null)
@@ -20,16 +19,14 @@ public class MenuPanel
             panelObject.SetActive(false);
             isOpen = false;
 
-            // Validar el Animator al inicializar
             if (animator != null && animator.runtimeAnimatorController == null)
             {
                 Debug.LogWarning($"El Animator del panel '{panelName}' no tiene un AnimatorController asignado. Desactivando el Animator para evitar errores.");
-                animator = null; // Desactivar el Animator si no tiene controlador
+                animator = null;
             }
         }
     }
 
-    // Abrir el panel
     public void Open()
     {
         if (panelObject == null) return;
@@ -42,7 +39,6 @@ public class MenuPanel
         isOpen = true;
     }
 
-    // Cerrar el panel
     public void Close()
     {
         if (panelObject == null) return;
@@ -54,7 +50,6 @@ public class MenuPanel
         isOpen = false;
     }
 
-    // Cerrar el panel inmediatamente (sin animación)
     public void CloseImmediate()
     {
         if (panelObject == null) return;

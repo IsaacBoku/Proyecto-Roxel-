@@ -391,7 +391,6 @@ public class Player : MonoBehaviour
         {
             if (globalIndicator != null)
             {
-                // Pasar la posición del objeto interactuable al indicador
                 globalIndicator.Show(lastInteractable.transform.position);
                 //Debug.Log($"Indicador mostrado en posición: {globalIndicator.transform.position}");
             }

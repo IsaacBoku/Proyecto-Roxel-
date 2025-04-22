@@ -8,22 +8,21 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
 
     [Header("Audio Sources")]
-    [SerializeField] private AudioSource musicSource; // Para música de fondo
-    [SerializeField] private int sfxChannels = 5; // Número de canales para SFX
-    private List<AudioSource> sfxSources; // Pool de AudioSource para SFX
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private int sfxChannels = 5; 
+    private List<AudioSource> sfxSources; 
 
     [Header("Sounds")]
-    [SerializeField] private Sound[] musicSounds; // Lista de sonidos de música
-    [SerializeField] private Sound[] sfxSounds; // Lista de sonidos de efectos
+    [SerializeField] private Sound[] musicSounds; 
+    [SerializeField] private Sound[] sfxSounds;
 
     [Header("Fade Settings")]
-    [SerializeField] private float musicFadeDuration = 1f; // Duración del fade para música
+    [SerializeField] private float musicFadeDuration = 1f; 
 
-    private string currentMusic; // Nombre de la música actualmente en reproducción
+    private string currentMusic;
 
     private void Awake()
     {
-        // Singleton
         if (instance == null)
         {
             instance = this;
@@ -35,7 +34,6 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        // Verificar que musicSource esté asignado
         if (musicSource == null)
         {
             Debug.LogWarning("MusicSource no está asignado en AudioManager. Creando uno nuevo.");
@@ -44,7 +42,6 @@ public class AudioManager : MonoBehaviour
             musicSource.loop = true;
         }
 
-        // Inicializar el pool de AudioSource para SFX
         sfxSources = new List<AudioSource>();
         for (int i = 0; i < sfxChannels; i++)
         {
@@ -53,7 +50,6 @@ public class AudioManager : MonoBehaviour
             sfxSources.Add(source);
         }
 
-        // No cargamos configuraciones aquí; dejamos que GameInitializer lo haga
     }
 
     private void Start()
@@ -106,13 +102,11 @@ public class AudioManager : MonoBehaviour
 
     private IEnumerator FadeMusic(Sound sound)
     {
-        // Si ya hay música reproduciéndose, hacer fade out
         if (musicSource.isPlaying)
         {
             yield return StartCoroutine(FadeOutMusic());
         }
 
-        // Configurar el nuevo clip
         musicSource.clip = sound.clips.Length > 0 ? sound.clips[UnityEngine.Random.Range(0, sound.clips.Length)] : null;
         if (musicSource.clip == null)
         {
@@ -125,7 +119,6 @@ public class AudioManager : MonoBehaviour
         musicSource.loop = sound.loop;
         musicSource.Play();
 
-        // Hacer fade in
         float elapsedTime = 0f;
         float targetVolume = sound.volume;
         while (elapsedTime < musicFadeDuration)
@@ -163,7 +156,6 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        // Elegir un clip aleatorio si hay variaciones
         AudioClip clip = s.clips.Length > 0 ? s.clips[UnityEngine.Random.Range(0, s.clips.Length)] : null;
         if (clip == null)
         {
@@ -171,7 +163,6 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        // Buscar un AudioSource disponible
         AudioSource availableSource = sfxSources.Find(source => !source.isPlaying);
         if (availableSource == null)
         {
@@ -268,7 +259,6 @@ public class AudioManager : MonoBehaviour
 
     private void LoadSettings()
     {
-        // Cargar configuraciones guardadas
         float musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
         float sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
         bool musicMuted = PlayerPrefs.GetInt("MusicMuted", 0) == 1;

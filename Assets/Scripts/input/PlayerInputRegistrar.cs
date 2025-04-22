@@ -13,7 +13,6 @@ public class PlayerInputRegistrar : MonoBehaviour
             return;
         }
 
-        // Registrar el inputHandler en MenuSystems
         if (Controller_Menus.Instance != null)
         {
             Controller_Menus.Instance.RegisterInputHandler(inputHandler);
@@ -26,7 +25,6 @@ public class PlayerInputRegistrar : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Opcional: Desregistrar el inputHandler cuando el objeto se destruye
         if (Controller_Menus.Instance != null)
         {
             Controller_Menus.Instance.UnregisterInputHandler();

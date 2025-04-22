@@ -102,12 +102,11 @@ public class PlayerAimBatteryState : PlayerState
 
     private Vector2 DotsPosition(float t)
     {
-        Vector2 velocity = throwDirection * playerData.throwForce; // Velocidad inicial
+        Vector2 velocity = throwDirection * playerData.throwForce;
         Vector2 position = (Vector2)player.transform.position + (velocity * t)
             + 0.5f * (Physics2D.gravity * batteryGravity) * (t * t);
 
-        // Opcional: Añadir resistencia del aire (simulada)
-        float airResistance = 0.99f; // Factor de resistencia (ajusta según necesidad)
+        float airResistance = 0.99f; 
         position *= Mathf.Pow(airResistance, t);
 
         return position;
