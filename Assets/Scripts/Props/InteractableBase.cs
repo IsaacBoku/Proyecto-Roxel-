@@ -3,8 +3,7 @@ using UnityEngine;
 
 public abstract class InteractableBase : MonoBehaviour, IActivable
 {
-    [SerializeField]
-    protected bool isActive = false; 
+    public bool isActive { get; protected set; } = false;
 
     [SerializeField]
     protected ParticleSystem effect;

@@ -30,7 +30,7 @@ public class ChargeableObject : InteractableBase
     [SerializeField]
     private Material mat;
 
-    private bool isCharging = false;
+    public bool isCharging = false;
 
     protected override void Start()
     {

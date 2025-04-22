@@ -387,22 +387,31 @@ public class Player : MonoBehaviour
     {
         if (lastInteractable != null)
         {
-            if (globalIndicator != null)
+            if (globalIndicator == null)
             {
-                globalIndicator.Show(lastInteractable.transform.position);
-                //Debug.Log($"Indicador mostrado en posición: {globalIndicator.transform.position}");
+                Debug.LogWarning("GlobalIndicator es null. Asegúrate de asignarlo en el Inspector.");
+                return;
+            }
+
+            // Verificar si el objeto es un ChargeableObject y está activo
+            ChargeableObject chargeable = lastInteractable.GetComponent<ChargeableObject>();
+            if (chargeable != null && chargeable.isActive)
+            {
+                Debug.Log($"Indicador ocultado: {lastInteractable.name} es un ChargeableObject con IsActive == true.");
+                globalIndicator.Hide();
             }
             else
             {
-                Debug.LogWarning("GlobalIndicator es null. Asegúrate de asignarlo en el Inspector.");
+                Debug.Log($"Indicador mostrado para: {lastInteractable.name} en posición {lastInteractable.transform.position}");
+                globalIndicator.Show(lastInteractable.transform.position);
             }
         }
         else
         {
             if (globalIndicator != null)
             {
+                Debug.Log("Indicador ocultado: No hay objeto interactuable.");
                 globalIndicator.Hide();
-                //Debug.Log("Indicador ocultado.");
             }
         }
     }
