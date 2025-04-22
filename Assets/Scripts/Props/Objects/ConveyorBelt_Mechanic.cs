@@ -23,7 +23,7 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
         if (player != null)
         {
             player.isOnConveyorBelt = true;
-            player.SetConveyorDirection(isReversed ? -1f : 1f); // Le pasamos la dirección de la cinta
+            player.SetConveyorDirection(isReversed ? -1f : 1f);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -32,7 +32,7 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
         if (player != null)
         {
             player.isOnConveyorBelt = false;
-            player.SetConveyorDirection(0f); // Resetear la dirección de la cinta al salir
+            player.SetConveyorDirection(0f); 
         }
     }
     public void ToggleDirection(bool state)

@@ -4,7 +4,7 @@ public class Collectible : MonoBehaviour
 {
     [SerializeField] private int energyValue = 10;
     [SerializeField] private int crystalValue = 1;
-    [SerializeField] private bool isSpecial = false; // Indica si es un cristal especial
+    [SerializeField] private bool isSpecial = false;
     [SerializeField] private ParticleSystem collectEffect;
     [SerializeField] private AudioSource collectSound;
     private bool isCollected = false;
@@ -20,8 +20,8 @@ public class Collectible : MonoBehaviour
             {
                 isCollected = true;
 
-                int finalEnergyValue = isSpecial ? energyValue * 2 : energyValue; // Duplica la energía si es especial
-                int finalCrystalValue = isSpecial ? crystalValue * 3 : crystalValue; // Triplica los cristales si es especial
+                int finalEnergyValue = isSpecial ? energyValue * 2 : energyValue;
+                int finalCrystalValue = isSpecial ? crystalValue * 3 : crystalValue;
 
                 BatteryController battery = player.battery.GetComponent<BatteryController>();
                 battery.energyAmounts += finalEnergyValue;

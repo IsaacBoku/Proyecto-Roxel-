@@ -11,7 +11,6 @@ public class Door_Mechanic : MonoBehaviour, IActivable
 
     private void Start()
     {
-        // Intentar obtener Animator si no está asignado
         if (ani == null)
         {
             ani = GetComponent<Animator>();
@@ -21,7 +20,6 @@ public class Door_Mechanic : MonoBehaviour, IActivable
                 Debug.LogWarning($"Door_Mechanic '{gameObject.name}': No se encontró Animator en el GameObject o sus hijos.");
         }
 
-        // Intentar obtener colliderTrigger si no está asignado
         if (colliderTrigger == null)
         {
             colliderTrigger = GetComponent<BoxCollider2D>();
@@ -29,7 +27,6 @@ public class Door_Mechanic : MonoBehaviour, IActivable
                 Debug.LogWarning($"Door_Mechanic '{gameObject.name}': No se encontró BoxCollider2D para colliderTrigger.");
         }
 
-        // Advertencia si collider no está asignado
         if (collider == null)
         {
             Debug.LogWarning($"Door_Mechanic '{gameObject.name}': El campo 'collider' no está asignado en el Inspector.");

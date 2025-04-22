@@ -5,7 +5,7 @@ using UnityEngine;
 public class Hammer_Mechanic : MonoBehaviour
 {
     private Animator animator;
-    public float cooldownTime = 3f; // Tiempo de espera entre ciclos
+    public float cooldownTime = 3f;
 
     public int damage = 1;
     private void Start()
@@ -18,8 +18,8 @@ public class Hammer_Mechanic : MonoBehaviour
     {
         while (true)
         {
-            animator.SetTrigger("Smash"); // Activa la animación
-            yield return new WaitForSeconds(cooldownTime); // Espera antes de repetir
+            animator.SetTrigger("Smash");
+            yield return new WaitForSeconds(cooldownTime); 
         }
     }
 

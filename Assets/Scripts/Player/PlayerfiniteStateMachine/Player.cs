@@ -19,7 +19,6 @@ public class Player : MonoBehaviour
     public PlayerJumpState JumpState { get; private set; }
     public PlayerAirState AirState { get; private set; }
     public PlayerLandState LandState { get; private set; }
-    public PlayerPushState PushState { get; private set; }
     public PlayerInteractionState InteractionState { get; private set; }
     public PlayerMagneticState MagneticState { get; private set; }
     public PlayerDeadState DeadState { get; private set; }
@@ -112,7 +111,6 @@ public class Player : MonoBehaviour
         JumpState = new PlayerJumpState(this, StateMachine, playerData, "Air");
         AirState = new PlayerAirState(this, StateMachine, playerData, "Air");
         LandState = new PlayerLandState(this, StateMachine, playerData, "Land");
-        PushState = new PlayerPushState(this, StateMachine, playerData, "Push");
         InteractionState = new PlayerInteractionState(this, StateMachine, playerData, "Interaction");
         MagneticState = new PlayerMagneticState(this, StateMachine, playerData, "Magnetic");
         DeadState = new PlayerDeadState(this, StateMachine, playerData, "Dead");

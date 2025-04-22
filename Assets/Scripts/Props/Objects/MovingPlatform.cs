@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
-    [SerializeField] private Transform[] waypoints; // Lista de puntos por los que pasa la plataforma
+    [SerializeField] private Transform[] waypoints;
     [SerializeField] private float speed = 2f;
     private bool isActive = false;
     private int currentWaypointIndex = 0;
@@ -45,7 +45,7 @@ public class MovingPlatform : MonoBehaviour
 
         if (Vector2.Distance(transform.position, target) < 0.1f)
         {
-            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length; // Cicla entre los waypoints
+            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
         }
     }
 

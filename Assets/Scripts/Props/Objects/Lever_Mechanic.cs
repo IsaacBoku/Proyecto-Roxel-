@@ -3,14 +3,12 @@ using UnityEngine;
 
 public class Lever_Mechanic : InteractableBase
 {
-    // Enum para tipos de objetivos
     public enum TargetType
     {
         Door,
         Laser
     }
 
-    // Clase para objetivos
     [System.Serializable]
     public class TargetEntry
     {
@@ -20,18 +18,17 @@ public class Lever_Mechanic : InteractableBase
     }
 
     [SerializeField]
-    private List<TargetEntry> targets = new List<TargetEntry>(); // Objetivos
+    private List<TargetEntry> targets = new List<TargetEntry>();
 
     [SerializeField]
-    private ConveyorBelt_Mechanic conveyorBelt; // Cinta transportadora (opcional)
+    private ConveyorBelt_Mechanic conveyorBelt;
 
     [SerializeField]
-    private bool toggleOnInteract = true; // Alternar o solo activar
+    private bool toggleOnInteract = true; 
 
     protected override void Start()
     {
         base.Start();
-        // Inicializar objetivos
         foreach (var target in targets)
         {
             if (target.targetObject != null)
@@ -63,14 +60,13 @@ public class Lever_Mechanic : InteractableBase
     {
         if (toggleOnInteract)
         {
-            isActive = !isActive; // Alternar estado
+            isActive = !isActive; 
         }
         else
         {
-            isActive = true; // Solo activar
+            isActive = true; 
         }
 
-        // Activar/desactivar objetivos
         foreach (var target in targets)
         {
             if (target.activable != null)
@@ -79,13 +75,11 @@ public class Lever_Mechanic : InteractableBase
             }
         }
 
-        // Cambiar dirección de la cinta si está asignada
         if (conveyorBelt != null)
         {
             conveyorBelt.ToggleDirection(isActive);
         }
 
-        // Actualizar efectos
         UpdateVisuals(isActive);
 
         Debug.Log($"Botón {gameObject.name} interactuado. Estado: {(isActive ? "Activo" : "Inactivo")}.");

@@ -4,24 +4,20 @@ using UnityEngine;
 public abstract class InteractableBase : MonoBehaviour, IActivable
 {
     [SerializeField]
-    protected bool isActive = false; // Estado del interactivo
+    protected bool isActive = false; 
 
     [SerializeField]
-    protected ParticleSystem effect; // Efecto de partículas
+    protected ParticleSystem effect;
 
     [SerializeField]
-    protected AudioSource sound; // Sonido
+    protected AudioSource sound;
 
-    // Método Start virtual para que las clases hijas lo sobrescriban
     protected virtual void Start()
     {
-        // Puede estar vacío o incluir inicializaciones genéricas si es necesario
     }
 
-    // Método abstracto para la interacción
     public abstract void Interact();
 
-    // Implementación de IActivable
     public virtual void Toggle(bool state)
     {
         isActive = state;
@@ -31,10 +27,8 @@ public abstract class InteractableBase : MonoBehaviour, IActivable
 
     public virtual void SetIgnoreTrigger(bool ignore)
     {
-        // Por defecto, no se usa
     }
 
-    // Actualizar efectos visuales y sonoros
     protected virtual void UpdateVisuals(bool state)
     {
         if (effect != null)
@@ -59,7 +53,6 @@ public abstract class InteractableBase : MonoBehaviour, IActivable
         }
     }
 
-    // Gizmo para depuración
     protected virtual void OnDrawGizmos()
     {
         Gizmos.color = isActive ? Color.green : Color.red;

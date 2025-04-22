@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class GrabbableObject : MonoBehaviour
 {
-    public float weight = 1f; // Peso del objeto, ajustable en el Inspector
+    public float weight = 1f; 
 }

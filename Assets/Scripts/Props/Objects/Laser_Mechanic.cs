@@ -12,7 +12,6 @@ public class Laser_Mechanic : MonoBehaviour, IActivable
 
     private void Start()
     {
-        // Intentar obtener Animator si no está asignado
         if (ani == null)
         {
             ani = GetComponent<Animator>();
@@ -22,7 +21,6 @@ public class Laser_Mechanic : MonoBehaviour, IActivable
                 Debug.LogWarning($"Laser_Mechanic '{gameObject.name}': No se encontró Animator en el GameObject o sus hijos.");
         }
 
-        // Intentar obtener colliderTriggers si no está asignado
         if (colliderTriggers == null)
         {
             colliderTriggers = GetComponent<BoxCollider2D>();
@@ -30,7 +28,6 @@ public class Laser_Mechanic : MonoBehaviour, IActivable
                 Debug.LogWarning($"Laser_Mechanic '{gameObject.name}': No se encontró BoxCollider2D para colliderTriggers.");
         }
 
-        // Advertencia si colliders no está asignado
         if (colliders == null)
         {
             Debug.LogWarning($"Laser_Mechanic '{gameObject.name}': El campo 'colliders' no está asignado en el Inspector.");
