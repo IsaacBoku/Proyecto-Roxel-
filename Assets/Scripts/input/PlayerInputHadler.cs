@@ -18,18 +18,17 @@ public class PlayerInputHadler : MonoBehaviour
     public Vector2 MousePosition { get; private set; }
     public bool MagneticInput { get; private set; }
     public bool MagneticInputStop { get; private set; }
-    public bool SeparateInput { get; private set; } // Para separar/reunir batería
+    public bool SeparateInput { get; private set; }
     public bool SeparateInputStop { get; private set; }
     public bool AttractInput { get; private set; }
-    public bool InteractInput { get; private set; } // Para interactuar/transferir energía
+    public bool InteractInput { get; private set; } 
     public bool InteractInputStop { get; private set; }
     public bool SwitchPolarityInput { get; private set; }
-    public bool BoostInput { get; private set; } // Nuevo input para el impulso
-    public bool BoostInputStop { get; private set; }
     public bool UpgradesInput { get; private set; }
     public bool UpgradesInputStop { get; private set; }
 
     #endregion
+    #region Unity CallBack
     PlayerInput input;
 
     bool isPaused;
@@ -42,13 +41,11 @@ public class PlayerInputHadler : MonoBehaviour
     {
         input = GetComponent<PlayerInput>();
 
-        // Registrar el inputHandler en MenuSystems (si usas PlayerInputRegistrar)
         if (Controller_Menus.Instance != null)
         {
             Controller_Menus.Instance.RegisterInputHandler(this);
         }
 
-        // Cargar las teclas personalizadas desde ControlsSettings
         ControlsSettings controlsSettings = FindAnyObjectByType<ControlsSettings>();
         if (controlsSettings != null)
         {
@@ -60,6 +57,7 @@ public class PlayerInputHadler : MonoBehaviour
     {
         CheckJumpInputHoldTime();
     }
+    #endregion
     #region Input
     public void OnMoveInput(InputAction.CallbackContext context)
     {
@@ -177,21 +175,6 @@ public class PlayerInputHadler : MonoBehaviour
             SwitchPolarityInput = true;
         }
     }
-    public void OnBoostInput(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            BoostInput = true;
-            BoostInputStop = false;
-            Debug.Log("BoostInput activado - Iniciando impulso");
-        }
-        else if (context.canceled)
-        {
-            BoostInput = false;
-            BoostInputStop = true;
-            Debug.Log("BoostInput desactivado - Terminando impulso");
-        }
-    }
     #endregion
     #region UseInput
     public void UseJumpInput() => JumpInput = false;
@@ -202,7 +185,6 @@ public class PlayerInputHadler : MonoBehaviour
     public void UseOptionsInput() => OptionsInput = false;
     public void UseUpgradesInput() => UpgradesInput = false;
     public void UseSwitchPolarityInput() => SwitchPolarityInput = false;
-    public void UseBoostInput() => BoostInput = false;
 
     #endregion
     #region UIController

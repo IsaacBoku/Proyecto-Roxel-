@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameInitializer : MonoBehaviour
 {
-    [SerializeField] private string mainMenuScene = "MainMenu"; // Escena a cargar después de la inicialización
+    [SerializeField] private string mainMenuScene = "Main_Menu"; 
 
     private void Start()
     {
@@ -12,13 +12,11 @@ public class GameInitializer : MonoBehaviour
 
     private void InitializeGame()
     {
-        // Asegurarse de que MenuSystems esté instanciado
         if (Controller_Menus.Instance == null)
         {
             Debug.Log("MenuSystems no encontrado. Asegúrate de que el prefab de MenuSystems esté en la escena.");
-            // Opcional: Instanciar el prefab de MenuSystems si no está presente
-            // GameObject menuSystemsPrefab = Resources.Load<GameObject>("Prefabs/MenuSystems");
-            // Instantiate(menuSystemsPrefab);
+            GameObject menuSystemsPrefab = Resources.Load<GameObject>("Prefabs/MenuSystems");
+            Instantiate(menuSystemsPrefab);
         }
 
         // Asegurarse de que AudioManager esté instanciado
@@ -26,8 +24,8 @@ public class GameInitializer : MonoBehaviour
         {
             Debug.Log("AudioManager no encontrado. Asegúrate de que el prefab de AudioManager esté en la escena.");
             // Opcional: Instanciar el prefab de AudioManager si no está presente
-            // GameObject audioManagerPrefab = Resources.Load<GameObject>("Prefabs/AudioManager");
-            // Instantiate(audioManagerPrefab);
+            GameObject audioManagerPrefab = Resources.Load<GameObject>("Prefabs/AudioManager");
+            Instantiate(audioManagerPrefab);
         }
         // Asegurarse de que ControlsSettings esté instanciado
         if (VFXManager.Instance == null)

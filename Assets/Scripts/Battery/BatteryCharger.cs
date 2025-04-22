@@ -3,16 +3,16 @@ using UnityEngine;
 public class BatteryCharger : MonoBehaviour
 {
     [SerializeField]
-    private float chargeRate = 20f; // Energía recargada por segundo
+    private float chargeRate = 20f;
 
     [SerializeField]
-    private float maxEnergy = 100f; // Energía máxima de la batería
+    private float maxEnergy = 100f;
 
     [SerializeField]
-    private float fixedChargeAmount = 30f; // Cantidad fija de energía a recargar
+    private float fixedChargeAmount = 30f; 
 
     [SerializeField]
-    private bool isReusable = true; // Determina si el cargador es reutilizable
+    private bool isReusable = true;
 
     [SerializeField]
     private ParticleSystem chargeEffect;
@@ -35,7 +35,6 @@ public class BatteryCharger : MonoBehaviour
         {
             battery = other.GetComponent<Player>().battery.GetComponent<BatteryController>();
             Debug.Log("Batería detectada en zona de carga");
-            // No llamamos a StartCharging aquí; esperamos a que el jugador presione "E"
         }
     }
 

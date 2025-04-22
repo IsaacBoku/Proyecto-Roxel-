@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class ChargeableObject : InteractableBase
 {
-    // Enum para tipos de objetivos
     public enum TargetType
     {
         Door,
         Laser
     }
 
-    // Clase para objetivos
     [System.Serializable]
     public class TargetEntry
     {
@@ -30,14 +28,13 @@ public class ChargeableObject : InteractableBase
     private float chargeDuration = 2f;
 
     [SerializeField]
-    private Material mat; // Material para animación con shaders (exclusivo)
+    private Material mat;
 
     private bool isCharging = false;
 
     protected override void Start()
     {
         base.Start();
-        // Inicializar objetivos
         foreach (var target in targets)
         {
             if (target.targetObject == null)
@@ -62,12 +59,9 @@ public class ChargeableObject : InteractableBase
                 continue;
             }
 
-            // Solo llamar a Toggle si activable es válido
             target.activable.Toggle(isActive);
             target.activable.SetIgnoreTrigger(true);
         }
-
-        // Inicializar material
         if (mat != null)
         {
             mat.SetFloat("_Progress", isActive ? 1f : 0f);

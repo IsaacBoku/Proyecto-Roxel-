@@ -6,7 +6,7 @@ public class PlayerAimBatteryState : PlayerState
     private Vector2 throwDirection;
     private bool isAiming;
 
-    [SerializeField] private float batteryGravity = 1f; // Gravedad para la simulación de la trayectoria
+    [SerializeField] private float batteryGravity = 1f; 
 
     [Header("Aim Dots")]
     [SerializeField] private float spaceBetweenDots = 0.1f;
@@ -21,17 +21,16 @@ public class PlayerAimBatteryState : PlayerState
     {
         base.Enter();
         isAiming = true;
-        player.battery.transform.parent = null; // Separa la batería
+        player.battery.transform.parent = null;
         Rigidbody2D rb = player.battery.GetComponent<Rigidbody2D>();
-        rb.bodyType = RigidbodyType2D.Kinematic; // Mantiene la batería en posición mientras apuntas
-        rb.linearVelocity = Vector2.zero; // Resetea la velocidad
-        rb.gravityScale = 0f; // Desactiva la gravedad mientras apuntas
+        rb.bodyType = RigidbodyType2D.Kinematic; 
+        rb.linearVelocity = Vector2.zero;
+        rb.gravityScale = 0f; 
         player.isSeparated = true;
 
-        // Activa los puntos
-        dots = player.AimDots; // Obtiene los puntos generados por Player
+        dots = player.AimDots; 
         DotsActive(true);
-        player.IsTimerPaused = true; // Pausa el temporizador
+        player.IsTimerPaused = true;
         Debug.Log("Entrando en ThrowState - Apuntando con clic izquierdo");
     }
 
@@ -40,45 +39,40 @@ public class PlayerAimBatteryState : PlayerState
         base.Exit();
 
         DotsActive(false);
-        player.IsTimerPaused = false;// Desactiva los puntos al salir
+        player.IsTimerPaused = false;
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (isAiming && player.InputHadler.ThrowInput) // Mientras mantienes clic izquierdo
+        if (isAiming && player.InputHadler.ThrowInput) 
         {
-            // Calcula la dirección desde el jugador hacia el ratón
             throwDirection = AimDirection().normalized;
 
-            // Posiciona la batería cerca del jugador mientras apuntas
             player.battery.transform.position = player.transform.position + (Vector3)(throwDirection * 0.5f);
 
-            // Posiciona los puntos para simular la trayectoria
             for (int i = 0; i < dots.Length; i++)
             {
                 dots[i].transform.position = DotsPosition(i * spaceBetweenDots);
 
-                // Mejora 1: Escalado de puntos (más pequeños a medida que se alejan)
-                float scale = 1f - (i * 0.05f); // Reduce el tamaño progresivamente
-                dots[i].transform.localScale = Vector3.one * Mathf.Max(0.3f, scale); // Mínimo 0.3 para que no desaparezca
+                float scale = 1f - (i * 0.05f); 
+                dots[i].transform.localScale = Vector3.one * Mathf.Max(0.3f, scale);
 
-                // Mejora 2: Color gradiente (desvanecimiento)
                 SpriteRenderer sr = dots[i].GetComponent<SpriteRenderer>();
                 if (sr != null)
                 {
-                    sr.color = new Color(1f, 1f, 1f, 1f - (i * 0.1f)); // Desvanece la opacidad
+                    sr.color = new Color(1f, 1f, 1f, 1f - (i * 0.1f));
                 }
             }
         }
 
-        if (player.InputHadler.ThrowInputStop && isAiming) // Al soltar clic izquierdo
+        if (player.InputHadler.ThrowInputStop && isAiming) 
         {
             isAiming = false;
             Rigidbody2D rb = player.battery.GetComponent<Rigidbody2D>();
             rb.bodyType = RigidbodyType2D.Dynamic;
-            rb.linearVelocity = throwDirection * playerData.throwForce; // Usa throwDirection directamente
-            rb.gravityScale = 1f; // Restaura la gravedad
+            rb.linearVelocity = throwDirection * playerData.throwForce; 
+            rb.gravityScale = 1f;
             player.InputHadler.UseThrowInput();
             player.ResetTimer();
             stateMachine.ChangeState(player.IdleState);

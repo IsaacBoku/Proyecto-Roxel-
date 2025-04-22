@@ -13,7 +13,6 @@ public class UI_BatteryPRuebas : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         UI_EnergyBattery();

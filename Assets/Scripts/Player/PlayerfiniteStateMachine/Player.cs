@@ -26,7 +26,6 @@ public class Player : MonoBehaviour
     public PlayerSeparatedState SeparatedState { get; private set; }
     public PlayerThrowState ThrowState { get; private set; }
     public PlayerAimBatteryState AimBatteryState { get; private set; }
-    public PlayerBoostState BoostState { get; private set; }
 
     [SerializeField]
     private PlayerData playerData;
@@ -77,16 +76,11 @@ public class Player : MonoBehaviour
     [Header("Timer Settings")]
     [SerializeField] private float timerResetDuration = 2f;
 
-    [Header("Boost Effects")]
-    [SerializeField] private ParticleSystem boostEffect;
-    private float lastBoostTime;
-
-
     [Header("Interactable Indicator")]
     [SerializeField]
     public Transform InteractionCheck;
-    [SerializeField] private InteractableIndicator globalIndicator; // Indicador global
-    private GameObject lastInteractable; // Cambiado a GameObject para evitar dependencia de InteractableObject
+    [SerializeField] private InteractableIndicator globalIndicator;
+    private GameObject lastInteractable;
     #endregion
 
     #region Other Variables
@@ -125,7 +119,6 @@ public class Player : MonoBehaviour
         SeparatedState = new PlayerSeparatedState(this, StateMachine, playerData, "Separated");
         ThrowState = new PlayerThrowState(this, StateMachine, playerData, "Throw");
         AimBatteryState = new PlayerAimBatteryState(this, StateMachine, playerData, "Aim");
-        BoostState = new PlayerBoostState(this, StateMachine, playerData, "Boost");
 
         sr = GetComponent<SpriteRenderer>();
 
@@ -158,7 +151,6 @@ public class Player : MonoBehaviour
 
         StateMachine.Intialize(IdleState);
 
-        // Ocultar el indicador global al inicio
         if (globalIndicator != null)
         {
             globalIndicator.Hide();
@@ -294,13 +286,13 @@ public class Player : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             currentTime = Mathf.Lerp(startTime, 0f, elapsedTime / timerResetDuration);
-            Debug.Log($"Disminuyendo temporizador progresivamente: {currentTime}/{maxTimeWithoutBattery}");
+            //Debug.Log($"Disminuyendo temporizador progresivamente: {currentTime}/{maxTimeWithoutBattery}");
             yield return null;
         }
 
         currentTime = 0f;
         isTimerResetting = false;
-        Debug.Log("Temporizador reiniciado progresivamente a 0.");
+        //Debug.Log("Temporizador reiniciado progresivamente a 0.");
     }
     private IEnumerator FlashBatteryColor()
     {
@@ -401,7 +393,7 @@ public class Player : MonoBehaviour
             {
                 // Pasar la posición del objeto interactuable al indicador
                 globalIndicator.Show(lastInteractable.transform.position);
-                Debug.Log($"Indicador mostrado en posición: {globalIndicator.transform.position}");
+                //Debug.Log($"Indicador mostrado en posición: {globalIndicator.transform.position}");
             }
             else
             {
@@ -413,7 +405,7 @@ public class Player : MonoBehaviour
             if (globalIndicator != null)
             {
                 globalIndicator.Hide();
-                Debug.Log("Indicador ocultado.");
+                //Debug.Log("Indicador ocultado.");
             }
         }
     }
@@ -546,15 +538,12 @@ public class Player : MonoBehaviour
         {
             if (playerUI != null)
             {
-                // Mostrar el mensaje de notificación
                 playerUI.ShowUpgradeNotification("¡Has recolectado 5 cristales! Puedes mejorar");
-                // Retrasar la aparición del panel de mejoras
                 Invoke(nameof(ShowUpgradeSelectionAfterDelay), playerUI.NotificationDuration);
             }
             else
             {
                 Debug.LogWarning("PlayerUI es null. No se puede mostrar la notificación.");
-                // Mostrar el panel inmediatamente si no hay PlayerUI
                 ShowUpgradeSelectionAfterDelay();
             }
         }

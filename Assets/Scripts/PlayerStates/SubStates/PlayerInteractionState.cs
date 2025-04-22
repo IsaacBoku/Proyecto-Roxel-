@@ -35,7 +35,6 @@ public class PlayerInteractionState : PlayerState
             {
                 Debug.Log($"PlayerInteractionState: Intentando interactuar con {obj.name}. Tiene batería: {(player.battery != null ? "Sí" : "No")}");
 
-                // Intentar interactuar con una palanca
                 Lever_Mechanic lever = obj.GetComponent<Lever_Mechanic>();
                 if (lever != null)
                 {
@@ -46,7 +45,6 @@ public class PlayerInteractionState : PlayerState
                     return;
                 }
 
-                // Intentar interactuar con un ChargeableObject
                 ChargeableObject chargeable = obj.GetComponent<ChargeableObject>();
                 if (chargeable != null)
                 {
@@ -76,7 +74,6 @@ public class PlayerInteractionState : PlayerState
                     return;
                 }
 
-                // Intentar recargar la batería con un BatteryCharger
                 BatteryCharger charger = obj.GetComponent<BatteryCharger>();
                 if (charger != null)
                 {
@@ -107,7 +104,6 @@ public class PlayerInteractionState : PlayerState
         }
         else
         {
-            // Si no se presiona "E" o no hay interacción válida, vuelve al estado Idle
             stateMachine.ChangeState(player.IdleState);
         }
     }

@@ -12,13 +12,13 @@ public class PlayerMagneticState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("Entrando en MagneticState");
+        //Debug.Log("Entrando en MagneticState");
     }
 
     public override void Exit()
     {
         base.Exit();
-        Debug.Log("Saliendo de MagneticState");
+        //Log("Saliendo de MagneticState");
     }
 
     public override void LogicUpdate()
@@ -53,8 +53,7 @@ public class PlayerMagneticState : PlayerState
 
             rb.AddForce(direction * force);
 
-            // Limita la velocidad máxima
-            float maxSpeed = 10f; // Ajusta según necesidad
+            float maxSpeed = 10f;
             if (rb.linearVelocity.magnitude > maxSpeed)
             {
                 rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
