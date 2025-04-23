@@ -1865,8 +1865,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e214aa3a80796294fb86cc42d89cafc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneMenu: Main_Menu
-  sceneRetry: GameScene
   gameScenes:
   - Pruebas
   pauseMenuPanel:
@@ -7812,14 +7810,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.07269932, g: 0.048282295, b: 0.2924528, a: 0.7882353}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 6727509649719589318, guid: 922dc99af590ad944822e89de2a97d53, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
