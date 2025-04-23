@@ -87,15 +87,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Boost",
-                    "type": "Button",
-                    "id": "ee408f43-332a-4861-8e65-34cd71b3b553",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "UISelectionUpgrade",
                     "type": "Button",
                     "id": "0e928c78-fdf3-458d-a743-983cd4da54bc",
@@ -252,7 +243,7 @@
                 {
                     "name": "",
                     "id": "d80e0744-e6ed-4e55-9b98-150ca575cff7",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -266,7 +257,18 @@
                     "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
+                    "action": "Magnetic",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "04ac080a-1272-4003-bd37-4d9601bdbe1f",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
                     "action": "Magnetic",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -277,7 +279,18 @@
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
+                    "action": "Separate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "26371d38-6601-4003-a389-e3dfbec223f4",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
                     "action": "Separate",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -288,7 +301,18 @@
                     "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
+                    "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53a2a09f-3ef4-4661-9528-30050afcc50f",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
                     "action": "MousePosition",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -299,19 +323,19 @@
                     "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
                     "action": "SwitchPolarity",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "571b9631-693b-4779-9819-d3e442ef3bd6",
-                    "path": "<Keyboard>/space",
+                    "id": "424bd5f8-dbac-4998-965b-02f6e7dfe588",
+                    "path": "<Gamepad>/leftStickPress",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Boost",
+                    "groups": ";Gamepad",
+                    "action": "SwitchPolarity",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -321,7 +345,18 @@
                     "path": "<Keyboard>/i",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
+                    "action": "UISelectionUpgrade",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dff13b4d-0535-497c-bf47-eab364ea8e95",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
                     "action": "UISelectionUpgrade",
                     "isComposite": false,
                     "isPartOfComposite": false

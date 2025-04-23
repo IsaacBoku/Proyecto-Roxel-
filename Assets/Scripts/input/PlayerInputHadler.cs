@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class PlayerInputHadler : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerInputHadler : MonoBehaviour
     public bool ThrowInput { get; private set; }
     public bool ThrowInputStop { get; private set; }
     public Vector2 MousePosition { get; private set; }
+    public Vector2 AimDirection { get; private set; }
     public bool MagneticInput { get; private set; }
     public bool MagneticInputStop { get; private set; }
     public bool SeparateInput { get; private set; }
@@ -94,7 +96,36 @@ public class PlayerInputHadler : MonoBehaviour
     }
     public void OnMousePosition(InputAction.CallbackContext context)
     {
-        MousePosition = context.ReadValue<Vector2>();
+        Vector2 inputValue = context.ReadValue<Vector2>();
+        var controlDevice = context.control.device;
+
+        if (controlDevice is Mouse)
+        {
+            // Mouse input: Store screen position
+            MousePosition = inputValue;
+            // Convert screen position to world aim direction
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(inputValue.x, inputValue.y, Camera.main.nearClipPlane));
+            AimDirection = (worldPos - transform.position).normalized;
+            Debug.Log("Entrada de ratón: Posición en pantalla = " + MousePosition + ", Dirección de apuntado = " + AimDirection);
+        }
+        else if (controlDevice is Gamepad)
+        {
+            // Gamepad input: Use right stick direction
+            AimDirection = inputValue.normalized;
+            if (AimDirection.magnitude > 0.1f) // Apply dead zone to avoid jitter
+            {
+                // Calculate a world aim point based on stick direction
+                Vector3 playerPos = transform.position;
+                Vector3 aimPoint = playerPos + new Vector3(AimDirection.x, AimDirection.y, 0) * 10f; // Arbitrary distance
+                MousePosition = Camera.main.WorldToScreenPoint(aimPoint); // Store as screen position for compatibility
+                Debug.Log("Entrada de mando: Dirección del stick derecho = " + AimDirection + ", Punto de apuntado en pantalla = " + MousePosition);
+            }
+            else
+            {
+                // If stick is in dead zone, keep last valid aim direction
+                Debug.Log("Stick derecho en zona muerta, manteniendo última dirección: " + AimDirection);
+            }
+        }
     }
 
     private void CheckJumpInputHoldTime()
@@ -125,7 +156,7 @@ public class PlayerInputHadler : MonoBehaviour
         }
         if (context.canceled)
         {
-            UpgradesInput = true;
+            UpgradesInputStop = true;
         }
     }
     public void OnSeparateInput(InputAction.CallbackContext context)
