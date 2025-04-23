@@ -4,6 +4,8 @@ using UnityEngine;
 public abstract class InteractableBase : MonoBehaviour, IActivable
 {
     public bool isActive { get; protected set; } = false;
+    [SerializeField] protected bool requiresSpecificPolarity = false;
+    [SerializeField] protected bool requiredPolarityIsPositive = true;
 
     [SerializeField]
     protected ParticleSystem effect;

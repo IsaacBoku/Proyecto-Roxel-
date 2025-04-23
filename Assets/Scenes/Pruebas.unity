@@ -1599,9 +1599,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waypoints:
+  - {fileID: 882103914}
   - {fileID: 381896842}
   - {fileID: 845744473}
-  - {fileID: 882103914}
   speed: 2
 --- !u!4 &217506545
 Transform:
@@ -3338,9 +3338,9 @@ BoxCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
+    border: {x: 0.125, y: 0.09375, z: 0.125, w: 0.09375}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.75, y: 0.75}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -3360,6 +3360,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 791ea9b43c55d7c48b4d1456ce380116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  requiresSpecificPolarity: 0
+  requiredPolarityIsPositive: 1
   effect: {fileID: 0}
   sound: {fileID: 0}
   targets:
@@ -3418,7 +3420,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 935824729, guid: 040f65784f1433a44894e9201833e0dd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4747,6 +4749,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a2dcf4182afdda4692ac16b0240b95c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  requiresSpecificPolarity: 0
+  requiredPolarityIsPositive: 1
   effect: {fileID: 0}
   sound: {fileID: 0}
   targets:

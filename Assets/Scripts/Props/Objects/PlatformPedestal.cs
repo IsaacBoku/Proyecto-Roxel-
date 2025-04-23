@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class PlatformPedestal : InteractableBase
 {
-    // Enum para tipos de objetivos
     public enum TargetType
     {
         Platform,
@@ -11,34 +10,32 @@ public class PlatformPedestal : InteractableBase
         Door
     }
 
-    // Clase para objetivos
     [System.Serializable]
     public class TargetEntry
     {
         public TargetType type;
         public GameObject targetObject;
-        [HideInInspector] public IActivable activable; // Para Laser y Door
-        [HideInInspector] public MovingPlatform platform; // Para Platform
+        [HideInInspector] public IActivable activable;
+        [HideInInspector] public MovingPlatform platform;
     }
 
-    [SerializeField]
-    private List<TargetEntry> targets = new List<TargetEntry>();
-
-    [SerializeField]
-    private ParticleSystem activateEffect;
-
-    [SerializeField]
-    private AudioSource activateSound;
-
+    [SerializeField] private List<TargetEntry> targets = new List<TargetEntry>();
+    [SerializeField] private ParticleSystem activateEffect;
+    [SerializeField] private AudioSource activateSound;
     private bool hasBattery = false;
+    private SpriteRenderer sr;
 
-    // Propiedad pública para Player
     public bool HasBattery => hasBattery;
 
     protected override void Start()
     {
         base.Start();
-        // Inicializar objetivos
+        sr = GetComponent<SpriteRenderer>();
+        if (requiresSpecificPolarity && sr != null)
+        {
+            sr.color = requiredPolarityIsPositive ? Color.red : Color.blue;
+        }
+
         foreach (var target in targets)
         {
             if (target.targetObject == null)
@@ -57,17 +54,11 @@ public class PlatformPedestal : InteractableBase
                     }
                     break;
                 case TargetType.Laser:
-                    target.activable = target.targetObject.GetComponent<IActivable>();
-                    if (target.activable == null)
-                    {
-                        Debug.LogWarning($"PlatformPedestal '{gameObject.name}': El objetivo '{target.targetObject.name}' no tiene un componente IActivable (Laser).");
-                    }
-                    break;
                 case TargetType.Door:
                     target.activable = target.targetObject.GetComponent<IActivable>();
                     if (target.activable == null)
                     {
-                        Debug.LogWarning($"PlatformPedestal '{gameObject.name}': El objetivo '{target.targetObject.name}' no tiene un componente IActivable (Door).");
+                        Debug.LogWarning($"PlatformPedestal '{gameObject.name}': El objetivo '{target.targetObject.name}' no tiene un componente IActivable.");
                     }
                     break;
             }
@@ -83,6 +74,12 @@ public class PlatformPedestal : InteractableBase
     {
         if (other.CompareTag("Battery"))
         {
+            var batteryController = other.GetComponent<BatteryController>();
+            if (requiresSpecificPolarity && batteryController.isPositivePolarity != requiredPolarityIsPositive)
+            {
+                Debug.Log($"PlatformPedestal '{gameObject.name}': Polaridad incorrecta. Se requiere {(requiredPolarityIsPositive ? "positiva" : "negativa")}.");
+                return;
+            }
             hasBattery = true;
             ActivateTargets();
             if (activateEffect != null) activateEffect.Play();
