@@ -411,6 +411,15 @@ public class Player : MonoBehaviour
                 return;
             }
 
+            // Verificar si es un PlatformPedestal con batería
+            PlatformPedestal pedestal = lastInteractable.GetComponent<PlatformPedestal>();
+            if (pedestal != null && pedestal.HasBattery)
+            {
+                Debug.Log($"Indicador ocultado: {lastInteractable.name} es un PlatformPedestal con HasBattery == true.");
+                globalIndicator.Hide();
+                return;
+            }
+
             // Mostrar indicador para todos los demás casos
             Debug.Log($"Indicador mostrado para: {lastInteractable.name} en posición {lastInteractable.transform.position}");
             globalIndicator.Show(lastInteractable.transform.position);
