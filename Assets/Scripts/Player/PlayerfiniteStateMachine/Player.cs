@@ -228,7 +228,7 @@ public class Player : MonoBehaviour
             if (distanceToBattery > playerData.safeRange)
             {
                 currentTime += Time.deltaTime;
-                Debug.Log($"Tiempo sin batería (fuera de rango): {currentTime}/{maxTimeWithoutBattery}. Distancia: {distanceToBattery}");
+                //Debug.Log($"Tiempo sin batería (fuera de rango): {currentTime}/{maxTimeWithoutBattery}. Distancia: {distanceToBattery}");
                 if (currentTime >= maxTimeWithoutBattery)
                 {
                     Debug.Log("Tiempo sin batería agotado. El jugador muere.");
@@ -237,7 +237,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                Debug.Log($"Batería dentro del rango seguro ({distanceToBattery}/{playerData.safeRange}). Temporizador pausado.");
+                //Debug.Log($"Batería dentro del rango seguro ({distanceToBattery}/{playerData.safeRange}). Temporizador pausado.");
             }
         }
 
