@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 6504566124883157803}
   - component: {fileID: 4087718347925725409}
   m_Layer: 10
-  m_Name: ChargeablePlataform
+  m_Name: INTERACTIVE-Chargeable_Plataform
   m_TagString: Chargeable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

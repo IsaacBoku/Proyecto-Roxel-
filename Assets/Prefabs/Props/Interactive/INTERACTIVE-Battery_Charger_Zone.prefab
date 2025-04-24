@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 986367580612045889}
   - component: {fileID: 6401163075291130204}
   m_Layer: 10
-  m_Name: BatteryChargerZone
+  m_Name: INTERACTIVE-Battery_Charger_Zone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
