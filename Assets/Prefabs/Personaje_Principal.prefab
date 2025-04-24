@@ -381,22 +381,6 @@ MonoBehaviour:
     m_ActionName: 'Gameplay/SwitchPolarity[/Keyboard/f]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4775971293667171042}
-        m_TargetAssemblyTypeName: PlayerInputHadler, Assembly-CSharp
-        m_MethodName: OnBoostInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: ee408f43-332a-4861-8e65-34cd71b3b553
-    m_ActionName: 'Gameplay/Boost[/Keyboard/space]'
-  - m_PersistentCalls:
-      m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UpgradeSelectionUI, Assembly-CSharp
         m_MethodName: ShowUpgradeSelection
@@ -498,7 +482,6 @@ MonoBehaviour:
   upgradeEffect: {fileID: 0}
   upgradeSound: {fileID: 0}
   timerResetDuration: 2
-  boostEffect: {fileID: 0}
   InteractionCheck: {fileID: 289189624859510397}
   globalIndicator: {fileID: 0}
   originalSpeed: 0
@@ -521,7 +504,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 5
-  m_Material: {fileID: 6200000, guid: f961fd3f32e0e124091083844cb06849, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -617,7 +600,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9149900430545757865
 Transform:
   m_ObjectHideFlags: 0
