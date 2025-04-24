@@ -49,17 +49,27 @@ public class Controller_MainMenu : MonoBehaviour
             Debug.Log("Botones del Main Menu registrados en MenuEventSystemHandler");
         }
 
-        // Forzar selección inicial del startButton
+        // Seleccionar botón inicial
+        SelectInitialButton();
+    }
+
+    // Nuevo método para seleccionar el botón inicial
+    public void SelectInitialButton()
+    {
         if (startButton != null)
         {
             StartCoroutine(SelectButtonAfterDelay(startButton));
+        }
+        else
+        {
+            Debug.LogWarning("No se puede seleccionar botón inicial: startButton es null");
         }
     }
 
     private IEnumerator SelectButtonAfterDelay(Button button)
     {
-        yield return null;
+        yield return null; // Esperar un frame para asegurar que el EventSystem esté listo
         EventSystem.current.SetSelectedGameObject(button.gameObject);
-        Debug.Log("Botón inicial seleccionado en Main Menu: " + button.name);
+        Debug.Log("Botón seleccionado en Main Menu: " + button.name);
     }
 }
