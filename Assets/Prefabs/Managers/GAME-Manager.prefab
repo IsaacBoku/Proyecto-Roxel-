@@ -1939,17 +1939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab4e2ce064f152449bd7e1b311e294d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyBindings:
-  - actionName: Jump
-    actionReference: {fileID: 181914440193509198, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
-    rebindButton: {fileID: 4223860925518450047}
-    keyText: {fileID: 8654330608495729898}
-    bindingPath: 
-  - actionName: Interact
-    actionReference: {fileID: 8452355141271017209, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
-    rebindButton: {fileID: 8671443241790154820}
-    keyText: {fileID: 7667683265259419929}
-    bindingPath: 
+  keyBindings: []
 --- !u!114 &5261501992000523247
 MonoBehaviour:
   m_ObjectHideFlags: 0
