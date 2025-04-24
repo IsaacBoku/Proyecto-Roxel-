@@ -122,6 +122,7 @@ public class Controller_Menus : MonoBehaviour
         else
         {
             EnsureUIMode();
+            SelectMainMenuButton(); // Seleccionar botón inicial en Main Menu
             Debug.Log("Escena de Main Menu cargada, mantenido mapa UI");
         }
 
@@ -191,7 +192,7 @@ public class Controller_Menus : MonoBehaviour
 
     private IEnumerator TryFindInputHandler()
     {
-        for (int i = 0; i < 10; i++) // Aumentar intentos para mayor robustez
+        for (int i = 0; i < 10; i++)
         {
             if (hasInputHandler) yield break;
 
@@ -210,7 +211,7 @@ public class Controller_Menus : MonoBehaviour
             }
 
             Debug.Log($"PlayerInputHandler no encontrado en la escena: {SceneManager.GetActiveScene().name} (intento {i + 1})");
-            yield return new WaitForSeconds(0.2f); // Aumentar espera a 0.2s
+            yield return new WaitForSeconds(0.2f);
         }
 
         Debug.LogWarning("No se encontró PlayerInputHandler después de varios intentos en la escena: " + SceneManager.GetActiveScene().name);
@@ -353,6 +354,7 @@ public class Controller_Menus : MonoBehaviour
                 EnsureUIMode();
                 menuEventSystem.enabled = true;
                 Cursor.visible = true;
+                SelectMainMenuButton(); // Seleccionar botón inicial en Main Menu
                 Debug.Log("Todos los menús cerrados, mapa UI mantenido para Main Menu");
             }
             return;
@@ -378,6 +380,7 @@ public class Controller_Menus : MonoBehaviour
                 EnsureUIMode();
                 menuEventSystem.enabled = true;
                 Cursor.visible = true;
+                SelectMainMenuButton(); // Seleccionar botón inicial en Main Menu
                 Debug.Log("Menú cerrado, mapa UI mantenido para Main Menu");
             }
         }
@@ -500,6 +503,21 @@ public class Controller_Menus : MonoBehaviour
         menuEventSystem.enabled = true;
         Cursor.visible = true;
         Debug.Log("Modo UI asegurado para escena no de juego");
+    }
+
+    // Nuevo método para seleccionar el botón inicial en el Main Menu
+    private void SelectMainMenuButton()
+    {
+        Controller_MainMenu mainMenu = FindFirstObjectByType<Controller_MainMenu>();
+        if (mainMenu != null)
+        {
+            mainMenu.SelectInitialButton();
+            Debug.Log("Botón inicial del Main Menu seleccionado");
+        }
+        else
+        {
+            Debug.LogWarning("Controller_MainMenu no encontrado para seleccionar botón inicial");
+        }
     }
 
     public void Button_Resume()
