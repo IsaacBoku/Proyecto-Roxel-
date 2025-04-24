@@ -5,14 +5,15 @@ using UnityEngine.UIElements;
 public class PlayerInputHadler : MonoBehaviour
 {
     #region InputsVariables
-    public Vector2 RawMovementInput {  get; private set; }
+    // Gameplay inputs
+    public Vector2 RawMovementInput { get; private set; }
     public int NormInputX { get; private set; }
     public int NormInputY { get; private set; }
     public bool JumpInput { get; private set; }
-    public bool JumpInputStop {  get; private set; }
+    public bool JumpInputStop { get; private set; }
     public bool OptionsInput { get; private set; }
     public bool OptionsInputStop { get; private set; }
-    public bool GrabInput { get; private set; }  
+    public bool GrabInput { get; private set; }
     public bool GrabInputStop { get; private set; }
     public bool ThrowInput { get; private set; }
     public bool ThrowInputStop { get; private set; }
@@ -23,7 +24,7 @@ public class PlayerInputHadler : MonoBehaviour
     public bool SeparateInput { get; private set; }
     public bool SeparateInputStop { get; private set; }
     public bool AttractInput { get; private set; }
-    public bool InteractInput { get; private set; } 
+    public bool InteractInput { get; private set; }
     public bool InteractInputStop { get; private set; }
     public bool SwitchPolarityInput { get; private set; }
     public bool UpgradesInput { get; private set; }
@@ -33,19 +34,25 @@ public class PlayerInputHadler : MonoBehaviour
     public Vector2 NavigateInput { get; private set; }
     public bool SubmitInput { get; private set; }
     public bool CancelInput { get; private set; }
-
     #endregion
+
     #region Unity CallBack
-    PlayerInput input;
-    bool isPaused;
+    private PlayerInput input;
+    private bool isPaused;
 
     [SerializeField]
     private float inputHoldTime = 0.2f;
 
     private float jumpInputStartTime;
+
     private void Start()
     {
         input = GetComponent<PlayerInput>();
+        if (input == null)
+        {
+            Debug.LogError("Componente PlayerInput no encontrado en " + gameObject.name);
+            input = gameObject.AddComponent<PlayerInput>(); // Intentar añadir si no existe
+        }
 
         if (Controller_Menus.Instance != null)
         {
@@ -59,20 +66,24 @@ public class PlayerInputHadler : MonoBehaviour
             controlsSettings.ApplyKeyBindings(this);
         }
 
+        SwitchToGameplayInput();
+        Debug.Log("PlayerInputHandler inicializado en " + gameObject.name);
     }
+
     private void Update()
     {
         CheckJumpInputHoldTime();
     }
     #endregion
+
     #region Input Handlers - Gameplay
     public void OnMoveInput(InputAction.CallbackContext context)
     {
         RawMovementInput = context.ReadValue<Vector2>();
-
-        NormInputX = (int)(RawMovementInput*Vector2.right).normalized.x;
-        NormInputY = (int)(RawMovementInput*Vector2.up).normalized.y;
+        NormInputX = (int)(RawMovementInput * Vector2.right).normalized.x;
+        NormInputY = (int)(RawMovementInput * Vector2.up).normalized.y;
     }
+
     public void OnJumpInput(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -81,11 +92,12 @@ public class PlayerInputHadler : MonoBehaviour
             JumpInputStop = false;
             jumpInputStartTime = Time.time;
         }
-        if(context.canceled)
+        if (context.canceled)
         {
             JumpInputStop = true;
         }
     }
+
     public void OnThrowInput(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -99,6 +111,7 @@ public class PlayerInputHadler : MonoBehaviour
             ThrowInputStop = true;
         }
     }
+
     public void OnMousePosition(InputAction.CallbackContext context)
     {
         Vector2 inputValue = context.ReadValue<Vector2>();
@@ -106,40 +119,28 @@ public class PlayerInputHadler : MonoBehaviour
 
         if (controlDevice is Mouse)
         {
-            // Mouse input: Store screen position
             MousePosition = inputValue;
-            // Convert screen position to world aim direction
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(inputValue.x, inputValue.y, Camera.main.nearClipPlane));
             AimDirection = (worldPos - transform.position).normalized;
-            //Debug.Log("Entrada de ratón: Posición en pantalla = " + MousePosition + ", Dirección de apuntado = " + AimDirection);
+           //Debug.Log("Entrada de ratón: Posición en pantalla = " + MousePosition + ", Dirección de apuntado = " + AimDirection);
         }
         else if (controlDevice is Gamepad)
         {
-            // Gamepad input: Use right stick direction
             AimDirection = inputValue.normalized;
-            if (AimDirection.magnitude > 0.1f) // Apply dead zone to avoid jitter
+            if (AimDirection.magnitude > 0.1f)
             {
-                // Calculate a world aim point based on stick direction
                 Vector3 playerPos = transform.position;
-                Vector3 aimPoint = playerPos + new Vector3(AimDirection.x, AimDirection.y, 0) * 10f; // Arbitrary distance
-                MousePosition = Camera.main.WorldToScreenPoint(aimPoint); // Store as screen position for compatibility
+                Vector3 aimPoint = playerPos + new Vector3(AimDirection.x, AimDirection.y, 0) * 10f;
+                MousePosition = Camera.main.WorldToScreenPoint(aimPoint);
                 Debug.Log("Entrada de mando: Dirección del stick derecho = " + AimDirection + ", Punto de apuntado en pantalla = " + MousePosition);
             }
             else
             {
-                // If stick is in dead zone, keep last valid aim direction
                 Debug.Log("Stick derecho en zona muerta, manteniendo última dirección: " + AimDirection);
             }
         }
     }
 
-    private void CheckJumpInputHoldTime()
-    {
-        if (Time.time >= jumpInputStartTime + inputHoldTime)
-        {
-            JumpInput = false;
-        }
-    }
     public void OnOptionsInput(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -152,6 +153,7 @@ public class PlayerInputHadler : MonoBehaviour
             OptionsInputStop = true;
         }
     }
+
     public void OnUpgradesInput(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -164,6 +166,7 @@ public class PlayerInputHadler : MonoBehaviour
             UpgradesInputStop = true;
         }
     }
+
     public void OnSeparateInput(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -177,17 +180,20 @@ public class PlayerInputHadler : MonoBehaviour
             SeparateInput = false;
         }
     }
+
     public void OnInteractInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
             InteractInput = true;
             InteractInputStop = false;
+            Debug.Log("Entrada de interacción iniciada");
         }
         if (context.canceled)
         {
             InteractInputStop = true;
             InteractInput = false;
+            Debug.Log("Entrada de interacción cancelada");
         }
     }
 
@@ -197,13 +203,16 @@ public class PlayerInputHadler : MonoBehaviour
         {
             MagneticInput = true;
             MagneticInputStop = false;
+            Debug.Log("Entrada magnética iniciada");
         }
         else if (context.canceled)
         {
             MagneticInput = false;
             MagneticInputStop = true;
+            Debug.Log("Entrada magnética cancelada");
         }
     }
+
     public void OnSwitchPolarityInput(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -212,6 +221,7 @@ public class PlayerInputHadler : MonoBehaviour
         }
     }
     #endregion
+
     #region Input Handlers - UI
     public void OnNavigateInput(InputAction.CallbackContext context)
     {
@@ -224,12 +234,10 @@ public class PlayerInputHadler : MonoBehaviour
         if (context.started)
         {
             SubmitInput = true;
-            Debug.Log("Entrada de confirmación UI iniciada");
         }
         if (context.canceled)
         {
             SubmitInput = false;
-            Debug.Log("Entrada de confirmación UI cancelada");
         }
     }
 
@@ -247,7 +255,16 @@ public class PlayerInputHadler : MonoBehaviour
         }
     }
     #endregion
-    #region UseInput
+
+    #region Input Management
+    private void CheckJumpInputHoldTime()
+    {
+        if (Time.time >= jumpInputStartTime + inputHoldTime)
+        {
+            JumpInput = false;
+        }
+    }
+
     public void UseJumpInput() => JumpInput = false;
     public void UseThrowInput() => ThrowInput = false;
     public void UseMagneticInput() => MagneticInput = false;
@@ -274,8 +291,8 @@ public class PlayerInputHadler : MonoBehaviour
         NavigateInput = Vector2.zero;
         Debug.Log("Todos los inputs reseteados");
     }
-
     #endregion
+
     #region UIController
     public void OnPause()
     {
@@ -284,6 +301,7 @@ public class PlayerInputHadler : MonoBehaviour
         SwitchToUIInput();
         Debug.Log("Juego pausado, cambiado a mapa de entrada UI");
     }
+
     public void OnGame()
     {
         isPaused = false;
@@ -291,16 +309,31 @@ public class PlayerInputHadler : MonoBehaviour
         SwitchToGameplayInput();
         Debug.Log("Juego reanudado, cambiado a mapa de entrada Gameplay");
     }
+
     private void SwitchToGameplayInput()
     {
-        input.SwitchCurrentActionMap("Gameplay");
-        Debug.Log("Cambiado al mapa de entrada Gameplay");
+        if (input != null)
+        {
+            input.SwitchCurrentActionMap("Gameplay");
+            Debug.Log("Cambiado al mapa de entrada Gameplay");
+        }
+        else
+        {
+            Debug.LogWarning("No se puede cambiar al mapa Gameplay: input es null");
+        }
     }
 
     private void SwitchToUIInput()
     {
-        input.SwitchCurrentActionMap("UI");
-        Debug.Log("Cambiado al mapa de entrada UI");
+        if (input != null)
+        {
+            input.SwitchCurrentActionMap("UI");
+            Debug.Log("Cambiado al mapa de entrada UI");
+        }
+        else
+        {
+            Debug.LogWarning("No se puede cambiar al mapa UI: input es null");
+        }
     }
     #endregion
 }

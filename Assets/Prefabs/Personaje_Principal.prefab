@@ -434,7 +434,7 @@ MonoBehaviour:
     m_ActionId: 0e928c78-fdf3-458d-a743-983cd4da54bc
     m_ActionName: 'Gameplay/UISelectionUpgrade[/Keyboard/i]'
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
