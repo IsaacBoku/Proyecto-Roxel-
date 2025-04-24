@@ -29,10 +29,14 @@ public class PlayerInputHadler : MonoBehaviour
     public bool UpgradesInput { get; private set; }
     public bool UpgradesInputStop { get; private set; }
 
+    // UI inputs
+    public Vector2 NavigateInput { get; private set; }
+    public bool SubmitInput { get; private set; }
+    public bool CancelInput { get; private set; }
+
     #endregion
     #region Unity CallBack
     PlayerInput input;
-
     bool isPaused;
 
     [SerializeField]
@@ -54,13 +58,14 @@ public class PlayerInputHadler : MonoBehaviour
             controlsSettings.InitializeActions();
             controlsSettings.ApplyKeyBindings(this);
         }
+
     }
     private void Update()
     {
         CheckJumpInputHoldTime();
     }
     #endregion
-    #region Input
+    #region Input Handlers - Gameplay
     public void OnMoveInput(InputAction.CallbackContext context)
     {
         RawMovementInput = context.ReadValue<Vector2>();
@@ -106,7 +111,7 @@ public class PlayerInputHadler : MonoBehaviour
             // Convert screen position to world aim direction
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(inputValue.x, inputValue.y, Camera.main.nearClipPlane));
             AimDirection = (worldPos - transform.position).normalized;
-            Debug.Log("Entrada de ratón: Posición en pantalla = " + MousePosition + ", Dirección de apuntado = " + AimDirection);
+            //Debug.Log("Entrada de ratón: Posición en pantalla = " + MousePosition + ", Dirección de apuntado = " + AimDirection);
         }
         else if (controlDevice is Gamepad)
         {
@@ -207,6 +212,41 @@ public class PlayerInputHadler : MonoBehaviour
         }
     }
     #endregion
+    #region Input Handlers - UI
+    public void OnNavigateInput(InputAction.CallbackContext context)
+    {
+        NavigateInput = context.ReadValue<Vector2>();
+        Debug.Log("Entrada de navegación UI: " + NavigateInput);
+    }
+
+    public void OnSubmitInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            SubmitInput = true;
+            Debug.Log("Entrada de confirmación UI iniciada");
+        }
+        if (context.canceled)
+        {
+            SubmitInput = false;
+            Debug.Log("Entrada de confirmación UI cancelada");
+        }
+    }
+
+    public void OnCancelInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            CancelInput = true;
+            Debug.Log("Entrada de cancelación UI iniciada");
+        }
+        if (context.canceled)
+        {
+            CancelInput = false;
+            Debug.Log("Entrada de cancelación UI cancelada");
+        }
+    }
+    #endregion
     #region UseInput
     public void UseJumpInput() => JumpInput = false;
     public void UseThrowInput() => ThrowInput = false;
@@ -216,28 +256,51 @@ public class PlayerInputHadler : MonoBehaviour
     public void UseOptionsInput() => OptionsInput = false;
     public void UseUpgradesInput() => UpgradesInput = false;
     public void UseSwitchPolarityInput() => SwitchPolarityInput = false;
+    public void UseSubmitInput() => SubmitInput = false;
+    public void UseCancelInput() => CancelInput = false;
+
+    private void ResetInputs()
+    {
+        JumpInput = false;
+        ThrowInput = false;
+        MagneticInput = false;
+        SeparateInput = false;
+        InteractInput = false;
+        OptionsInput = false;
+        UpgradesInput = false;
+        SwitchPolarityInput = false;
+        SubmitInput = false;
+        CancelInput = false;
+        NavigateInput = Vector2.zero;
+        Debug.Log("Todos los inputs reseteados");
+    }
 
     #endregion
     #region UIController
     public void OnPause()
     {
-        isPaused = !isPaused;
-        if (isPaused)
-        {
-            input.enabled = false;
-        }
-        else
-        {
-            input.enabled = true;
-        }
+        isPaused = true;
+        ResetInputs();
+        SwitchToUIInput();
+        Debug.Log("Juego pausado, cambiado a mapa de entrada UI");
     }
     public void OnGame()
     {
-        isPaused = !isPaused;
-        if (!isPaused)
-        {
-            input.enabled = true;
-        }
+        isPaused = false;
+        ResetInputs();
+        SwitchToGameplayInput();
+        Debug.Log("Juego reanudado, cambiado a mapa de entrada Gameplay");
+    }
+    private void SwitchToGameplayInput()
+    {
+        input.SwitchCurrentActionMap("Gameplay");
+        Debug.Log("Cambiado al mapa de entrada Gameplay");
+    }
+
+    private void SwitchToUIInput()
+    {
+        input.SwitchCurrentActionMap("UI");
+        Debug.Log("Cambiado al mapa de entrada UI");
     }
     #endregion
 }

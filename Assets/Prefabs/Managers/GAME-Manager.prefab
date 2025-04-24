@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 1936644363939987488}
     m_SelectOnDown: {fileID: 2526566116279758453}
@@ -1236,7 +1236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 7005055698628794352}
     m_SelectOnDown: {fileID: 275193533399140590}
@@ -1681,11 +1681,11 @@ MonoBehaviour:
   - {fileID: 714919315680321126}
   - {fileID: 7427121359825561417}
   - {fileID: 8488615066188824067}
+  - {fileID: 82363598295219688}
   _firstSelected: {fileID: 4265186358507633897}
   _selectedAnimationScale: 1.1
   _scaleDuration: 0.25
   _animationExclusions: []
-  _navigateReference: {fileID: -6424239796273916356, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
   SoundEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1872,31 +1872,31 @@ MonoBehaviour:
     panelObject: {fileID: 5246115907267787183}
     animator: {fileID: 6611327813377981956}
     openAnimationParameter: Open
-    animationDuration: 5
+    animationDuration: 0.5
   optionsMenuPanel:
     panelName: OptionsMenu
     panelObject: {fileID: 1514016094170227365}
     animator: {fileID: 1777499077319846352}
     openAnimationParameter: Open
-    animationDuration: 50
+    animationDuration: 0.5
   controlsMenuPanel:
     panelName: ControlMenu
     panelObject: {fileID: 2700281908102627104}
     animator: {fileID: 8234278374103074813}
     openAnimationParameter: Open
-    animationDuration: 5
+    animationDuration: 0.5
   audioMenuPanel:
     panelName: AudioMenu
     panelObject: {fileID: 1729200519781469403}
     animator: {fileID: 6003837504761340871}
     openAnimationParameter: Open
-    animationDuration: 5
+    animationDuration: 0.5
   graphicsMenuPanel:
     panelName: GraphicsMenu
     panelObject: {fileID: 1482962725217498789}
     animator: {fileID: 120380408464874102}
     openAnimationParameter: Open
-    animationDuration: 5
+    animationDuration: 0.5
   quitPanel:
     panelName: 
     panelObject: {fileID: 0}
@@ -2070,12 +2070,13 @@ MonoBehaviour:
   Selectables:
   - {fileID: 5087421596269761502}
   - {fileID: 3252277248327271831}
+  - {fileID: 2786391959534604945}
+  - {fileID: 8335955396183983740}
   - {fileID: 2486733582646693959}
   _firstSelected: {fileID: 5087421596269761502}
   _selectedAnimationScale: 1.1
   _scaleDuration: 0.25
   _animationExclusions: []
-  _navigateReference: {fileID: -6424239796273916356, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
   SoundEvent:
     m_PersistentCalls:
       m_Calls:
@@ -3324,7 +3325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 4367954983124788790}
     m_SelectOnDown: {fileID: 5932849867844814612}
@@ -3589,12 +3590,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Selectables:
-  - {fileID: 1936644363939987488}
+  - {fileID: 4223860925518450047}
+  - {fileID: 8671443241790154820}
+  - {fileID: 8088124243036681990}
   _firstSelected: {fileID: 4223860925518450047}
   _selectedAnimationScale: 1.1
   _scaleDuration: 0.25
   _animationExclusions: []
-  _navigateReference: {fileID: -6424239796273916356, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
   SoundEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -3905,7 +3907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 275193533399140590}
     m_SelectOnDown: {fileID: 7005055698628794352}
@@ -5622,7 +5624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 2526566116279758453}
     m_SelectOnDown: {fileID: 1936644363939987488}
@@ -7078,7 +7080,6 @@ MonoBehaviour:
   _selectedAnimationScale: 1.1
   _scaleDuration: 0.25
   _animationExclusions: []
-  _navigateReference: {fileID: -6424239796273916356, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
   SoundEvent:
     m_PersistentCalls:
       m_Calls:
@@ -7433,7 +7434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 5932849867844814612}
     m_SelectOnDown: {fileID: 4367954983124788790}
@@ -8699,7 +8700,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6866607855057844175
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8873,7 +8874,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 3252277248327271831}
     m_SelectOnDown: {fileID: 5087421596269761502}
@@ -9081,7 +9082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 4292293901803192410}
     m_SelectOnDown: {fileID: 4918246700894909475}
@@ -9612,7 +9613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 4918246700894909475}
     m_SelectOnDown: {fileID: 4292293901803192410}
@@ -12350,7 +12351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 2486733582646693959}
     m_SelectOnDown: {fileID: 3252277248327271831}
@@ -12572,11 +12573,10 @@ MonoBehaviour:
   - {fileID: 4367954983124788790}
   - {fileID: 2526566116279758453}
   - {fileID: 5932849867844814612}
-  _firstSelected: {fileID: 4367954983124788790}
+  _firstSelected: {fileID: 1936644363939987488}
   _selectedAnimationScale: 1.1
   _scaleDuration: 0.25
   _animationExclusions: []
-  _navigateReference: {fileID: -6424239796273916356, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
   SoundEvent:
     m_PersistentCalls:
       m_Calls:
@@ -12721,7 +12721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: -1
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 5087421596269761502}
     m_SelectOnDown: {fileID: 2486733582646693959}

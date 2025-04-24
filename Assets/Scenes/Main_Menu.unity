@@ -1433,6 +1433,14 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1597756124}
+    - target: {fileID: 3406277595600963298, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: gameScenes.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3406277595600963298, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: 'gameScenes.Array.data[1]'
+      value: Pruebas
+      objectReference: {fileID: 0}
     - target: {fileID: 5087421596269761502, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2847,7 +2855,6 @@ MonoBehaviour:
   _selectedAnimationScale: 1.1
   _scaleDuration: 0.25
   _animationExclusions: []
-  _navigateReference: {fileID: -6424239796273916356, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
   SoundEvent:
     m_PersistentCalls:
       m_Calls:
@@ -4841,13 +4848,10 @@ MonoBehaviour:
   Selectables:
   - {fileID: 186510120}
   - {fileID: 1126032726}
-  - {fileID: 1151085487}
-  - {fileID: 877790279}
   _firstSelected: {fileID: 186510120}
   _selectedAnimationScale: 1.1
   _scaleDuration: 0.25
   _animationExclusions: []
-  _navigateReference: {fileID: -6424239796273916356, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
   SoundEvent:
     m_PersistentCalls:
       m_Calls:

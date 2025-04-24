@@ -242,15 +242,51 @@ MonoBehaviour:
     m_ActionId: b906120c-652b-4217-9451-ab1ea1656fc7
     m_ActionName: 'Gameplay/Interact[/Keyboard/e]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4775971293667171042}
+        m_TargetAssemblyTypeName: PlayerInputHadler, Assembly-CSharp
+        m_MethodName: OnNavigateInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: ab78e625-0c50-4bb5-b13b-b6644927ca56
     m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4775971293667171042}
+        m_TargetAssemblyTypeName: PlayerInputHadler, Assembly-CSharp
+        m_MethodName: OnSubmitInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 9941bc9a-f6f3-4ba9-92b4-289db291d757
     m_ActionName: 'UI/Submit[/Keyboard/enter]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4775971293667171042}
+        m_TargetAssemblyTypeName: PlayerInputHadler, Assembly-CSharp
+        m_MethodName: OnCancelInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: b0ab6afa-7b32-44cf-8bf9-f6c35a27d9b9
     m_ActionName: 'UI/Cancel[/Keyboard/escape]'
   - m_PersistentCalls:
@@ -6002,7 +6038,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5127094046268221178, guid: 1e5bcf3ea339bf7488393ca4110932e1, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
-      value: 0
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7756363837338881766, guid: 1e5bcf3ea339bf7488393ca4110932e1, type: 3}
       propertyPath: m_Pivot.x

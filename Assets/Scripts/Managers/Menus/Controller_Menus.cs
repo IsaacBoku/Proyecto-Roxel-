@@ -2,39 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class Controller_Menus : MonoBehaviour
 {
     public static Controller_Menus Instance { get; private set; }
 
     [Header("Scene Names")]
-    [SerializeField] private List<string> gameScenes = new List<string> { "Prueba" }; 
+    [SerializeField] private List<string> gameScenes = new List<string> { "Prueba" };
 
     [Header("Menu Panels")]
-    [SerializeField] private MenuPanel pauseMenuPanel; 
-    [SerializeField] private MenuPanel optionsMenuPanel; 
-    [SerializeField] private MenuPanel controlsMenuPanel; 
-    [SerializeField] private MenuPanel audioMenuPanel; 
-    [SerializeField] private MenuPanel graphicsMenuPanel; 
+    [SerializeField] private MenuPanel pauseMenuPanel;
+    [SerializeField] private MenuPanel optionsMenuPanel;
+    [SerializeField] private MenuPanel controlsMenuPanel;
+    [SerializeField] private MenuPanel audioMenuPanel;
+    [SerializeField] private MenuPanel graphicsMenuPanel;
     [SerializeField] private MenuPanel quitPanel;
 
     [Header("Dependencies")]
     private PlayerInputHadler inputHandler;
     [SerializeField] private MenuEventSystemHadler menuEventSystem;
-    [SerializeField] private CanvasGroup fadePanel; 
+    [SerializeField] private CanvasGroup fadePanel;
 
     [Header("Transition Settings")]
-    [SerializeField] private float fadeDuration = 1f; 
+    [SerializeField] private float fadeDuration = 1f;
 
-    private bool isPaused = false; 
-    private MenuPanel currentMenuPanel; 
-    private Stack<MenuPanel> menuStack; 
-    private bool isGameScene = false; 
-    private bool hasInputHandler = false; 
+    private bool isPaused = false;
+    private MenuPanel currentMenuPanel;
+    private Stack<MenuPanel> menuStack;
+    private bool isGameScene = false;
+    private bool hasInputHandler = false;
 
     private void Awake()
     {
-        // Singleton
         if (Instance == null)
         {
             Instance = this;
@@ -59,19 +59,25 @@ public class Controller_Menus : MonoBehaviour
     private void Start()
     {
         UpdateSceneContext();
-        StartCoroutine(TryFindInputHandler());
+        StartCoroutine(InitializeScene());
+    }
 
+    private IEnumerator InitializeScene()
+    {
+        yield return StartCoroutine(TryFindInputHandler());
 
         if (isGameScene)
         {
             CloseAllMenus();
             ResumeGame();
+            Debug.Log("Inicialización completa: Escena de juego, mapa Gameplay activado");
         }
         else
         {
             Cursor.visible = true;
-            menuEventSystem.enabled = false;
+            EnsureUIMode();
             CloseAllMenus();
+            Debug.Log("Inicialización completa: Escena de Main Menu, mapa UI activado");
         }
 
         if (fadePanel != null)
@@ -100,7 +106,24 @@ public class Controller_Menus : MonoBehaviour
     {
         UpdateSceneContext();
         hasInputHandler = false;
-        StartCoroutine(TryFindInputHandler());
+        StartCoroutine(InitializeSceneAfterLoad());
+    }
+
+    private IEnumerator InitializeSceneAfterLoad()
+    {
+        yield return StartCoroutine(TryFindInputHandler());
+
+        if (isGameScene)
+        {
+            CloseAllMenus();
+            ResumeGame();
+            Debug.Log("Escena de juego cargada, cambiado a mapa Gameplay");
+        }
+        else
+        {
+            EnsureUIMode();
+            Debug.Log("Escena de Main Menu cargada, mantenido mapa UI");
+        }
 
         if (fadePanel != null)
         {
@@ -110,10 +133,47 @@ public class Controller_Menus : MonoBehaviour
 
     private void Update()
     {
-        if (isGameScene && inputHandler != null && inputHandler.OptionsInput)
+        if (isGameScene && inputHandler != null)
         {
-            TogglePause();
-            inputHandler.UseOptionsInput();
+            if (inputHandler.OptionsInput)
+            {
+                TogglePause();
+                inputHandler.UseOptionsInput();
+            }
+
+            if (isPaused)
+            {
+                HandleUIInput();
+            }
+        }
+    }
+
+    private void HandleUIInput()
+    {
+        if (inputHandler.SubmitInput)
+        {
+            if (EventSystem.current.currentSelectedGameObject != null)
+            {
+                var button = EventSystem.current.currentSelectedGameObject.GetComponent<UnityEngine.UI.Button>();
+                if (button != null)
+                {
+                    button.onClick.Invoke();
+                    Debug.Log("Botón de UI confirmado con Submit");
+                }
+            }
+            inputHandler.UseSubmitInput();
+        }
+
+        if (inputHandler.CancelInput)
+        {
+            CloseCurrentMenu();
+            Debug.Log("Menú cerrado con Cancel");
+            inputHandler.UseCancelInput();
+        }
+
+        if (inputHandler.NavigateInput.magnitude > 0.1f)
+        {
+            Debug.Log("Navegación en UI: " + inputHandler.NavigateInput);
         }
     }
 
@@ -131,14 +191,14 @@ public class Controller_Menus : MonoBehaviour
 
     private IEnumerator TryFindInputHandler()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++) // Aumentar intentos para mayor robustez
         {
-            if (hasInputHandler) yield break; 
+            if (hasInputHandler) yield break;
 
             inputHandler = FindAnyObjectByType<PlayerInputHadler>();
             if (inputHandler != null)
             {
-                Debug.Log($"PlayerInputHadler encontrado en la escena: {SceneManager.GetActiveScene().name} (intento {i + 1})");
+                Debug.Log($"PlayerInputHandler encontrado en la escena: {SceneManager.GetActiveScene().name} (intento {i + 1})");
                 hasInputHandler = true;
 
                 ControlsSettings controlsSettings = FindAnyObjectByType<ControlsSettings>();
@@ -149,17 +209,18 @@ public class Controller_Menus : MonoBehaviour
                 yield break;
             }
 
-            Debug.Log($"PlayerInputHadler no encontrado en la escena: {SceneManager.GetActiveScene().name} (intento {i + 1})");
-            yield return new WaitForSeconds(0.1f);
+            Debug.Log($"PlayerInputHandler no encontrado en la escena: {SceneManager.GetActiveScene().name} (intento {i + 1})");
+            yield return new WaitForSeconds(0.2f); // Aumentar espera a 0.2s
         }
 
-        Debug.LogWarning("No se encontró PlayerInputHadler después de varios intentos en la escena: " + SceneManager.GetActiveScene().name);
+        Debug.LogWarning("No se encontró PlayerInputHandler después de varios intentos en la escena: " + SceneManager.GetActiveScene().name);
     }
+
     public void RegisterInputHandler(PlayerInputHadler newInputHandler)
     {
         inputHandler = newInputHandler;
         hasInputHandler = true;
-        Debug.Log($"PlayerInputHadler registrado en MenuSystems: {SceneManager.GetActiveScene().name}");
+        Debug.Log($"PlayerInputHandler registrado en MenuSystems: {SceneManager.GetActiveScene().name}");
 
         ControlsSettings controlsSettings = FindAnyObjectByType<ControlsSettings>();
         if (controlsSettings != null)
@@ -172,7 +233,7 @@ public class Controller_Menus : MonoBehaviour
     {
         inputHandler = null;
         hasInputHandler = false;
-        Debug.Log("PlayerInputHadler desregistrado de MenuSystems");
+        Debug.Log("PlayerInputHandler desregistrado de MenuSystems");
     }
 
     private void InitializeMenuPanels()
@@ -200,7 +261,6 @@ public class Controller_Menus : MonoBehaviour
     private void PauseGame()
     {
         isPaused = true;
-        //Time.timeScale = 0f;
         if (inputHandler != null)
         {
             inputHandler.OnPause();
@@ -212,6 +272,7 @@ public class Controller_Menus : MonoBehaviour
 
         AudioManager.instance.PauseMusic();
         AudioManager.instance.PlaySFX("MenuOpen");
+        Debug.Log("Juego pausado, menú de pausa abierto");
     }
 
     private void ResumeGame()
@@ -221,6 +282,7 @@ public class Controller_Menus : MonoBehaviour
         if (inputHandler != null)
         {
             inputHandler.OnGame();
+            Debug.Log("Mapa Gameplay activado en ResumeGame");
         }
         Cursor.visible = false;
 
@@ -229,6 +291,7 @@ public class Controller_Menus : MonoBehaviour
 
         AudioManager.instance.ResumeMusic();
         AudioManager.instance.PlaySFX("MenuClose");
+        Debug.Log("Juego reanudado, todos los menús cerrados");
     }
 
     public void OpenMenu(MenuPanel menuPanel)
@@ -248,6 +311,7 @@ public class Controller_Menus : MonoBehaviour
 
         AudioManager.instance.PlaySFX("ButtonClick");
     }
+
     private IEnumerator CloseAndOpenMenuCoroutine(MenuPanel menuToClose, MenuPanel menuToOpen)
     {
         yield return StartCoroutine(CloseMenuCoroutine(menuToClose));
@@ -261,16 +325,16 @@ public class Controller_Menus : MonoBehaviour
     {
         if (isGameScene)
         {
-            PauseGame(); 
+            PauseGame();
         }
         else
         {
             Debug.Log("Abriendo directamente el menú de opciones en MainMenu");
             Cursor.visible = true;
+            EnsureUIMode();
             menuEventSystem.enabled = true;
 
             CloseAllMenus();
-
             OpenMenu(optionsMenuPanel);
         }
     }
@@ -286,8 +350,10 @@ public class Controller_Menus : MonoBehaviour
             else
             {
                 CloseAllMenus();
-                menuEventSystem.enabled = false;
+                EnsureUIMode();
+                menuEventSystem.enabled = true;
                 Cursor.visible = true;
+                Debug.Log("Todos los menús cerrados, mapa UI mantenido para Main Menu");
             }
             return;
         }
@@ -309,12 +375,15 @@ public class Controller_Menus : MonoBehaviour
             else
             {
                 CloseAllMenus();
-                menuEventSystem.enabled = false;
+                EnsureUIMode();
+                menuEventSystem.enabled = true;
                 Cursor.visible = true;
+                Debug.Log("Menú cerrado, mapa UI mantenido para Main Menu");
             }
         }
 
         AudioManager.instance.PlaySFX("ButtonClick");
+        Debug.Log("Menú actual cerrado");
     }
 
     private void CloseAllMenus()
@@ -328,6 +397,7 @@ public class Controller_Menus : MonoBehaviour
 
         menuStack.Clear();
         currentMenuPanel = null;
+        Debug.Log("Todos los menús cerrados");
     }
 
     private IEnumerator OpenMenuCoroutine(MenuPanel menuPanel)
@@ -348,7 +418,6 @@ public class Controller_Menus : MonoBehaviour
         {
             yield return new WaitForSecondsRealtime(menuPanel.AnimationDuration);
         }
-
     }
 
     private IEnumerator CloseMenuCoroutine(MenuPanel menuPanel)
@@ -371,6 +440,7 @@ public class Controller_Menus : MonoBehaviour
 
         menuPanel.panelObject.SetActive(false);
     }
+
     public void Button_ChangeScene(string sceneName)
     {
         if (!string.IsNullOrEmpty(sceneName))
@@ -385,7 +455,6 @@ public class Controller_Menus : MonoBehaviour
 
     private IEnumerator LoadSceneWithTransition(string sceneName)
     {
-        // Fade out
         if (fadePanel != null)
         {
             float elapsedTime = 0f;
@@ -417,8 +486,20 @@ public class Controller_Menus : MonoBehaviour
                 fadePanel.alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
                 yield return null;
             }
-            fadePanel.alpha = 0f; 
+            fadePanel.alpha = 0f;
         }
+    }
+
+    private void EnsureUIMode()
+    {
+        if (inputHandler != null)
+        {
+            inputHandler.OnPause();
+            Debug.Log("Mapa UI activado en EnsureUIMode");
+        }
+        menuEventSystem.enabled = true;
+        Cursor.visible = true;
+        Debug.Log("Modo UI asegurado para escena no de juego");
     }
 
     public void Button_Resume()
