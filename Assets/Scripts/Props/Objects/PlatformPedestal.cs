@@ -125,7 +125,7 @@ public class PlatformPedestal : InteractableBase
             else if ((target.type == TargetType.Laser || target.type == TargetType.Door) && target.activable != null)
             {
                 target.activable.Toggle(false);
-                target.activable.SetIgnoreTrigger(false);
+                target.activable.SetIgnoreTrigger(true);
             }
         }
     }

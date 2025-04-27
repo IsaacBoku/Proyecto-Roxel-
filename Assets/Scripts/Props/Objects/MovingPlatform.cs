@@ -3,8 +3,16 @@ using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
+    public enum PlatformMode
+    {
+        Continuous,       // Moves continuously between waypoints
+        PedestalControlled // Controlled by a pedestal
+    }
+
+    [SerializeField] private PlatformMode mode = PlatformMode.PedestalControlled;
     [SerializeField] private Transform[] waypoints;
     [SerializeField] private float speed = 2f;
+
     private bool isActive = false;
     private bool isReturning = false;
     private int currentWaypointIndex = 0;
@@ -14,101 +22,123 @@ public class MovingPlatform : MonoBehaviour
 
     private void Start()
     {
-        lastPosition = transform.position;
-        if (waypoints.Length > 0)
+        InitializePlatform();
+        if (mode == PlatformMode.Continuous)
         {
-            initialPosition = waypoints[0].position;
-            transform.position = initialPosition; // Asegurar que empieza en el primer waypoint
-        }
-        else
-        {
-            initialPosition = transform.position;
-            Debug.LogWarning($"MovingPlatform '{gameObject.name}': No se asignaron waypoints. Usando posición inicial.");
+            isActive = true;
+            Debug.Log($"MovingPlatform '{gameObject.name}': Started in Continuous mode.");
         }
     }
 
     public void Activate()
     {
-        isActive = true;
-        isReturning = false; // Cancelar retorno si se reactiva
-        Debug.Log($"MovingPlatform '{gameObject.name}': Activada.");
+        if (mode == PlatformMode.PedestalControlled)
+        {
+            isActive = true;
+            isReturning = false;
+            Debug.Log($"MovingPlatform '{gameObject.name}': Activated by pedestal.");
+        }
     }
 
     public void Deactivate()
     {
-        isActive = false;
-        if (waypoints.Length > 0)
+        if (mode == PlatformMode.PedestalControlled)
         {
-            isReturning = true; // Iniciar retorno al primer waypoint
-            currentWaypointIndex = 0; // Resetear para el próximo ciclo
-            Debug.Log($"MovingPlatform '{gameObject.name}': Desactivada. Regresando al primer waypoint.");
+            isActive = false;
+            if (waypoints.Length > 0)
+            {
+                isReturning = true;
+                currentWaypointIndex = 0;
+                Debug.Log($"MovingPlatform '{gameObject.name}': Deactivated by pedestal. Returning to initial waypoint.");
+            }
         }
     }
 
     private void Update()
     {
-        if (isReturning)
+        if (!CanMove()) return;
+
+        Vector2 targetPosition = GetTargetPosition();
+        MoveToTarget(targetPosition);
+        UpdateObjectsOnPlatform();
+
+        if (HasReachedTarget(targetPosition))
         {
-            // Mover hacia el primer waypoint
-            transform.position = Vector2.MoveTowards(transform.position, initialPosition, speed * Time.deltaTime);
-
-            // Transportar objetos
-            Vector2 deltaPosition = (Vector2)transform.position - lastPosition;
-            foreach (Rigidbody2D rb in objectsOnPlatform)
-            {
-                if (rb != null)
-                {
-                    rb.position += deltaPosition;
-                }
-            }
-
-            // Verificar si llegó al primer waypoint
-            if (Vector2.Distance(transform.position, initialPosition) < 0.1f)
-            {
-                isReturning = false;
-                Debug.Log($"MovingPlatform '{gameObject.name}': Regresó al primer waypoint.");
-            }
-        }
-        else if (isActive && waypoints.Length > 0)
-        {
-            // Movimiento normal entre waypoints
-            Vector2 target = waypoints[currentWaypointIndex].position;
-            transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
-
-            // Transportar objetos
-            Vector2 deltaPosition = (Vector2)transform.position - lastPosition;
-            foreach (Rigidbody2D rb in objectsOnPlatform)
-            {
-                if (rb != null)
-                {
-                    rb.position += deltaPosition;
-                }
-            }
-
-            // Cambiar al siguiente waypoint
-            if (Vector2.Distance(transform.position, target) < 0.1f)
-            {
-                currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
-            }
+            HandleTargetReached();
         }
 
         lastPosition = transform.position;
     }
 
+    private void InitializePlatform()
+    {
+        lastPosition = transform.position;
+        if (waypoints.Length > 0)
+        {
+            initialPosition = waypoints[0].position;
+            transform.position = initialPosition;
+        }
+        else
+        {
+            initialPosition = transform.position;
+            Debug.LogWarning($"MovingPlatform '{gameObject.name}': No waypoints assigned. Using initial position.");
+        }
+    }
+
+    private bool CanMove()
+    {
+        return (mode == PlatformMode.Continuous || isActive || isReturning) && waypoints.Length > 0;
+    }
+
+    private Vector2 GetTargetPosition()
+    {
+        return isReturning && mode == PlatformMode.PedestalControlled
+            ? initialPosition
+            : waypoints[currentWaypointIndex].position;
+    }
+
+    private void MoveToTarget(Vector2 target)
+    {
+        transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
+    }
+
+    private void UpdateObjectsOnPlatform()
+    {
+        Vector2 deltaPosition = (Vector2)transform.position - lastPosition;
+        foreach (Rigidbody2D rb in objectsOnPlatform)
+        {
+            if (rb != null)
+            {
+                rb.position += deltaPosition;
+            }
+        }
+    }
+
+    private bool HasReachedTarget(Vector2 target)
+    {
+        return Vector2.Distance(transform.position, target) < 0.1f;
+    }
+
+    private void HandleTargetReached()
+    {
+        if (isReturning && mode == PlatformMode.PedestalControlled)
+        {
+            isReturning = false;
+            Debug.Log($"MovingPlatform '{gameObject.name}': Returned to initial waypoint.");
+        }
+        else
+        {
+            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Rigidbody2D rb = collision.collider.GetComponent<Rigidbody2D>();
-        if (rb != null)
+        if (rb != null && IsObjectOnTop(collision))
         {
-            ContactPoint2D contact = collision.GetContact(0);
-            if (contact.normal.y < -0.5f) // Objeto encima
-            {
-                if (!objectsOnPlatform.Contains(rb))
-                {
-                    objectsOnPlatform.Add(rb);
-                    Debug.Log($"MovingPlatform '{gameObject.name}': Objeto {rb.gameObject.name} añadido a la plataforma.");
-                }
-            }
+            objectsOnPlatform.Add(rb);
+            Debug.Log($"MovingPlatform '{gameObject.name}': Object '{rb.gameObject.name}' added to platform.");
         }
     }
 
@@ -118,7 +148,13 @@ public class MovingPlatform : MonoBehaviour
         if (rb != null)
         {
             objectsOnPlatform.Remove(rb);
-            Debug.Log($"MovingPlatform '{gameObject.name}': Objeto {rb.gameObject.name} removido de la plataforma.");
+            Debug.Log($"MovingPlatform '{gameObject.name}': Object '{rb.gameObject.name}' removed from platform.");
         }
+    }
+
+    private bool IsObjectOnTop(Collision2D collision)
+    {
+        ContactPoint2D contact = collision.GetContact(0);
+        return contact.normal.y < -0.5f;
     }
 }

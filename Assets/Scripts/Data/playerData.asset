@@ -27,10 +27,10 @@ MonoBehaviour:
   whatIsInteractable:
     serializedVersion: 2
     m_Bits: 1024
-  throwForce: 7.73
+  throwForce: 10
   throwDistance: 5
-  lightMass: 5.49
-  normalMass: 5
+  lightMass: 5
+  normalMass: 1
   magneticForce: 20
   magneticRange: 20
   whatIsMetallic:
