@@ -37602,12 +37602,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
+--- !u!1 &754521223 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5845244587831207493, guid: 28c05209caa87df4f8cce5fe3092cca6, type: 3}
+  m_PrefabInstance: {fileID: 202940256}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &754521225 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7881913878564053754, guid: 28c05209caa87df4f8cce5fe3092cca6, type: 3}
   m_PrefabInstance: {fileID: 202940256}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 754521223}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8b67f8db9c0dc54383b640640d24791, type: 3}
@@ -37958,6 +37963,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3106837535028008081, guid: 04b8a420c8332d14da57f032cf35680d, type: 3}
+      propertyPath: targets.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3106837535028008081, guid: 04b8a420c8332d14da57f032cf35680d, type: 3}
       propertyPath: laserOpen.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -37965,6 +37974,18 @@ PrefabInstance:
       propertyPath: 'laserOpen.Array.data[0]'
       value: 
       objectReference: {fileID: 754521225}
+    - target: {fileID: 3106837535028008081, guid: 04b8a420c8332d14da57f032cf35680d, type: 3}
+      propertyPath: targets.Array.data[0].type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3106837535028008081, guid: 04b8a420c8332d14da57f032cf35680d, type: 3}
+      propertyPath: targets.Array.data[0].targetObject
+      value: 
+      objectReference: {fileID: 754521223}
+    - target: {fileID: 3106837535028008081, guid: 04b8a420c8332d14da57f032cf35680d, type: 3}
+      propertyPath: targets.Array.data[0].activateOnTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6012961698223416119, guid: 04b8a420c8332d14da57f032cf35680d, type: 3}
       propertyPath: m_Name
       value: PROP-Switch_button
