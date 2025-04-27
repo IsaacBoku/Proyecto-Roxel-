@@ -172,7 +172,7 @@ public static class SceneSwitcherToolbar
     static void LoadScene(string sceneName)
     {
         string scenePath;
-        Debug.Log("<b><color=green>Thank you for using the package  -Ajay</color></b>");
+        //Debug.Log("<b><color=green>Thank you for using the package  -Ajay</color></b>");
 
         if (fetchAllScenes)
         {

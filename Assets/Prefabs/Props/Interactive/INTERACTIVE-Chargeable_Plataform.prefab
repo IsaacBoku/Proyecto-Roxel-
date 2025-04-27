@@ -227,18 +227,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f47e6bc02cda1f748a01885e0def570c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActive: 0
+  requiresSpecificPolarity: 0
+  requiredPolarityIsPositive: 1
   effect: {fileID: 0}
   sound: {fileID: 0}
-  targets:
-  - type: 0
-    targetObject: {fileID: 0}
-  - type: 1
-    targetObject: {fileID: 0}
-  target: {fileID: 218732735568565511}
+  targets: []
   requiredEnergy: 80
   chargeDuration: 2
   mat: {fileID: 2100000, guid: bb4818f17f265194f8994a1878b39b70, type: 2}
+  isCharging: 0
 --- !u!212 &4087718347925725409
 SpriteRenderer:
   m_ObjectHideFlags: 0
