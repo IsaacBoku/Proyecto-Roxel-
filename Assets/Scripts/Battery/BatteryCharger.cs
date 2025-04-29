@@ -140,7 +140,7 @@ public class BatteryCharger : InteractableBase
         }
     }
 
-    void OnDrawGizmos()
+    new void OnDrawGizmos()
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, 0.5f);
