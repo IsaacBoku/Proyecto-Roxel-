@@ -59,6 +59,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float batteryFrequency = 2f;
     [SerializeField] private float bounceAmplitude = 0.05f;
     private Vector2 targetBatteryPosition;
+    [SerializeField] private Transform positionBattery;
     private float floatTimer;
 
     [Header("Progression Settings")]
@@ -449,7 +450,7 @@ public class Player : MonoBehaviour
         }
 
         battery.transform.parent = null;
-        battery.transform.position = headPosition;
+        battery.transform.position = positionBattery.transform.position;
 
         Rigidbody2D rb = battery.GetComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Dynamic;
@@ -495,11 +496,11 @@ public class Player : MonoBehaviour
         while (elapsedTime < moveDuration)
         {
             elapsedTime += Time.deltaTime;
-            battery.transform.position = Vector2.Lerp(startPos, targetPos, elapsedTime / moveDuration);
+            battery.transform.position = Vector2.Lerp(startPos, positionBattery.transform.position, elapsedTime / moveDuration);
             yield return null;
         }
 
-        battery.transform.position = targetPos;
+        battery.transform.position = positionBattery.transform.position;
         battery.transform.rotation = Quaternion.identity;
         if (collider != null) collider.enabled = true;
 
