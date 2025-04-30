@@ -670,6 +670,22 @@ PrefabInstance:
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 2183577387857084391, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
+      propertyPath: m_Size.x
+      value: 0.92241
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183577387857084391, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
+      propertyPath: m_Size.y
+      value: 0.7269683
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183577387857084391, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.019651651
+      objectReference: {fileID: 0}
+    - target: {fileID: 2183577387857084391, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.48453712
+      objectReference: {fileID: 0}
     - target: {fileID: 2331044188296296057, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -721,6 +737,14 @@ PrefabInstance:
     - target: {fileID: 5751237107471765708, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7573017274779827549, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: f961fd3f32e0e124091083844cb06849, type: 2}
+    - target: {fileID: 9020894077395841980, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.017
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -540,6 +540,10 @@ public class Player : MonoBehaviour
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(InteractionCheck.position, playerData.interactionRadius);
         }
+
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(groundCheck.position, playerData.groundCheckRadius);
     }
     #endregion
 
