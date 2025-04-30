@@ -620,7 +620,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Pruebas
+          m_StringArgument: Scene_Alpha
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &186510121
@@ -952,8 +952,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1433,14 +1433,6 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1597756124}
-    - target: {fileID: 3406277595600963298, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
-      propertyPath: gameScenes.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3406277595600963298, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
-      propertyPath: 'gameScenes.Array.data[1]'
-      value: Pruebas
-      objectReference: {fileID: 0}
     - target: {fileID: 5087421596269761502, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2654,7 +2646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217c03190497c9846853a8ce46d9c0e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene_Menu: Scene_Pruebas
+  scene_Menu: Scene_Alpha
   quitPanel: {fileID: 989498832}
   aniQuitPanel: {fileID: 989498833}
   menusSystems: {fileID: 1641626702}

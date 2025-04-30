@@ -1866,6 +1866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameScenes:
+  - Scene_Alpha
   - Pruebas
   pauseMenuPanel:
     panelName: PauseMenu
@@ -8690,7 +8691,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6866607855057844175
 RectTransform:
   m_ObjectHideFlags: 0
