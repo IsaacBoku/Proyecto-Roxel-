@@ -33,6 +33,7 @@ public class UpgradeSelectionUI : MonoBehaviour
     {
         Time.timeScale = 0f;
         upgradePanel.SetActive(true);
+        Cursor.visible = true;
     }
 
     private void SelectUpgrade(UpgradeType upgrade)
@@ -46,6 +47,7 @@ public class UpgradeSelectionUI : MonoBehaviour
     {
         player.CancelUpgradeSelection();
         upgradePanel.SetActive(false);
+        Cursor.visible = false;
         Time.timeScale = 1f;
     }
 }

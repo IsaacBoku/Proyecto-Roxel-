@@ -7,6 +7,7 @@ public class Controller_MainMenu : MonoBehaviour
 {
     [SerializeField] private Button startButton;
     [SerializeField] private Button optionsButton;
+    [SerializeField] private Button quitButton;
     [SerializeField] private string startSceneName = "Level1";
 
     private void Start()
@@ -18,6 +19,11 @@ public class Controller_MainMenu : MonoBehaviour
             return;
         }
 
+        if (quitButton != null)
+        {
+            quitButton.onClick.RemoveAllListeners();
+            quitButton.onClick.AddListener(controller.Button_Quit);
+        }
         if (startButton != null)
         {
             startButton.onClick.RemoveAllListeners();
@@ -45,6 +51,7 @@ public class Controller_MainMenu : MonoBehaviour
             eventSystemHandler.Selectables.Clear();
             if (startButton != null) eventSystemHandler.Selectables.Add(startButton);
             if (optionsButton != null) eventSystemHandler.Selectables.Add(optionsButton);
+            if (quitButton != null) eventSystemHandler.Selectables.Add(quitButton);
             eventSystemHandler.Awake(); // Reinicializar para registrar los nuevos Selectables
             Debug.Log("Botones del Main Menu registrados en MenuEventSystemHandler");
         }

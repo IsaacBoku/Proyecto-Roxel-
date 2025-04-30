@@ -295,7 +295,7 @@ public class Player : MonoBehaviour
     }
     private IEnumerator FlashBatteryColor()
     {
-        Color flashColor = battery.GetComponent<BatteryController>().isPositivePolarity ? Color.red : Color.blue;
+        Color flashColor = battery.GetComponent<BatteryController>().isPositivePolarity ? Color.red : Color.green;
         batterySpriteRenderer.color = flashColor;
         yield return new WaitForSeconds(0.3f);
         batterySpriteRenderer.color = batteryOriginalColor;
