@@ -38,6 +38,7 @@ public class BatteryCharger : InteractableBase
         if (other.CompareTag("Player") && other.GetComponent<Player>().battery != null)
         {
             battery = other.GetComponent<Player>().battery.GetComponent<BatteryController>();
+            StartCharging();
             Debug.Log($"BatteryCharger '{gameObject.name}': Batería detectada en zona de carga");
         }
     }
@@ -60,7 +61,7 @@ public class BatteryCharger : InteractableBase
 
     public override void Interact()
     {
-        StartCharging();
+        //StartCharging();
     }
 
     public void StartCharging()
