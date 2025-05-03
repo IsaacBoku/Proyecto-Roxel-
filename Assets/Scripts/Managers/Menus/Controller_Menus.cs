@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Controller_Menus : MonoBehaviour
 {
@@ -145,6 +146,18 @@ public class Controller_Menus : MonoBehaviour
             if (isPaused)
             {
                 HandleUIInput();
+                MaintainUISelection();
+            }
+        }
+    }
+    private void MaintainUISelection()
+    {
+        if(EventSystem.current.currentSelectedGameObject == null && currentMenuPanel != null)
+        {
+            Button defaultButton = currentMenuPanel.panelObject.GetComponentInChildren<Button>();
+            if(defaultButton != null)
+            {
+                EventSystem.current.SetSelectedGameObject(defaultButton.gameObject);
             }
         }
     }

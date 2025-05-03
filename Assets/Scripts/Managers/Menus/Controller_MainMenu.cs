@@ -75,8 +75,16 @@ public class Controller_MainMenu : MonoBehaviour
 
     private IEnumerator SelectButtonAfterDelay(Button button)
     {
-        yield return null; // Esperar un frame para asegurar que el EventSystem esté listo
-        EventSystem.current.SetSelectedGameObject(button.gameObject);
-        Debug.Log("Botón seleccionado en Main Menu: " + button.name);
+        yield return new WaitForEndOfFrame(); // Esperar hasta el final del frame
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null); // Limpiar selección previa
+            EventSystem.current.SetSelectedGameObject(button.gameObject);
+            Debug.Log("Botón seleccionado en Main Menu: " + button.name);
+        }
+        else
+        {
+            Debug.LogWarning("EventSystem no está inicializado");
+        }
     }
 }

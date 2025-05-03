@@ -24,6 +24,7 @@ public class MenuEventSystemHadler : MonoBehaviour, ISelectHandler, IDeselectHan
     protected Selectable _lastSelected;
     protected Tween _scaleUpTween;
     protected Tween _scaleDownTween;
+    private bool isRestoringSelection = false;
 
     public void Awake()
     {
@@ -31,6 +32,30 @@ public class MenuEventSystemHadler : MonoBehaviour, ISelectHandler, IDeselectHan
         {
             AddSelectionListeners(selectable);
             _scales.Add(selectable, selectable.transform.localScale);
+        }
+    }
+    private void Update()
+    {
+        MaintainUISelection();
+    }
+
+    private void MaintainUISelection()
+    {
+        if (EventSystem.current.currentSelectedGameObject == null && Selectables.Count > 0)
+        {
+            Selectable targetSelectable = _lastSelected != null && Selectables.Contains(_lastSelected) ? _lastSelected : _firstSelected;
+            if (targetSelectable == null && Selectables.Count > 0)
+            {
+                targetSelectable = Selectables[0]; // Fallback al primer elemento
+            }
+
+            if (targetSelectable != null)
+            {
+                isRestoringSelection = true; // Indicar que es una selección automática
+                EventSystem.current.SetSelectedGameObject(targetSelectable.gameObject);
+                isRestoringSelection = false;
+                Debug.Log("Selección restaurada a: " + targetSelectable.name);
+            }
         }
     }
 
@@ -46,11 +71,26 @@ public class MenuEventSystemHadler : MonoBehaviour, ISelectHandler, IDeselectHan
 
     protected virtual IEnumerator SelectAfterDelay()
     {
-        yield return null;
+        yield return new WaitForEndOfFrame(); // Esperar hasta el final del frame para asegurar que EventSystem esté listo
         if (_firstSelected != null)
         {
+            isRestoringSelection = true;
             EventSystem.current.SetSelectedGameObject(_firstSelected.gameObject);
+            _lastSelected = _firstSelected;
+            isRestoringSelection = false;
             Debug.Log("Elemento inicial seleccionado: " + _firstSelected.name);
+        }
+        else if (Selectables.Count > 0)
+        {
+            isRestoringSelection = true;
+            EventSystem.current.SetSelectedGameObject(Selectables[0].gameObject);
+            _lastSelected = Selectables[0];
+            isRestoringSelection = false;
+            Debug.Log("Elemento inicial seleccionado (fallback): " + Selectables[0].name);
+        }
+        else
+        {
+            Debug.LogWarning("No hay elementos seleccionables para seleccionar inicialmente");
         }
     }
 
@@ -104,13 +144,17 @@ public class MenuEventSystemHadler : MonoBehaviour, ISelectHandler, IDeselectHan
         _lastSelected = eventData.selectedObject.GetComponent<Selectable>();
         if (_lastSelected != null)
         {
-            Debug.Log("Elemento seleccionado: " + _lastSelected.name);
+            Debug.Log("Elemento seleccionado: " + _lastSelected.name + ", Restauración automática: " + isRestoringSelection);
         }
 
-        if (_animationExclusions.Contains(eventData.selectedObject))
+        if (_animationExclusions.Contains(eventData.selectedObject) || isRestoringSelection)
         {
-            return;
+            return; // No aplicar animación si es una restauración automática
         }
+
+        // Cancelar animaciones previas
+        _scaleUpTween?.Kill(true);
+        _scaleDownTween?.Kill(true);
 
         Vector3 newScale = eventData.selectedObject.transform.localScale * _selectedAnimationScale;
         _scaleUpTween = eventData.selectedObject.transform.DOScale(newScale, _scaleDuration);
@@ -126,6 +170,10 @@ public class MenuEventSystemHadler : MonoBehaviour, ISelectHandler, IDeselectHan
         Selectable sel = eventData.selectedObject.GetComponent<Selectable>();
         if (sel != null)
         {
+            // Cancelar animaciones previas
+            _scaleDownTween?.Kill(true);
+            _scaleUpTween?.Kill(true);
+
             _scaleDownTween = eventData.selectedObject.transform.DOScale(_scales[sel], _scaleDuration);
             Debug.Log("Elemento deseleccionado: " + sel.name);
         }
@@ -156,8 +204,7 @@ public class MenuEventSystemHadler : MonoBehaviour, ISelectHandler, IDeselectHan
         PointerEventData pointerEventData = eventData as PointerEventData;
         if (pointerEventData != null)
         {
-            pointerEventData.selectedObject = null;
-            Debug.Log("Ratón salió de un elemento");
+            Debug.Log("Ratón salió de un elemento, manteniendo selección actual");
         }
     }
 }
