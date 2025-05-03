@@ -72,17 +72,19 @@ public class MenuEventSystemHadler : MonoBehaviour, ISelectHandler, IDeselectHan
     protected virtual IEnumerator SelectAfterDelay()
     {
         yield return new WaitForEndOfFrame(); // Esperar hasta el final del frame para asegurar que EventSystem esté listo
-        if (EventSystem.current != null)
+        if (_firstSelected != null)
         {
-            isRestoringSelection = true;
-            EventSystem.current.SetSelectedGameObject(_lastSelected.gameObject);
+            isRestoringSelection = true; // Indicar que es una selección automática
+            EventSystem.current.SetSelectedGameObject(_firstSelected.gameObject);
+            _lastSelected = _firstSelected;
             isRestoringSelection = false;
             Debug.Log("Elemento inicial seleccionado: " + _firstSelected.name);
         }
         else if (Selectables.Count > 0)
         {
             isRestoringSelection = true;
-            EventSystem.current.SetSelectedGameObject(_lastSelected.gameObject);
+            EventSystem.current.SetSelectedGameObject(Selectables[0].gameObject);
+            _lastSelected = Selectables[0];
             isRestoringSelection = false;
             Debug.Log("Elemento inicial seleccionado (fallback): " + Selectables[0].name);
         }

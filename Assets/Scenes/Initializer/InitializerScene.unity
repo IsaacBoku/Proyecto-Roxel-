@@ -143,6 +143,26 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 870277946}
+    - target: {fileID: 3406277595600963298, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: audioMenuPanel.animationDuration
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 3406277595600963298, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: pauseMenuPanel.animationDuration
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 3406277595600963298, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: optionsMenuPanel.animationDuration
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 3406277595600963298, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: controlsMenuPanel.animationDuration
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 3406277595600963298, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: graphicsMenuPanel.animationDuration
+      value: 0.85
+      objectReference: {fileID: 0}
     - target: {fileID: 5087421596269761502, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
