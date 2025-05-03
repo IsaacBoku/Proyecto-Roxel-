@@ -462,6 +462,7 @@ public class Controller_Menus : MonoBehaviour
         if (!string.IsNullOrEmpty(sceneName))
         {
             StartCoroutine(LoadSceneWithTransition(sceneName));
+            CloseAllMenus();
         }
         else
         {
