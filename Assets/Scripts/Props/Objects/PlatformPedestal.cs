@@ -22,9 +22,11 @@ public class PlatformPedestal : InteractableBase
     [SerializeField] private List<TargetEntry> targets = new List<TargetEntry>();
     [SerializeField] private ParticleSystem activateEffect;
     [SerializeField] private AudioSource activateSound;
+    [SerializeField] private Transform batteryConnectionPoint;
     private bool hasBattery = false;
     private SpriteRenderer sr;
     Animator anim;
+    private GameObject connectedBattery;
 
     public bool HasBattery => hasBattery;
 
@@ -69,7 +71,7 @@ public class PlatformPedestal : InteractableBase
 
     public override void Interact()
     {
-        Debug.Log($"PlatformPedestal '{gameObject.name}': No se puede interactuar directamente. Coloca una bater�a.");
+        Debug.Log($"PlatformPedestal '{gameObject.name}': No se puede interactuar directamente. Coloca una bater�a.");
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -82,9 +84,28 @@ public class PlatformPedestal : InteractableBase
                 Debug.Log($"PlatformPedestal '{gameObject.name}': Polaridad incorrecta. Se requiere {(requiredPolarityIsPositive ? "positiva" : "negativa")}.");
                 return;
             }
+
+            // Guardar referencia a la bater�a
+            connectedBattery = other.gameObject;
             hasBattery = true;
+
+            // Posicionar la bater�a en el punto de conexi�n
+            if (batteryConnectionPoint != null)
+            {
+                connectedBattery.transform.position = batteryConnectionPoint.position;
+                connectedBattery.transform.rotation = batteryConnectionPoint.rotation; // Opcional: ajusta la rotaci�n si es necesario
+
+                // Desactivar f�sica para que no se mueva
+                Rigidbody2D rb = connectedBattery.GetComponent<Rigidbody2D>();
+                if (rb != null)
+                {
+                    rb.linearVelocity = Vector2.zero;
+                    rb.bodyType = RigidbodyType2D.Kinematic; // Evita que la f�sica afecte a la bater�a
+                }
+            }
+
             ActivateTargets();
-            anim.SetBool("Power",true);
+            anim.SetBool("Power", true);
             if (activateEffect != null) activateEffect.Play();
             if (activateSound != null) activateSound.Play();
             Debug.Log($"PlatformPedestal '{gameObject.name}': Objetivos activados");
@@ -93,9 +114,17 @@ public class PlatformPedestal : InteractableBase
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Battery"))
+        if (other.CompareTag("Battery") && other.gameObject == connectedBattery)
         {
+            // Restaurar la física de la batería
+            Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.bodyType = RigidbodyType2D.Dynamic; // Reactivar física
+            }
+
             hasBattery = false;
+            connectedBattery = null; // Limpiar referencia
             DeactivateTargets();
             anim.SetBool("Power", false);
             Debug.Log($"PlatformPedestal '{gameObject.name}': Objetivos desactivados");
