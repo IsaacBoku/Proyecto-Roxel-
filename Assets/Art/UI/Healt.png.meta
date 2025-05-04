@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 9d23fe14f928b8146b92864edccb714c
+guid: e72d97625def7824e851a7a40fb19624
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2221625860602240083
-    second: Pedestal-Sheet_0
-  - first:
-      213: 7357332807740139638
-    second: Pedestal-Sheet_1
+      213: 4117866235924284092
+    second: Healt_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -116,45 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Pedestal-Sheet_0
+      name: Healt_0
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 64
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+        x: 20
+        y: 14
+        width: 4
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 35c940513fcc4de10800000000000000
-      internalID: 2221625860602240083
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Pedestal-Sheet_1
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 64
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 678ada3353f7a1660800000000000000
-      internalID: 7357332807740139638
+      spriteID: cb287d03689952930800000000000000
+      internalID: 4117866235924284092
       vertices: []
       indices: 
       edges: []
@@ -163,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: b651a53f4be6db149acc3b4376d30965
+    spriteID: 6d382428c24418849b327d4d5e5030fa
     internalID: 0
     vertices: []
     indices: 
@@ -173,8 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Pedestal-Sheet_0: 2221625860602240083
-      Pedestal-Sheet_1: 7357332807740139638
+      Healt_0: 4117866235924284092
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
