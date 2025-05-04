@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 181ad3e9e08454144bb6bc26837a535a
+guid: d8e24670ba833554bbf899260961c935
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -67,7 +67,7 @@ TextureImporter:
   swizzle: 50462976
   cookieLightType: 0
   platformSettings:
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -80,7 +80,7 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -93,7 +93,7 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Props_Puerta_open-Sheet_0
+      name: Button_down_0
       rect:
         serializedVersion: 2
         x: 0
@@ -120,18 +120,19 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0115c24d7955b484c967bf059090b35d
-      internalID: -1881202606
+      spriteID: b9be4c730439d3a4eb7cdc8186eb0553
+      internalID: 1065805089
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Props_Puerta_open-Sheet_1
+      name: Button_down_1
       rect:
         serializedVersion: 2
         x: 64
@@ -141,18 +142,19 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b52d62a1625d27d4bbf84f118c0f54e7
-      internalID: -661888626
+      spriteID: bea9bcff4e7f7e94aaac4cb4566198f2
+      internalID: 1490669828
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Props_Puerta_open-Sheet_2
+      name: Button_down_2
       rect:
         serializedVersion: 2
         x: 128
@@ -162,18 +164,19 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce35db887d2ced44b9c61cf80a21d31e
-      internalID: -1266995708
+      spriteID: 730f804132c650546844db9eba548243
+      internalID: -102495011
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Props_Puerta_open-Sheet_3
+      name: Button_down_3
       rect:
         serializedVersion: 2
         x: 192
@@ -183,18 +186,19 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e8a9d5b807e85484e8db9d16ba27b67f
-      internalID: 1491537835
+      spriteID: ce84f68755923254da6bdd139d541384
+      internalID: -78498687
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Props_Puerta_open-Sheet_4
+      name: Button_down_4
       rect:
         serializedVersion: 2
         x: 256
@@ -204,38 +208,19 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0d7f9e62e33508b4d9618e0a8330bb2c
-      internalID: 1160623735
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Props_Puerta_open-Sheet_5
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ddb66f8d806942a43acd7091ba890f6d
-      internalID: 660795885
+      spriteID: 3b8843109c9db65478131aac1a802544
+      internalID: 202481772
       vertices: []
       indices: 
       edges: []
       weights: []
     outline: []
+    customData: 
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -245,13 +230,14 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
     nameFileIdTable:
-      Props_Puerta_open-Sheet_0: -1881202606
-      Props_Puerta_open-Sheet_1: -661888626
-      Props_Puerta_open-Sheet_2: -1266995708
-      Props_Puerta_open-Sheet_3: 1491537835
-      Props_Puerta_open-Sheet_4: 1160623735
-      Props_Puerta_open-Sheet_5: 660795885
+      Button_down_0: 1065805089
+      Button_down_1: 1490669828
+      Button_down_2: -102495011
+      Button_down_3: -78498687
+      Button_down_4: 202481772
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

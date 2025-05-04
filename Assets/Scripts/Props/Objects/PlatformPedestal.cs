@@ -24,6 +24,7 @@ public class PlatformPedestal : InteractableBase
     [SerializeField] private AudioSource activateSound;
     private bool hasBattery = false;
     private SpriteRenderer sr;
+    Animator anim;
 
     public bool HasBattery => hasBattery;
 
@@ -31,6 +32,7 @@ public class PlatformPedestal : InteractableBase
     {
         base.Start();
         sr = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
         if (requiresSpecificPolarity && sr != null)
         {
             sr.color = requiredPolarityIsPositive ? Color.red : Color.blue;
@@ -82,6 +84,7 @@ public class PlatformPedestal : InteractableBase
             }
             hasBattery = true;
             ActivateTargets();
+            anim.SetBool("Power",true);
             if (activateEffect != null) activateEffect.Play();
             if (activateSound != null) activateSound.Play();
             Debug.Log($"PlatformPedestal '{gameObject.name}': Objetivos activados");
@@ -94,6 +97,7 @@ public class PlatformPedestal : InteractableBase
         {
             hasBattery = false;
             DeactivateTargets();
+            anim.SetBool("Power", false);
             Debug.Log($"PlatformPedestal '{gameObject.name}': Objetivos desactivados");
         }
     }
