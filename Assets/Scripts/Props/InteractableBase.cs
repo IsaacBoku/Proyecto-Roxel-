@@ -37,7 +37,7 @@ public abstract class InteractableBase : MonoBehaviour, IActivable
             if (state)
             {
                 var main = effect.main;
-                main.startColor = Color.green;
+                main.startColor = requiresSpecificPolarity ? (requiredPolarityIsPositive ? Color.red : Color.blue) : Color.white;
                 effect.Play();
             }
             else

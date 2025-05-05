@@ -23,6 +23,9 @@ public class BatteryCharger : InteractableBase
     [SerializeField]
     private ParticleSystem completeEffect;
 
+    [SerializeField]
+    private SpriteRenderer spriteRenderer;
+
     private bool isCharging = false;
     private BatteryController battery;
     private float chargedAmount = 0f;
@@ -32,6 +35,7 @@ public class BatteryCharger : InteractableBase
     // Propiedades públicas para acceder desde Player
     public bool IsReusable => isReusable;
     public bool IsDisabled => isDisabled;
+
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -111,7 +115,7 @@ public class BatteryCharger : InteractableBase
                     isDisabled = true;
                 }
                 StopEffects();
-                if (completeEffect != null) completeEffect.Play();
+               if (completeEffect != null) completeEffect.Play();
                 Debug.Log($"BatteryCharger '{gameObject.name}': Recarga completada: se alcanzó la cantidad fija o el máximo de energía");
             }
         }
@@ -145,5 +149,44 @@ public class BatteryCharger : InteractableBase
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, 0.5f);
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        // Inicializar SpriteRenderer
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            if (spriteRenderer == null)
+            {
+                Debug.LogWarning($"BatteryCharger '{gameObject.name}': No se encontró SpriteRenderer. Añade uno al GameObject.");
+            }
+        }
+
+        // Establecer color inicial
+        UpdateSpriteColor();
+    }
+    private void UpdateSpriteColor()
+    {
+        if (spriteRenderer == null) return;
+
+        if (isDisabled)
+        {
+            spriteRenderer.color = Color.gray; // #808080
+        }
+        else if (isCharging)
+        {
+            spriteRenderer.color = Color.green; // #00FF00
+        }
+        else if (requiresSpecificPolarity)
+        {
+            spriteRenderer.color = requiredPolarityIsPositive ? Color.red : Color.blue; // #FF0000 o #0000FF
+        }
+        else
+        {
+            spriteRenderer.color = Color.white; // #FFFFFF
+        }
     }
 }
