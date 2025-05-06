@@ -505,7 +505,7 @@ public class Player : MonoBehaviour
         if (collider != null) collider.enabled = true;
 
         isSeparated = false;
-        StateMachine.ChangeState(IdleState);
+        //StateMachine.ChangeState(IdleState);
         InputHadler.UseSeparateInput();
         Debug.Log("Batería recogida y colocada encima de la cabeza.");
     }

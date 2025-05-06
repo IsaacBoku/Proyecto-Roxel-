@@ -11,13 +11,13 @@ public class PlayerSeparatedState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        player.rb.mass = playerData.lightMass;
+        //player.rb.mass = playerData.lightMass;
     }
 
     public override void Exit()
     {
         base.Exit();
-        player.rb.mass = playerData.normalMass;
+        //player.rb.mass = playerData.normalMass;
     }
 
     public override void LogicUpdate()
@@ -31,7 +31,7 @@ public class PlayerSeparatedState : PlayerState
         }
         if (player.InputHadler.JumpInput && player.CheckIfGrounded())
         {
-            player.SetVelocityY(playerData.jumpVelocity * 1.5f);
+            player.SetVelocityY(playerData.jumpVelocity);
             player.InputHadler.UseJumpInput();
         }
     }
