@@ -27,6 +27,7 @@ public class PlayerAimBatteryState : PlayerState
         rb.linearVelocity = Vector2.zero;
         rb.gravityScale = 0f; 
         player.isSeparated = true;
+        player.SetVelocityX(0);
 
         dots = player.AimDots; 
         DotsActive(true);
