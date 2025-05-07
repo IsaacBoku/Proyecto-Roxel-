@@ -29,6 +29,10 @@ public class PlayerSeparatedState : PlayerState
         {
             stateMachine.ChangeState(player.MoveState);
         }
+        else
+        {
+            stateMachine.ChangeState(player.IdleState);
+        }
         if (player.InputHadler.JumpInput && player.CheckIfGrounded())
         {
             player.SetVelocityY(playerData.jumpVelocity);
