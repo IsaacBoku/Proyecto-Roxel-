@@ -125,12 +125,12 @@ TextureImporter:
       name: ZonaChager-Sheet_0
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 64
-        height: 64
+        x: 237
+        y: 47
+        width: 9
+        height: 6
       alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -147,12 +147,12 @@ TextureImporter:
       name: ZonaChager-Sheet_1
       rect:
         serializedVersion: 2
-        x: 192
-        y: 0
-        width: 64
-        height: 64
+        x: 237
+        y: 42
+        width: 9
+        height: 6
       alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -165,11 +165,55 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: ZonaChager-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 0
+        width: 40
+        height: 41
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c06888469170f58a0800000000000000
+      internalID: -6314320346907900404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ZonaChager-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 0
+        width: 40
+        height: 41
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e8a01783d588f9d0800000000000000
+      internalID: -2740293229704337182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 8b70ce48e2db5b34e8f948047c476e19
+    spriteID: 0949c6e4969e99d4f824f2f553e990dd
     internalID: 0
     vertices: []
     indices: 
@@ -181,6 +225,8 @@ TextureImporter:
     nameFileIdTable:
       ZonaChager-Sheet_0: -3749251031317482143
       ZonaChager-Sheet_1: -1633941285802718928
+      ZonaChager-Sheet_2: -6314320346907900404
+      ZonaChager-Sheet_3: -2740293229704337182
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

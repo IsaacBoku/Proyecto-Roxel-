@@ -248,7 +248,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 6617513385845024810}
   m_FillRect: {fileID: 3101851928941730903}
   m_HandleRect: {fileID: 5991926596368204798}
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -330,7 +330,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 1
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -421,7 +421,7 @@ GameObject:
   - component: {fileID: 1986151938842964700}
   - component: {fileID: 1833572005603703726}
   - component: {fileID: 6504566124883157803}
-  - component: {fileID: 4087718347925725409}
+  - component: {fileID: 3831355869382001679}
   m_Layer: 10
   m_Name: INTERACTIVE-Chargeable_Plataform
   m_TagString: Chargeable
@@ -485,7 +485,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.35}
     oldSize: {x: 1.0625, y: 1.4375}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 1.0625, y: 1.4375}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -513,7 +513,8 @@ MonoBehaviour:
   chargeDuration: 2
   mat: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   isCharging: 0
---- !u!212 &4087718347925725409
+  slider_Energy: {fileID: 4295960540619873828}
+--- !u!212 &3831355869382001679
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -536,7 +537,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -562,7 +563,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.0625, y: 1.4375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -3749251031317482143, guid: b3701a29f892b9b47b8dfc8fb9902993, type: 3}
+  m_Sprite: {fileID: -2740293229704337182, guid: b3701a29f892b9b47b8dfc8fb9902993, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -148,3 +148,4 @@ MonoBehaviour:
   chargeEffect: {fileID: 0}
   chargeSound: {fileID: 0}
   completeEffect: {fileID: 0}
+  spriteRenderer: {fileID: 0}

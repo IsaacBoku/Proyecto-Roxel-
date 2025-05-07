@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChargeableObject : InteractableBase
 {
@@ -31,6 +32,9 @@ public class ChargeableObject : InteractableBase
     private Material mat;
 
     public bool isCharging = false;
+
+    [SerializeField]
+    private Slider slider_Energy;
 
     protected override void Start()
     {
@@ -107,12 +111,15 @@ public class ChargeableObject : InteractableBase
                 target.activable.Toggle(true);
             }
         }
+
+
         UpdateVisuals(true);
 
-        // Inicializar material
-        if (mat != null)
+        // Ensure the slider is initialized
+        if (slider_Energy != null)
         {
-            mat.SetFloat("_Progress", 0f);
+            slider_Energy.value = 0f; // Start at 0
+            slider_Energy.maxValue = 1f; // Set max value to 1 for progress (0 to 1)
         }
 
         while (elapsedTime < chargeDuration)
@@ -133,10 +140,14 @@ public class ChargeableObject : InteractableBase
                     }
                 }
                 UpdateVisuals(false);
-                if (mat != null)
+
+                // Reset slider on failure
+                if (slider_Energy != null)
                 {
-                    mat.SetFloat("_Progress", 0f);
+                    slider_Energy.value = 0f;
                 }
+
+
                 yield break;
             }
 
@@ -144,11 +155,11 @@ public class ChargeableObject : InteractableBase
             battery.energyAmounts = Mathf.Clamp(battery.energyAmounts, 0f, battery.maxEnergy);
             //Debug.Log($"Consumiendo energía progresivamente: {energyThisFrame}. Energía restante: {battery.energyAmounts}");
 
-            if (sr != null)
+            // Update slider to reflect charging progress
+            if (slider_Energy != null)
             {
-                sr.color = Color.Lerp(Color.red, Color.green, t);
+                slider_Energy.value = t; // Update slider value (0 to 1)
             }
-
             if (mat != null)
             {
                 mat.SetFloat("_Progress", t);
@@ -159,13 +170,14 @@ public class ChargeableObject : InteractableBase
 
         isActive = true;
         isCharging = false;
-        if (sr != null)
-        {
-            sr.color = Color.green;
-        }
         if (mat != null)
         {
             mat.SetFloat("_Progress", 1f);
+        }
+        // Set slider to max when charging completes
+        if (slider_Energy != null)
+        {
+            slider_Energy.value = 1f;
         }
         Debug.Log($"{gameObject.name} ha terminado de cargarse.");
     }
