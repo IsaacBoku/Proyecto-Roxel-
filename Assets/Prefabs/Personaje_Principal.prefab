@@ -516,6 +516,7 @@ MonoBehaviour:
   batteryAmplitude: 0.1
   batteryFrequency: 2
   bounceAmplitude: 0.05
+  positionBattery: {fileID: 0}
   crystalsPerUpgrade: 5
   upgradeEffect: {fileID: 0}
   upgradeSound: {fileID: 0}
@@ -542,7 +543,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 5
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: f961fd3f32e0e124091083844cb06849, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

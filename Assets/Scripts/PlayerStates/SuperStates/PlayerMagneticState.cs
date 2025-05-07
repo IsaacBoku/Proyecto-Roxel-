@@ -27,10 +27,13 @@ public class PlayerMagneticState : PlayerState
         if (player.InputHadler.MagneticInput)
         {
             ApplyMagneticForce();
+            player.SetVelocityX(0);
+            stateMachine.ChangeState(player.IdleState);
         }
         else if (player.InputHadler.MagneticInputStop)
         {
             stateMachine.ChangeState(player.IdleState);
+            player.SetVelocityX(0);
             player.InputHadler.UseMagneticInput();
         }
     }
