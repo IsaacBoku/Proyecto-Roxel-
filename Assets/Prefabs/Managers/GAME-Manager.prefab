@@ -1868,36 +1868,37 @@ MonoBehaviour:
   gameScenes:
   - Scene_Alpha
   - Pruebas
+  - Scene_Principal
   pauseMenuPanel:
     panelName: PauseMenu
     panelObject: {fileID: 5246115907267787183}
     animator: {fileID: 6611327813377981956}
     openAnimationParameter: Open
-    animationDuration: 0.5
+    animationDuration: 0.85
   optionsMenuPanel:
     panelName: OptionsMenu
     panelObject: {fileID: 1514016094170227365}
     animator: {fileID: 1777499077319846352}
     openAnimationParameter: Open
-    animationDuration: 0.5
+    animationDuration: 0.85
   controlsMenuPanel:
     panelName: ControlMenu
     panelObject: {fileID: 2700281908102627104}
     animator: {fileID: 8234278374103074813}
     openAnimationParameter: Open
-    animationDuration: 0.5
+    animationDuration: 0.85
   audioMenuPanel:
     panelName: AudioMenu
     panelObject: {fileID: 1729200519781469403}
     animator: {fileID: 6003837504761340871}
     openAnimationParameter: Open
-    animationDuration: 0.5
+    animationDuration: 0.85
   graphicsMenuPanel:
     panelName: GraphicsMenu
     panelObject: {fileID: 1482962725217498789}
     animator: {fileID: 120380408464874102}
     openAnimationParameter: Open
-    animationDuration: 0.5
+    animationDuration: 0.85
   quitPanel:
     panelName: 
     panelObject: {fileID: 0}
