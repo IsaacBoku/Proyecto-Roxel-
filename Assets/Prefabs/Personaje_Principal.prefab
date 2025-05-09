@@ -311,10 +311,10 @@ Transform:
   - {fileID: 6565704547363232867}
   - {fileID: 9149900430545757865}
   - {fileID: 151912598559025198}
+  - {fileID: 5620887758326011073}
   - {fileID: 4822425467667884207}
   - {fileID: 4299237306918931733}
   - {fileID: 658414656953985137}
-  - {fileID: 5620887758326011073}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4377391800680771977
@@ -710,7 +710,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: 9b64c805d69d20845ab22d3e4bf837ee, type: 2}
-  groundCheck: {fileID: 9020894077395841980}
   battery: {fileID: 2196018060409185698}
   isSeparated: 0
   maxLifeProgress: 10
@@ -721,10 +720,9 @@ MonoBehaviour:
   batteryPosition: {fileID: 5620887758326011073}
   upgradeEffect: {fileID: 0}
   upgradeSound: {fileID: 0}
-  timerResetDuration: 2
-  InteractionCheck: {fileID: 289189624859510397}
+  interactionCheck: {fileID: 289189624859510397}
   globalIndicator: {fileID: 4584205777616309759}
-  originalSpeed: 0
+  groundCheck: {fileID: 9020894077395841980}
   numberOfDots: 10
   dotPrefab: {fileID: 1806446307295189743, guid: c26b053cf4fffe24c869f5fdd3df4168, type: 3}
   dotsParent: {fileID: 6565704547363232867}
