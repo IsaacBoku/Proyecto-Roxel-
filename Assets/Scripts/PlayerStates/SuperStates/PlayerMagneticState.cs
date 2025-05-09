@@ -24,17 +24,17 @@ public class PlayerMagneticState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (player.InputHadler.MagneticInput)
+        if (player.InputHandler.MagneticInput)
         {
             ApplyMagneticForce();
             player.SetVelocityX(0);
             stateMachine.ChangeState(player.IdleState);
         }
-        else if (player.InputHadler.MagneticInputStop)
+        else if (player.InputHandler.MagneticInputStop)
         {
             stateMachine.ChangeState(player.IdleState);
             player.SetVelocityX(0);
-            player.InputHadler.UseMagneticInput();
+            player.InputHandler.UseMagneticInput();
         }
     }
 

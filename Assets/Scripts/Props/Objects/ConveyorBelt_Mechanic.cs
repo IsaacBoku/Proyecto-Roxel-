@@ -22,7 +22,7 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
         Player player = collision.GetComponent<Player>();
         if (player != null)
         {
-            player.isOnConveyorBelt = true;
+            player.IsOnConveyorBelt = true;
             player.SetConveyorDirection(isReversed ? -1f : 1f);
         }
     }
@@ -31,7 +31,7 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
         Player player = collision.GetComponent<Player>();
         if (player != null)
         {
-            player.isOnConveyorBelt = false;
+            player.IsOnConveyorBelt = false;
             player.SetConveyorDirection(0f); 
         }
     }

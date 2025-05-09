@@ -23,7 +23,7 @@ public class PlayerSeparatedState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        xInput = player.InputHadler.NormInputX;
+        xInput = player.InputHandler.NormInputX;
 
         if (xInput != 0)
         {
@@ -33,10 +33,10 @@ public class PlayerSeparatedState : PlayerState
         {
             stateMachine.ChangeState(player.IdleState);
         }
-        if (player.InputHadler.JumpInput && player.CheckIfGrounded())
+        if (player.InputHandler.JumpInput && player.CheckIfGrounded())
         {
             player.SetVelocityY(playerData.jumpVelocity);
-            player.InputHadler.UseJumpInput();
+            player.InputHandler.UseJumpInput();
         }
     }
 }

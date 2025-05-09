@@ -28,9 +28,9 @@ public class PlayerInteractionState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (player.InputHadler.InteractInput && player.CheckInteraction())
+        if (player.InputHandler.InteractInput && player.CheckInteraction())
         {
-            Collider2D obj = Physics2D.OverlapCircle(player.InteractionCheck.position, playerData.interactionRadius, playerData.whatIsInteractable);
+            Collider2D obj = Physics2D.OverlapCircle(player.interactionCheck.position, playerData.interactionRadius, playerData.whatIsInteractable);
             if (obj != null)
             {
                 Debug.Log($"PlayerInteractionState: Intentando interactuar con {obj.name}. Tiene batería: {(player.battery != null ? "Sí" : "No")}");
@@ -40,7 +40,7 @@ public class PlayerInteractionState : PlayerState
                 {
                     Debug.Log($"PlayerInteractionState: Interactuando con palanca {obj.name}.");
                     lever.Interact();
-                    player.InputHadler.UseInteractInput();
+                    player.InputHandler.UseInteractInput();
                     stateMachine.ChangeState(player.IdleState);
                     return;
                 }
@@ -52,7 +52,7 @@ public class PlayerInteractionState : PlayerState
                     {
                         Debug.Log($"PlayerInteractionState: No se puede interactuar con {obj.name}. Necesitas una batería.");
                         chargeable.Interact();
-                        player.InputHadler.UseInteractInput();
+                        player.InputHandler.UseInteractInput();
                         stateMachine.ChangeState(player.IdleState);
                         return;
                     }
@@ -62,14 +62,14 @@ public class PlayerInteractionState : PlayerState
                     {
                         Debug.LogWarning($"PlayerInteractionState: El objeto batería en {player.battery.name} no tiene BatteryController.");
                         chargeable.Interact();
-                        player.InputHadler.UseInteractInput();
+                        player.InputHandler.UseInteractInput();
                         stateMachine.ChangeState(player.IdleState);
                         return;
                     }
 
                     Debug.Log($"PlayerInteractionState: Iniciando carga en {obj.name} con batería {player.battery.name}.");
                     chargeable.StartCharging(battery);
-                    player.InputHadler.UseInteractInput();
+                    player.InputHandler.UseInteractInput();
                     stateMachine.ChangeState(player.IdleState);
                     return;
                 }
@@ -80,14 +80,14 @@ public class PlayerInteractionState : PlayerState
                     if (player.battery == null)
                     {
                         Debug.Log($"PlayerInteractionState: No se puede interactuar con {obj.name}. Necesitas una batería para recargar.");
-                        player.InputHadler.UseInteractInput();
+                        player.InputHandler.UseInteractInput();
                         stateMachine.ChangeState(player.IdleState);
                         return;
                     }
 
                     Debug.Log($"PlayerInteractionState: Iniciando recarga en {obj.name}.");
                     charger.StartCharging();
-                    player.InputHadler.UseInteractInput();
+                    player.InputHandler.UseInteractInput();
                     stateMachine.ChangeState(player.IdleState);
                     return;
                 }
@@ -99,7 +99,7 @@ public class PlayerInteractionState : PlayerState
                 Debug.Log("PlayerInteractionState: No se detectó ningún objeto interactuable.");
             }
 
-            player.InputHadler.UseInteractInput();
+            player.InputHandler.UseInteractInput();
             stateMachine.ChangeState(player.IdleState);
         }
         else

@@ -718,8 +718,7 @@ MonoBehaviour:
   batteryAmplitude: 0.1
   batteryFrequency: 2
   bounceAmplitude: 0.05
-  positionBattery: {fileID: 5620887758326011073}
-  crystalsPerUpgrade: 5
+  batteryPosition: {fileID: 5620887758326011073}
   upgradeEffect: {fileID: 0}
   upgradeSound: {fileID: 0}
   timerResetDuration: 2
@@ -8454,18 +8453,18 @@ MonoBehaviour:
   crystalText: {fileID: 8104327650401498612}
   upgradeNotificationText: {fileID: 3927388411223979593}
   availableUpgradesText: {fileID: 5085324282738736448}
-  energyBar: {fileID: 5831997969125866361}
   lifeBars:
   - {fileID: 5403026674210167422}
   - {fileID: 6405561320440585655}
   - {fileID: 804779757282892440}
   - {fileID: 5295121668631072005}
-  energyBarFill: {fileID: 2480588644280206680}
   lifeBarFills:
   - {fileID: 3003519109841259275}
   - {fileID: 420998882410053141}
   - {fileID: 5159527389953951400}
   - {fileID: 2451884858426263966}
+  energyBar: {fileID: 5831997969125866361}
+  energyBarFill: {fileID: 2480588644280206680}
   energyBarText: {fileID: 4035381118324360426}
   notificationDuration: 3
   blinkSpeed: 2

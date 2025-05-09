@@ -38,9 +38,9 @@ public class PlayerAirState : PlayerState
         base.LogicUpdate();
         CheckCoyoteTime();
 
-        xInput = player.InputHadler.NormInputX;
-        jumpInput = player.InputHadler.JumpInput;
-        jumpInputStop = player.InputHadler.JumpInputStop;
+        xInput = player.InputHandler.NormInputX;
+        jumpInput = player.InputHandler.JumpInput;
+        jumpInputStop = player.InputHandler.JumpInputStop;
 
         CheckJumpMultiplier();
 

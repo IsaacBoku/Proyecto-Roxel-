@@ -20,7 +20,7 @@ public class PlayerThrowState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (!player.InputHadler.ThrowInput)
+        if (!player.InputHandler.ThrowInput)
         {
             stateMachine.ChangeState(player.IdleState);
         }

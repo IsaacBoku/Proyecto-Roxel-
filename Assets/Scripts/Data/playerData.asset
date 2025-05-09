@@ -31,10 +31,10 @@ MonoBehaviour:
   throwDistance: 5
   lightMass: 5
   normalMass: 1
-  magneticForce: 100
+  magneticForce: 50
   magneticRange: 20
   whatIsMetallic:
     serializedVersion: 2
     m_Bits: 256
-  maxTimeWithoutBattery: 12
+  maxTimeWithoutBattery: 10
   safeRange: 3

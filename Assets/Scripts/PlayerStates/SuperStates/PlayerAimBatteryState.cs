@@ -46,7 +46,7 @@ public class PlayerAimBatteryState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (isAiming && player.InputHadler.ThrowInput) 
+        if (isAiming && player.InputHandler.ThrowInput) 
         {
             throwDirection = AimDirection().normalized;
 
@@ -67,14 +67,14 @@ public class PlayerAimBatteryState : PlayerState
             }
         }
 
-        if (player.InputHadler.ThrowInputStop && isAiming) 
+        if (player.InputHandler.ThrowInputStop && isAiming) 
         {
             isAiming = false;
             Rigidbody2D rb = player.battery.GetComponent<Rigidbody2D>();
             rb.bodyType = RigidbodyType2D.Dynamic;
             rb.linearVelocity = throwDirection * playerData.throwForce; 
             rb.gravityScale = 1f;
-            player.InputHadler.UseThrowInput();
+            player.InputHandler.UseThrowInput();
             stateMachine.ChangeState(player.IdleState);
             Debug.Log("Lanzando batería con clic izquierdo");
         }
@@ -87,7 +87,7 @@ public class PlayerAimBatteryState : PlayerState
     public Vector2 AimDirection()
     {
         Vector2 playerPosition = player.transform.position;
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(player.InputHadler.MousePosition);
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(player.InputHandler.MousePosition);
         Vector2 direction = mousePosition - playerPosition;
         return direction;
     }
