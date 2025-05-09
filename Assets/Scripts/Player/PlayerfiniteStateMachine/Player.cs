@@ -206,7 +206,6 @@ public class Player : MonoBehaviour
             InputHadler.UseSwitchPolarityInput();
             Debug.Log("Polaridad cambiada a: " + (battery.GetComponent<BatteryController>().isPositivePolarity ? "Positiva" : "Negativa"));
 
-            // Efecto de cambio de color
             if (batterySpriteRenderer != null)
             {
                 StopCoroutine(FlashBatteryColor());
@@ -244,8 +243,6 @@ public class Player : MonoBehaviour
 
         if (!isSeparated)
         {
-            isLifeProgressPaused = true;
-
             Vector2 targetPos = (Vector2)transform.position + targetBatteryPosition;
             floatTimer += Time.deltaTime;
             float floatOffset = Mathf.Sin(floatTimer * batteryFrequency) * batteryAmplitude;
@@ -261,7 +258,6 @@ public class Player : MonoBehaviour
             battery.transform.rotation = Quaternion.Lerp(battery.transform.rotation, targetRotation, batterySpeed * Time.deltaTime);
         }
 
-        // Actualizar el indicador de interacción
         UpdateInteractableIndicator();
     }
 
@@ -480,8 +476,9 @@ public class Player : MonoBehaviour
 
         isSeparated = false;
         isLifeProgressPaused = true;
+        currentLifeProgress = maxLifeProgress; // Reiniciar el progreso de la vida actual
         InputHadler.UseSeparateInput();
-        Debug.Log("Batería recogida y colocada encima de la cabeza.");
+        Debug.Log($"Batería recogida. Progreso de vida reiniciado a: {currentLifeProgress}");
     }
     #endregion
 

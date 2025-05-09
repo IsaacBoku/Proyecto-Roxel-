@@ -209,8 +209,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.134, y: -95.030014}
-  m_SizeDelta: {x: 230.4911, y: 112.3643}
+  m_AnchoredPosition: {x: 0.4963, y: -113.716255}
+  m_SizeDelta: {x: 279.5082, y: 134.8517}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5831997969125866361
 MonoBehaviour:
@@ -6238,7 +6238,7 @@ GameObject:
   - component: {fileID: 681110897379715802}
   - component: {fileID: 6405561320440585655}
   m_Layer: 5
-  m_Name: LifeBar3
+  m_Name: LifeBar2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6263,8 +6263,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.6, y: -24.44233}
-  m_SizeDelta: {x: 32.4423, y: 35.2934}
+  m_AnchoredPosition: {x: 1.8999708, y: -26.788694}
+  m_SizeDelta: {x: 38.8147, y: 42.2258}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6405561320440585655
 MonoBehaviour:
@@ -6328,7 +6328,7 @@ GameObject:
   - component: {fileID: 3808515159101291080}
   - component: {fileID: 5295121668631072005}
   m_Layer: 5
-  m_Name: LifeBar1
+  m_Name: LifeBar4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6353,8 +6353,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.6, y: 62.55767}
-  m_SizeDelta: {x: 32.4423, y: 35.2934}
+  m_AnchoredPosition: {x: 1.9, y: 77.3}
+  m_SizeDelta: {x: 38.8147, y: 42.2258}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5295121668631072005
 MonoBehaviour:
@@ -6674,7 +6674,7 @@ GameObject:
   - component: {fileID: 2840719163256353762}
   - component: {fileID: 5403026674210167422}
   m_Layer: 5
-  m_Name: LifeBar4
+  m_Name: LifeBar1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6699,8 +6699,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.6, y: -67.44233}
-  m_SizeDelta: {x: 32.4423, y: 35.2934}
+  m_AnchoredPosition: {x: 1.8999708, y: -78.23489}
+  m_SizeDelta: {x: 38.8147, y: 42.2258}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5403026674210167422
 MonoBehaviour:
@@ -6936,8 +6936,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 68.00509}
-  m_SizeDelta: {x: 100, y: 193.3898}
+  m_AnchoredPosition: {x: 0.49631, y: 77.8}
+  m_SizeDelta: {x: 115.2151, y: 222.8143}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5784903472594084989
 GameObject:
@@ -7114,7 +7114,7 @@ GameObject:
   - component: {fileID: 910265001927692815}
   - component: {fileID: 804779757282892440}
   m_Layer: 5
-  m_Name: LifeBar2
+  m_Name: LifeBar3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7139,8 +7139,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.6, y: 19.55767}
-  m_SizeDelta: {x: 32.4423, y: 35.2934}
+  m_AnchoredPosition: {x: 1.8999708, y: 25.853905}
+  m_SizeDelta: {x: 38.8147, y: 42.2258}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &804779757282892440
 MonoBehaviour:
@@ -7229,8 +7229,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -792.25, y: -364.9}
-  m_SizeDelta: {x: 142.0707, y: 329.4013}
+  m_AnchoredPosition: {x: -858.04895, y: -332.55347}
+  m_SizeDelta: {x: 169.9728, y: 394.0944}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1284867994629108381
 CanvasRenderer:
@@ -7260,7 +7260,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2899724289020612999, guid: 157bcd1a8fa800c4ebf45541ec13a666, type: 3}
+  m_Sprite: {fileID: 5613955595808790266, guid: 5babed176c140804eb8d796a5a75130d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8269,7 +8269,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 711822848801072866, guid: 1e5bcf3ea339bf7488393ca4110932e1, type: 3}
+    - {fileID: 3200279610303970249, guid: 1e5bcf3ea339bf7488393ca4110932e1, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7756363837338881766, guid: 1e5bcf3ea339bf7488393ca4110932e1, type: 3}
       insertIndex: 0
@@ -8317,33 +8319,21 @@ MonoBehaviour:
   availableUpgradesText: {fileID: 5085324282738736448}
   energyBar: {fileID: 5831997969125866361}
   lifeBars:
-  - {fileID: 5295121668631072005}
-  - {fileID: 804779757282892440}
-  - {fileID: 6405561320440585655}
   - {fileID: 5403026674210167422}
+  - {fileID: 6405561320440585655}
+  - {fileID: 804779757282892440}
+  - {fileID: 5295121668631072005}
   energyBarFill: {fileID: 2480588644280206680}
   lifeBarFills:
-  - {fileID: 2451884858426263966}
-  - {fileID: 5159527389953951400}
-  - {fileID: 420998882410053141}
   - {fileID: 3003519109841259275}
-  energyBarText: {fileID: 4856073987630095242}
-  lifeBarTexts: []
+  - {fileID: 420998882410053141}
+  - {fileID: 5159527389953951400}
+  - {fileID: 2451884858426263966}
+  energyBarText: {fileID: 0}
   notificationDuration: 3
   blinkSpeed: 2
   blinkThreshold: 0.8
   barLerpSpeed: 5
---- !u!114 &4856073987630095242 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1398908428850780281, guid: 1e5bcf3ea339bf7488393ca4110932e1, type: 3}
-  m_PrefabInstance: {fileID: 5768502396095792115}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5085324282738736448 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1630132779268767411, guid: 1e5bcf3ea339bf7488393ca4110932e1, type: 3}

@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +12,6 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Image energyBarFill;
     [SerializeField] private Image[] lifeBarFills;
     [SerializeField] private TextMeshProUGUI energyBarText;
-    [SerializeField] private TextMeshProUGUI[] lifeBarTexts;
     [SerializeField] private float notificationDuration = 3f;
     [SerializeField] private float blinkSpeed = 2f;
     [SerializeField] private float blinkThreshold = 0.6f;
@@ -31,7 +29,6 @@ public class PlayerUI : MonoBehaviour
     {
         lifeBars = new Slider[4];
         lifeBarFills = new Image[4];
-        //lifeBarTexts = new TextMeshProUGUI[4];
         lifeTargetValues = new float[4];
     }
 
@@ -72,7 +69,6 @@ public class PlayerUI : MonoBehaviour
                     lifeBars[i].maxValue = player.maxLifeProgress;
                     lifeBars[i].value = player.maxLifeProgress;
                     lifeTargetValues[i] = player.maxLifeProgress;
-                    //lifeBarTexts[i].text = $"{Mathf.RoundToInt(lifeBars[i].value)}/{Mathf.RoundToInt(lifeBars[i].maxValue)}";
                 }
             }
             else
@@ -90,8 +86,6 @@ public class PlayerUI : MonoBehaviour
             energyTargetValue = batteryController.energyAmounts;
 
             energyBar.value = Mathf.Lerp(energyBar.value, energyTargetValue, Time.deltaTime * barLerpSpeed);
-
-            //energyBarText.text = $"{Mathf.RoundToInt(energyBar.value)}/{Mathf.RoundToInt(energyBar.maxValue)}";
 
             float energyPercentage = energyBar.value / energyBar.maxValue;
             if (energyPercentage <= 0.3f)
@@ -121,7 +115,6 @@ public class PlayerUI : MonoBehaviour
                 {
                     lifeTargetValues[i] = player.currentLifeProgress;
                     lifeBars[i].value = Mathf.Lerp(lifeBars[i].value, lifeTargetValues[i], Time.deltaTime * barLerpSpeed);
-                    //lifeBarTexts[i].text = $"{Mathf.RoundToInt(lifeBars[i].value)}/{Mathf.RoundToInt(lifeBars[i].maxValue)}";
 
                     float lifePercentage = lifeBars[i].value / lifeBars[i].maxValue;
                     if (lifePercentage <= 0.3f)
@@ -155,7 +148,6 @@ public class PlayerUI : MonoBehaviour
                 else
                 {
                     lifeBars[i].value = lifeBars[i].maxValue;
-                    //lifeBarTexts[i].text = $"{Mathf.RoundToInt(lifeBars[i].value)}/{Mathf.RoundToInt(lifeBars[i].maxValue)}";
                     lifeBarFills[i].color = Color.green;
                 }
             }
