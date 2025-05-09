@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,11 +9,11 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI upgradeNotificationText;
     [SerializeField] private TextMeshProUGUI availableUpgradesText;
     [SerializeField] private Slider energyBar; 
-    [SerializeField] private Slider timerBar;
+    [SerializeField] private Slider[] lifeBars;
     [SerializeField] private Image energyBarFill;
-    [SerializeField] private Image timerBarFill;
+    [SerializeField] private Image[] lifeBarFills;
     [SerializeField] private TextMeshProUGUI energyBarText;
-    [SerializeField] private TextMeshProUGUI timerBarText;
+    [SerializeField] private TextMeshProUGUI[] lifeBarTexts;
     [SerializeField] private float notificationDuration = 3f;
     [SerializeField] private float blinkSpeed = 2f;
     [SerializeField] private float blinkThreshold = 0.6f;
@@ -22,9 +23,17 @@ public class PlayerUI : MonoBehaviour
     private int crystalsPerUpgrade;
     private float blinkTimer = 0f;
     private float energyTargetValue;
-    private float timerTargetValue;
-
+    private float[] lifeTargetValues;
+    
     public float NotificationDuration => notificationDuration;
+
+    void Awake()
+    {
+        lifeBars = new Slider[4];
+        lifeBarFills = new Image[4];
+        //lifeBarTexts = new TextMeshProUGUI[4];
+        lifeTargetValues = new float[4];
+    }
 
     void Start()
     {
@@ -40,16 +49,37 @@ public class PlayerUI : MonoBehaviour
             batteryController = player.battery.GetComponent<BatteryController>();
             energyBar.maxValue = batteryController.maxEnergy;
             energyBar.value = batteryController.energyAmounts;
-            energyTargetValue = energyBar.value;
+            energyTargetValue = batteryController.energyAmounts;
         }
         else
         {
             Debug.LogWarning("No se encontró la batería en el jugador. Asegúrate de que esté asignada.");
         }
 
-        timerBar.maxValue = player.maxTimeWithoutBattery;
-        timerBar.value = player.currentTime;
-        timerTargetValue = timerBar.value;
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject lifeBarObj = GameObject.Find($"LifeBar{i + 1}");
+            if (lifeBarObj != null)
+            {
+                lifeBars[i] = lifeBarObj.GetComponent<Slider>();
+                lifeBarFills[i] = lifeBarObj.transform.Find("Fill")?.GetComponent<Image>();
+                if (lifeBars[i] == null || lifeBarFills[i] == null)
+                {
+                    Debug.LogWarning($"No se encontraron todos los componentes para LifeBar{i + 1}. Verifica la jerarquía.");
+                }
+                else
+                {
+                    lifeBars[i].maxValue = player.maxLifeProgress;
+                    lifeBars[i].value = player.maxLifeProgress;
+                    lifeTargetValues[i] = player.maxLifeProgress;
+                    //lifeBarTexts[i].text = $"{Mathf.RoundToInt(lifeBars[i].value)}/{Mathf.RoundToInt(lifeBars[i].maxValue)}";
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"No se encontró LifeBar{i + 1} en la escena.");
+            }
+        }
     }
 
     void Update()
@@ -61,7 +91,7 @@ public class PlayerUI : MonoBehaviour
 
             energyBar.value = Mathf.Lerp(energyBar.value, energyTargetValue, Time.deltaTime * barLerpSpeed);
 
-            energyBarText.text = $"{Mathf.RoundToInt(energyBar.value)}/{Mathf.RoundToInt(energyBar.maxValue)}";
+            //energyBarText.text = $"{Mathf.RoundToInt(energyBar.value)}/{Mathf.RoundToInt(energyBar.maxValue)}";
 
             float energyPercentage = energyBar.value / energyBar.maxValue;
             if (energyPercentage <= 0.3f)
@@ -78,40 +108,61 @@ public class PlayerUI : MonoBehaviour
             }
         }
 
-        timerBar.maxValue = player.maxTimeWithoutBattery;
-        timerTargetValue = player.currentTime;
+        int currentLives = player.GetComponent<PlayerHealthSystem>().currentLives;
+        for (int i = 0; i < 4; i++)
+        {
+            if (lifeBars[i] == null || lifeBarFills[i] == null) continue;
 
-        timerBar.value = Mathf.Lerp(timerBar.value, timerTargetValue, Time.deltaTime * barLerpSpeed);
-        timerBarText.text = $"{Mathf.RoundToInt(timerBar.value)}/{Mathf.RoundToInt(timerBar.maxValue)}";
+            if (i < currentLives)
+            {
+                lifeBars[i].gameObject.SetActive(true);
+                lifeBars[i].maxValue = player.maxLifeProgress;
+                if (i == currentLives - 1 && player.isSeparated && !player.IsLifeProgressPaused)
+                {
+                    lifeTargetValues[i] = player.currentLifeProgress;
+                    lifeBars[i].value = Mathf.Lerp(lifeBars[i].value, lifeTargetValues[i], Time.deltaTime * barLerpSpeed);
+                    //lifeBarTexts[i].text = $"{Mathf.RoundToInt(lifeBars[i].value)}/{Mathf.RoundToInt(lifeBars[i].maxValue)}";
 
-        float timerPercentage = timerBar.value / timerBar.maxValue;
+                    float lifePercentage = lifeBars[i].value / lifeBars[i].maxValue;
+                    if (lifePercentage <= 0.3f)
+                    {
+                        lifeBarFills[i].color = Color.red;
+                    }
+                    else if (lifePercentage <= 0.6f)
+                    {
+                        lifeBarFills[i].color = Color.Lerp(Color.red, Color.yellow, (lifePercentage - 0.3f) / 0.3f);
+                    }
+                    else
+                    {
+                        lifeBarFills[i].color = Color.Lerp(Color.yellow, Color.green, (lifePercentage - 0.6f) / 0.4f);
+                    }
 
-        if (timerPercentage <= 0.3f)
-        {
-            timerBarFill.color = Color.green;
-        }
-        else if (timerPercentage <= 0.6f)
-        {
-            timerBarFill.color = Color.Lerp(Color.green, Color.yellow, (timerPercentage - 0.3f) / 0.3f);
-        }
-        else
-        {
-            timerBarFill.color = Color.Lerp(Color.yellow, Color.red, (timerPercentage - 0.6f) / 0.4f);
-        }
-
-        if (timerPercentage >= blinkThreshold)
-        {
-            blinkTimer += Time.deltaTime * blinkSpeed;
-            float alpha = Mathf.PingPong(blinkTimer, 1f);
-            Color fillColor = timerBarFill.color;
-            fillColor.a = alpha;
-            timerBarFill.color = fillColor;
-        }
-        else
-        {
-            Color fillColor = timerBarFill.color;
-            fillColor.a = 1f;
-            timerBarFill.color = fillColor;
+                    if (lifePercentage >= blinkThreshold)
+                    {
+                        blinkTimer += Time.deltaTime * blinkSpeed;
+                        float alpha = Mathf.PingPong(blinkTimer, 1f);
+                        Color fillColor = lifeBarFills[i].color;
+                        fillColor.a = alpha;
+                        lifeBarFills[i].color = fillColor;
+                    }
+                    else
+                    {
+                        Color fillColor = lifeBarFills[i].color;
+                        fillColor.a = 1f;
+                        lifeBarFills[i].color = fillColor;
+                    }
+                }
+                else
+                {
+                    lifeBars[i].value = lifeBars[i].maxValue;
+                    //lifeBarTexts[i].text = $"{Mathf.RoundToInt(lifeBars[i].value)}/{Mathf.RoundToInt(lifeBars[i].maxValue)}";
+                    lifeBarFills[i].color = Color.green;
+                }
+            }
+            else
+            {
+                lifeBars[i].gameObject.SetActive(false);
+            }
         }
     }
 

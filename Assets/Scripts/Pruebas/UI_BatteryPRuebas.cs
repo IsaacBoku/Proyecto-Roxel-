@@ -25,7 +25,7 @@ public class UI_BatteryPRuebas : MonoBehaviour
     }
     public void UI_VidaBattery()
     {
-        string text_vida = player.currentTime.ToString();
+        string text_vida = player.currentLifeProgress.ToString();
         tiembattery.text = text_vida;
     }
 }

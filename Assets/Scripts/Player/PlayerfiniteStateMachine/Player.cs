@@ -46,9 +46,9 @@ public class Player : MonoBehaviour
     [Header("Battery")]
     public GameObject battery;
     public bool isSeparated = false;
-    public float maxTimeWithoutBattery = 10f;
-    public float currentTime;
-    private bool isTimerPaused;
+    public float maxLifeProgress = 10f;
+    public float currentLifeProgress { get; private set; }
+    private bool isLifeProgressPaused;
     private bool isTimerResetting;
     private SpriteRenderer batterySpriteRenderer;
     private Color batteryOriginalColor;
@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
     [SerializeField] private ParticleSystem upgradeEffect;
     [SerializeField] private AudioSource upgradeSound;
     private int collectedCrystals = 0;
-    private float originalMaxTimeWithoutBattery;
+    private float originalMaxLifeProgress;
     private float originalMaxEnergy;
     private PlayerUI playerUI;
     private UpgradeSelectionUI upgradeSelectionUI;
@@ -135,9 +135,10 @@ public class Player : MonoBehaviour
         originalSpeed = playerData.movementVeclocity;
 
         FacingDirection = 1;
-        currentTime = 0f;
+        currentLifeProgress = maxLifeProgress;
 
-        originalMaxTimeWithoutBattery = maxTimeWithoutBattery;
+        originalMaxLifeProgress = maxLifeProgress;
+        playerData.maxTimeWithoutBattery = maxLifeProgress;
         if (battery != null)
         {
             originalMaxEnergy = battery.GetComponent<BatteryController>().maxEnergy;
@@ -161,11 +162,7 @@ public class Player : MonoBehaviour
 
         if (playerUI == null)
         {
-            playerUI = FindAnyObjectByType<PlayerUI>();
-            if (playerUI == null)
-            {
-                Debug.LogWarning("PlayerUI no encontrado en la escena. Asegúrate de que esté presente.");
-            }
+            Debug.LogWarning("PlayerUI no encontrado en la escena. Asegúrate de que esté presente.");
         }
 
         if (upgradeSelectionUI == null)
@@ -180,7 +177,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(CheckIfGrounded());
         CurrentVelocity = rb.linearVelocity;
         StateMachine.CurrentState.LogicUpdate();
 
@@ -223,32 +219,33 @@ public class Player : MonoBehaviour
             StateMachine.ChangeState(AimBatteryState);
         }
 
-        if (isSeparated && !isTimerPaused && !isTimerResetting)
+        if (isSeparated && !isLifeProgressPaused)
         {
             float distanceToBattery = Vector2.Distance(transform.position, battery.transform.position);
             if (distanceToBattery > playerData.safeRange)
             {
-                currentTime += Time.deltaTime;
-                //Debug.Log($"Tiempo sin batería (fuera de rango): {currentTime}/{maxTimeWithoutBattery}. Distancia: {distanceToBattery}");
-                if (currentTime >= maxTimeWithoutBattery)
+                currentLifeProgress -= Time.deltaTime;
+                if (currentLifeProgress <= 0)
                 {
-                    Debug.Log("Tiempo sin batería agotado. El jugador muere.");
-                    StateMachine.ChangeState(DeadState);
+                    healthSystem.LoseLife();
+                    if (healthSystem.currentLives > 0)
+                    {
+                        currentLifeProgress = maxLifeProgress;
+                        Debug.Log($"Vida perdida. Vidas restantes: {healthSystem.currentLives}. Progreso reiniciado a: {currentLifeProgress}");
+                    }
+                    else
+                    {
+                        Debug.Log("Todas las vidas agotadas. El jugador muere.");
+                        StateMachine.ChangeState(DeadState);
+                    }
                 }
             }
-            else
-            {
-                //Debug.Log($"Batería dentro del rango seguro ({distanceToBattery}/{playerData.safeRange}). Temporizador pausado.");
-            }
-        }
-
-        if (!isSeparated && currentTime > 0 && !isTimerResetting)
-        {
-            StartCoroutine(ResetTimerProgressively());
         }
 
         if (!isSeparated)
         {
+            isLifeProgressPaused = true;
+
             Vector2 targetPos = (Vector2)transform.position + targetBatteryPosition;
             floatTimer += Time.deltaTime;
             float floatOffset = Mathf.Sin(floatTimer * batteryFrequency) * batteryAmplitude;
@@ -275,24 +272,6 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Set Functions
-    private IEnumerator ResetTimerProgressively()
-    {
-        isTimerResetting = true;
-        float startTime = currentTime;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < timerResetDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            currentTime = Mathf.Lerp(startTime, 0f, elapsedTime / timerResetDuration);
-            //Debug.Log($"Disminuyendo temporizador progresivamente: {currentTime}/{maxTimeWithoutBattery}");
-            yield return null;
-        }
-
-        currentTime = 0f;
-        isTimerResetting = false;
-        //Debug.Log("Temporizador reiniciado progresivamente a 0.");
-    }
     private IEnumerator FlashBatteryColor()
     {
         Color flashColor = battery.GetComponent<BatteryController>().isPositivePolarity ? Color.red : Color.green;
@@ -301,15 +280,10 @@ public class Player : MonoBehaviour
         batterySpriteRenderer.color = batteryOriginalColor;
     }
 
-    public void ResetTimer()
+    public bool IsLifeProgressPaused
     {
-        StartCoroutine(ResetTimerProgressively());
-    }
-
-    public bool IsTimerPaused
-    {
-        get => isTimerPaused;
-        set => isTimerPaused = value;
+        get => isLifeProgressPaused;
+        set => isLifeProgressPaused = value;
     }
 
     public void SetVelocityX(float velocity)
@@ -459,11 +433,11 @@ public class Player : MonoBehaviour
         rb.gravityScale = 1f;
 
         isSeparated = true;
+        isLifeProgressPaused = false;
         StateMachine.ChangeState(SeparatedState);
         InputHadler.UseSeparateInput();
 
         floatTimer = 0f;
-        currentTime = 0f;
     }
 
     private void ReuniteBattery()
@@ -505,7 +479,7 @@ public class Player : MonoBehaviour
         if (collider != null) collider.enabled = true;
 
         isSeparated = false;
-        //StateMachine.ChangeState(IdleState);
+        isLifeProgressPaused = true;
         InputHadler.UseSeparateInput();
         Debug.Log("Batería recogida y colocada encima de la cabeza.");
     }
@@ -600,9 +574,9 @@ public class Player : MonoBehaviour
         switch (upgrade)
         {
             case UpgradeType.MaxTimeWithoutBattery:
-                maxTimeWithoutBattery += 2f;
-                playerData.maxTimeWithoutBattery = maxTimeWithoutBattery;
-                Debug.Log($"Mejora desbloqueada: +2 segundos sin batería. Nuevo valor: {maxTimeWithoutBattery}");
+                maxLifeProgress += 2f;
+                playerData.maxTimeWithoutBattery = maxLifeProgress;
+                Debug.Log($"Mejora desbloqueada: +2 segundos sin batería. Nuevo valor: {maxLifeProgress}");
                 break;
 
             case UpgradeType.MaxEnergy:

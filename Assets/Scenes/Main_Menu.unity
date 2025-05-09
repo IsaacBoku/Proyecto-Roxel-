@@ -528,7 +528,7 @@ MonoBehaviour:
   startButton: {fileID: 186510120}
   optionsButton: {fileID: 1126032726}
   quitButton: {fileID: 1197199285}
-  startSceneName: Scene_Principal
+  startSceneName: Scene_Alpha
 --- !u!1 &186510118
 GameObject:
   m_ObjectHideFlags: 0

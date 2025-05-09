@@ -9,8 +9,8 @@ public class PlayerHealthSystem : MonoBehaviour
 
     Player player;
 
-    private int maxHealth;
-    public int currentHealth;
+    private int maxLives = 4;
+    public int currentLives { get; private set; }
     [Header("Animations")]
     public Animator animhealth;
     public Animator aniGameOver;
@@ -29,41 +29,49 @@ public class PlayerHealthSystem : MonoBehaviour
     private void Start()
     {
         fx = GetComponent<EntityFX>();
-        Debug.Log(currentHealth);
-        //animhealth.SetInteger("Vida", 2);
+        Debug.Log($"Vidas iniciales: {currentLives}");
     }
     private void Update()
     {
         Dead();
-
     }
 
     private void HealthDefault()
     {
-        maxHealth = playerData.MaxHealth;
-
-        currentHealth = maxHealth;
+        currentLives = maxLives;
     }
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
+        currentLives -= damage;
 
-        if(currentHealth <= 0)
+        if (currentLives <= 0)
         {
-            currentHealth = 0;
-            Debug.Log("Player is dead");
+            currentLives = 0;
+            Debug.Log("Jugador muerto por daño.");
         }
         fx.StartCoroutine("FlashFX");
-        Debug.Log(currentHealth);
+        UpdateHealthAnimation();
+        Debug.Log($"Vidas restantes tras daño: {currentLives}");
+    }
 
-        if (currentHealth == 2)
+    public void LoseLife()
+    {
+        currentLives--;
+        if (currentLives <= 0)
         {
-            animhealth.SetBool("Vida", true);
+            currentLives = 0;
+            Debug.Log("Jugador muerto por agotar vidas.");
         }
-        else if (currentHealth == 1)
-        {
-            animhealth.SetBool("Vida", false);
-        }
+        fx.StartCoroutine("FlashFX");
+        UpdateHealthAnimation();
+        Debug.Log($"Vida perdida. Vidas restantes: {currentLives}");
+    }
+    private void UpdateHealthAnimation()
+    {
+        if (animhealth == null) return;
+
+        // Ajusta según tu controlador de animaciones
+        animhealth.SetInteger("Vidas", currentLives);
     }
     public void Button_Damage()
     {
@@ -71,13 +79,13 @@ public class PlayerHealthSystem : MonoBehaviour
     }
     public void Dead()
     {
-        if (currentHealth <= 0)
+        if (currentLives <= 0)
         {
-            currentHealth = 0;
+            currentLives = 0;
             player.StateMachine.ChangeState(player.DeadState);
             StartCoroutine(GameOver());
             InputHadler.OnPause();
-            Debug.Log("Player is dead");
+            Debug.Log("Jugador muerto.");
         }
     }
     private IEnumerator GameOver()
@@ -88,6 +96,5 @@ public class PlayerHealthSystem : MonoBehaviour
         aniGameOver.SetBool("GameOver", true);
         Cursor.visible = true;
         yield return new WaitForSeconds(2f);
-        //Time.timeScale = 0;
     }
 }

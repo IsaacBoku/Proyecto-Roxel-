@@ -31,7 +31,7 @@ public class PlayerAimBatteryState : PlayerState
 
         dots = player.AimDots; 
         DotsActive(true);
-        player.IsTimerPaused = true;
+        player.IsLifeProgressPaused = true;
         Debug.Log("Entrando en ThrowState - Apuntando con clic izquierdo");
     }
 
@@ -40,7 +40,7 @@ public class PlayerAimBatteryState : PlayerState
         base.Exit();
 
         DotsActive(false);
-        player.IsTimerPaused = false;
+        player.IsLifeProgressPaused = false;
     }
 
     public override void LogicUpdate()
@@ -75,7 +75,6 @@ public class PlayerAimBatteryState : PlayerState
             rb.linearVelocity = throwDirection * playerData.throwForce; 
             rb.gravityScale = 1f;
             player.InputHadler.UseThrowInput();
-            player.ResetTimer();
             stateMachine.ChangeState(player.IdleState);
             Debug.Log("Lanzando batería con clic izquierdo");
         }
