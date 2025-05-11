@@ -17,9 +17,10 @@ public class ChargeableObject : InteractableBase
         public TargetType type;
         public GameObject targetObject;
         [HideInInspector] public IActivable activable;
-        public Transform[] waypoints; // Puntos intermedios para la ruta de la línea
+        public Transform[] waypoints;
         [HideInInspector] public LineRenderer lineRenderer;
-        [SerializeField] public int sortingOrder = 10; // Nuevo: Sorting order por TargetEntry
+        [SerializeField] public int sortingOrder = 10;
+        [SerializeField] public Transform lineEndPoint;
     }
 
     [SerializeField]
@@ -269,15 +270,48 @@ public class ChargeableObject : InteractableBase
         target.lineRenderer.material = mat != null ? mat : new Material(Shader.Find("Sprites/Default"));
         target.lineRenderer.startColor = inactiveLineColor;
         target.lineRenderer.endColor = inactiveLineColor;
-        target.lineRenderer.sortingOrder = target.sortingOrder; // Usar sortingOrder de TargetEntry
+        target.lineRenderer.sortingOrder = target.sortingOrder;
         target.lineRenderer.sortingLayerName = lineRendererLayer;
+
+        // Añadir sprite en el punto final
+        if (target.lineEndPoint != null)
+        {
+            SpriteRenderer sr = target.lineEndPoint.gameObject.GetComponent<SpriteRenderer>();
+            if (sr == null)
+            {
+                sr = target.lineEndPoint.gameObject.AddComponent<SpriteRenderer>();
+            }
+            sr.sprite = Resources.Load<Sprite>("ConnectorSprite");
+            if (sr.sprite == null)
+            {
+                Debug.LogWarning($"ChargeableObject '{gameObject.name}': No se encontró 'ConnectorSprite' en la carpeta Resources.");
+            }
+            sr.sortingLayerName = lineRendererLayer;
+            sr.sortingOrder = target.sortingOrder + 1; // Delante de la línea
+        }
+
         UpdateLineRenderer(target);
+    }
+    private List<Vector3> SmoothLinePositions(List<Vector3> inputPositions)
+    {
+        List<Vector3> smoothed = new List<Vector3>();
+        int segmentsPerPoint = 10;
+        for (int i = 0; i < inputPositions.Count - 1; i++)
+        {
+            for (int j = 0; j < segmentsPerPoint; j++)
+            {
+                float t = j / (float)segmentsPerPoint;
+                Vector3 pos = Vector3.Lerp(inputPositions[i], inputPositions[i + 1], t);
+                smoothed.Add(pos);
+            }
+        }
+        smoothed.Add(inputPositions[inputPositions.Count - 1]);
+        return smoothed;
     }
     private void UpdateLineRenderer(TargetEntry target)
     {
         List<Vector3> positions = new List<Vector3>();
         Vector3 startPos = lineStartPoint != null ? lineStartPoint.position : transform.position;
-        // Añadir desplazamiento en Z para efecto de profundidad
         startPos.z = -1f + 0.01f * Vector3.Distance(startPos, Camera.main.transform.position);
         positions.Add(startPos);
 
@@ -294,17 +328,29 @@ public class ChargeableObject : InteractableBase
             }
         }
 
-        Vector3 targetPos = target.targetObject.transform.position;
+        Vector3 targetPos = target.lineEndPoint != null ? target.lineEndPoint.position : target.targetObject.transform.position;
         targetPos.z = -1f + 0.01f * Vector3.Distance(targetPos, Camera.main.transform.position);
         positions.Add(targetPos);
 
-        target.lineRenderer.positionCount = positions.Count;
-        target.lineRenderer.SetPositions(positions.ToArray());
+        // Aplicar suavizado a las posiciones
+        target.lineRenderer.positionCount = SmoothLinePositions(positions).Count;
+        target.lineRenderer.SetPositions(SmoothLinePositions(positions).ToArray());
 
         target.lineRenderer.enabled = true;
         Color targetColor = isActive ? activeLineColor : (isCharging ? chargingLineColor : inactiveLineColor);
         target.lineRenderer.startColor = targetColor;
         target.lineRenderer.endColor = targetColor;
+
+        // Animación de pulso en el punto final
+        if (target.lineEndPoint != null && (isCharging || isActive))
+        {
+            float scale = 1f + Mathf.Sin(Time.time * 5f) * 0.1f;
+            target.lineEndPoint.localScale = new Vector3(scale, scale, 1f);
+        }
+        else if (target.lineEndPoint != null)
+        {
+            target.lineEndPoint.localScale = Vector3.one; // Escala normal cuando no está activo
+        }
     }
 
 }
