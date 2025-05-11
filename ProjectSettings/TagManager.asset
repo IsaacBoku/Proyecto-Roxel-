@@ -20,7 +20,7 @@ TagManager:
   - Box
   - Props
   - Interactable
-  - 
+  - LineRenderer
   - 
   - 
   - 
@@ -59,6 +59,9 @@ TagManager:
     locked: 0
   - name: Suelo
     uniqueID: 3456180867
+    locked: 0
+  - name: LineRenderer
+    uniqueID: 2203100109
     locked: 0
   - name: UI
     uniqueID: 4031810833

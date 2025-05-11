@@ -121,6 +121,7 @@ public class Player : MonoBehaviour
         HandleInput();
         UpdateBatteryLifeProgress();
         UpdateBatteryPosition();
+        CheckInteraction();
         UpdateInteractableIndicator();
     }
 
@@ -204,7 +205,7 @@ public class Player : MonoBehaviour
             ReuniteBattery();
         }
 
-        if (InputHandler.InteractInput && CheckInteraction())
+        if (InputHandler.InteractInput && lastInteractable != null) // Usar lastInteractable en lugar de CheckInteraction
         {
             StateMachine.ChangeState(InteractionState);
         }
