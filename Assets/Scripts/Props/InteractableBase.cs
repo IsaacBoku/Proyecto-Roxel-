@@ -16,6 +16,9 @@ public abstract class InteractableBase : MonoBehaviour, IActivable
     protected virtual void Start()
     {
     }
+    protected virtual void Update()
+    {
+    }
 
     public abstract void Interact();
 

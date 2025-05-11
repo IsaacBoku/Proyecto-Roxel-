@@ -17,6 +17,9 @@ public class ChargeableObject : InteractableBase
         public TargetType type;
         public GameObject targetObject;
         [HideInInspector] public IActivable activable;
+        public Transform[] waypoints; // Puntos intermedios para la ruta de la línea
+        [HideInInspector] public LineRenderer lineRenderer;
+        [SerializeField] public int sortingOrder = 10; // Nuevo: Sorting order por TargetEntry
     }
 
     [SerializeField]
@@ -30,6 +33,12 @@ public class ChargeableObject : InteractableBase
 
     [SerializeField]
     private Material mat;
+    [SerializeField] private Transform lineStartPoint; // Nuevo: Punto de origen de las líneas
+    [SerializeField] private Color inactiveLineColor = Color.gray; // Nuevo: Color cuando no está activo
+    [SerializeField] private Color chargingLineColor = Color.yellow; // Nuevo: Color durante la carga
+    [SerializeField] private Color activeLineColor = Color.green; // Nuevo: Color cuando está activo
+    [SerializeField] private string lineRendererLayer = "LineRenderer"; // Nuevo: Layer para el LineRenderer
+    [SerializeField] private int lineRendererSortingOrder = 10; // Nuevo: Sorting Order para 2D
 
     public bool isCharging = false;
 
@@ -65,14 +74,29 @@ public class ChargeableObject : InteractableBase
 
             target.activable.Toggle(isActive);
             target.activable.SetIgnoreTrigger(true);
+
+            SetupLineRenderer(target);
         }
 
         /*if (mat != null)
         {
             mat.SetFloat("_Progress", isActive ? 1f : 0f);
         }*/
+
     }
 
+    protected override void Update()
+    {
+        base.Update();
+
+        foreach (var target in targets)
+        {
+            if (target.lineRenderer != null)
+            {
+                UpdateLineRenderer(target);
+            }
+        }
+    }
     public override void Interact()
     {
         Debug.Log($"ChargeableObject '{gameObject.name}': Necesitas una batería para interactuar.");
@@ -103,12 +127,17 @@ public class ChargeableObject : InteractableBase
         float energyPerSecond = energyToConsume / chargeDuration;
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
-        // Activar objetivos y efectos
+        // Activar objetivos y actualizar líneas
         foreach (var target in targets)
         {
             if (target.activable != null)
             {
                 target.activable.Toggle(true);
+            }
+            if (target.lineRenderer != null)
+            {
+                target.lineRenderer.startColor = chargingLineColor;
+                target.lineRenderer.endColor = chargingLineColor;
             }
         }
 
@@ -138,6 +167,11 @@ public class ChargeableObject : InteractableBase
                     {
                         target.activable.Toggle(false);
                     }
+                    if (target.lineRenderer != null)
+                    {
+                        target.lineRenderer.startColor = inactiveLineColor;
+                        target.lineRenderer.endColor = inactiveLineColor;
+                    }
                 }
                 UpdateVisuals(false);
 
@@ -146,8 +180,6 @@ public class ChargeableObject : InteractableBase
                 {
                     slider_Energy.value = 0f;
                 }
-
-
                 yield break;
             }
 
@@ -165,6 +197,16 @@ public class ChargeableObject : InteractableBase
                 mat.SetFloat("_Progress", t);
             }
 
+            foreach (var target in targets)
+            {
+                if (target.lineRenderer != null)
+                {
+                    Color lerpedColor = Color.Lerp(inactiveLineColor, chargingLineColor, t);
+                    target.lineRenderer.startColor = lerpedColor;
+                    target.lineRenderer.endColor = lerpedColor;
+                }
+            }
+
             yield return null;
         }
 
@@ -178,6 +220,15 @@ public class ChargeableObject : InteractableBase
         if (slider_Energy != null)
         {
             slider_Energy.value = 1f;
+        }
+
+        foreach (var target in targets)
+        {
+            if (target.lineRenderer != null)
+            {
+                target.lineRenderer.startColor = activeLineColor;
+                target.lineRenderer.endColor = activeLineColor;
+            }
         }
         Debug.Log($"{gameObject.name} ha terminado de cargarse.");
     }
@@ -193,6 +244,11 @@ public class ChargeableObject : InteractableBase
                 {
                     target.activable.Toggle(false);
                 }
+                if (target.lineRenderer != null)
+                {
+                    target.lineRenderer.startColor = inactiveLineColor;
+                    target.lineRenderer.endColor = inactiveLineColor;
+                }
             }
             UpdateVisuals(false);
             if (mat != null)
@@ -202,4 +258,53 @@ public class ChargeableObject : InteractableBase
             Debug.Log($"{gameObject.name} ha sido desactivado.");
         }
     }
+    private void SetupLineRenderer(TargetEntry target)
+    {
+        GameObject lineObj = new GameObject($"LineTo_{target.targetObject.name}");
+        lineObj.transform.SetParent(transform);
+        lineObj.layer = LayerMask.NameToLayer(lineRendererLayer);
+        target.lineRenderer = lineObj.AddComponent<LineRenderer>();
+        target.lineRenderer.startWidth = 0.1f;
+        target.lineRenderer.endWidth = 0.1f;
+        target.lineRenderer.material = mat != null ? mat : new Material(Shader.Find("Sprites/Default"));
+        target.lineRenderer.startColor = inactiveLineColor;
+        target.lineRenderer.endColor = inactiveLineColor;
+        target.lineRenderer.sortingOrder = target.sortingOrder; // Usar sortingOrder de TargetEntry
+        target.lineRenderer.sortingLayerName = lineRendererLayer;
+        UpdateLineRenderer(target);
+    }
+    private void UpdateLineRenderer(TargetEntry target)
+    {
+        List<Vector3> positions = new List<Vector3>();
+        Vector3 startPos = lineStartPoint != null ? lineStartPoint.position : transform.position;
+        // Añadir desplazamiento en Z para efecto de profundidad
+        startPos.z = -1f + 0.01f * Vector3.Distance(startPos, Camera.main.transform.position);
+        positions.Add(startPos);
+
+        if (target.waypoints != null)
+        {
+            foreach (var waypoint in target.waypoints)
+            {
+                if (waypoint != null)
+                {
+                    Vector3 pos = waypoint.position;
+                    pos.z = -1f + 0.01f * Vector3.Distance(pos, Camera.main.transform.position);
+                    positions.Add(pos);
+                }
+            }
+        }
+
+        Vector3 targetPos = target.targetObject.transform.position;
+        targetPos.z = -1f + 0.01f * Vector3.Distance(targetPos, Camera.main.transform.position);
+        positions.Add(targetPos);
+
+        target.lineRenderer.positionCount = positions.Count;
+        target.lineRenderer.SetPositions(positions.ToArray());
+
+        target.lineRenderer.enabled = true;
+        Color targetColor = isActive ? activeLineColor : (isCharging ? chargingLineColor : inactiveLineColor);
+        target.lineRenderer.startColor = targetColor;
+        target.lineRenderer.endColor = targetColor;
+    }
+
 }

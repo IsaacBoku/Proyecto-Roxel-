@@ -444,6 +444,7 @@ Transform:
   m_Children:
   - {fileID: 6956747872732944405}
   - {fileID: 4796873467764326944}
+  - {fileID: 366728398257269762}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1833572005603703726
@@ -512,6 +513,10 @@ MonoBehaviour:
   requiredEnergy: 80
   chargeDuration: 2
   mat: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  lineStartPoint: {fileID: 366728398257269762}
+  inactiveLineColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  chargingLineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  activeLineColor: {r: 0, g: 1, b: 0, a: 1}
   isCharging: 0
   slider_Energy: {fileID: 4295960540619873828}
 --- !u!212 &3831355869382001679
@@ -671,6 +676,37 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &7179767144650862236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 366728398257269762}
+  m_Layer: 10
+  m_Name: PositionInitial_Line
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &366728398257269762
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179767144650862236}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.503, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1986151938842964700}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7656226534069545924
 GameObject:
   m_ObjectHideFlags: 0
