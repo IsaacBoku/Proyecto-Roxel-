@@ -5,16 +5,25 @@ public class MovingPlatform : MonoBehaviour
 {
     public enum PlatformMode
     {
-        Continuous,       // Moves continuously between waypoints
-        PedestalControlled // Controlled by a pedestal
+        Continuous,
+        PedestalControlled
     }
 
     [SerializeField] private PlatformMode mode = PlatformMode.PedestalControlled;
     [SerializeField] private Transform[] waypoints;
     [SerializeField] private float speed = 2f;
 
+    [Header("Audio Settings")]
+    [SerializeField, Tooltip("Nombre del sonido al activar la plataforma en el AudioManager")]
+    private string activateSoundName = "PlatformActivate";
+    [SerializeField, Tooltip("Nombre del sonido al desactivar la plataforma en el AudioManager")]
+    private string deactivateSoundName = "PlatformDeactivate";
+    [SerializeField, Tooltip("Nombre del sonido de movimiento continuo en el AudioManager")]
+    private string movingSoundName = "PlatformMove";
+
     private bool isActive = false;
     private bool isReturning = false;
+    private bool isPlayingMovingSound = false;
     private int currentWaypointIndex = 0;
     private Vector2 lastPosition;
     private Vector2 initialPosition;
@@ -36,6 +45,7 @@ public class MovingPlatform : MonoBehaviour
         {
             isActive = true;
             isReturning = false;
+            AudioManager.instance.PlaySFX(activateSoundName);
             Debug.Log($"MovingPlatform '{gameObject.name}': Activated by pedestal.");
         }
     }
@@ -49,6 +59,7 @@ public class MovingPlatform : MonoBehaviour
             {
                 isReturning = true;
                 currentWaypointIndex = 0;
+                AudioManager.instance.PlaySFX(deactivateSoundName);
                 Debug.Log($"MovingPlatform '{gameObject.name}': Deactivated by pedestal. Returning to initial waypoint.");
             }
         }
@@ -56,11 +67,25 @@ public class MovingPlatform : MonoBehaviour
 
     private void Update()
     {
-        if (!CanMove()) return;
+        if (!CanMove())
+        {
+            if (isPlayingMovingSound)
+            {
+                AudioManager.instance.StopAllSFX();
+                isPlayingMovingSound = false;
+            }
+            return;
+        }
 
         Vector2 targetPosition = GetTargetPosition();
         MoveToTarget(targetPosition);
         UpdateObjectsOnPlatform();
+
+        if (!isPlayingMovingSound)
+        {
+            AudioManager.instance.PlaySFX(movingSoundName);
+            isPlayingMovingSound = true;
+        }
 
         if (HasReachedTarget(targetPosition))
         {
