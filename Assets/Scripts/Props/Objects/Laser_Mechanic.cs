@@ -10,6 +10,14 @@ public class Laser_Mechanic : MonoBehaviour, IActivable
     [SerializeField] private BoxCollider2D colliders;
     public bool ignoreTrigger = false;
 
+    [Header("Audio Settings")]
+    [SerializeField, Tooltip("Nombre del sonido al activar el láser en el AudioManager")]
+    private string openSoundName = "LaserOn";
+    [SerializeField, Tooltip("Nombre del sonido al desactivar el láser en el AudioManager")]
+    private string closeSoundName = "LaserOff";
+    [SerializeField, Tooltip("Nombre del sonido al infligir daño en el AudioManager")]
+    private string damageSoundName = "LaserHit";
+
     private void Start()
     {
         if (ani == null)
@@ -39,29 +47,34 @@ public class Laser_Mechanic : MonoBehaviour, IActivable
     public void LaserOpen()
     {
         if (ani != null)
+        {
             ani.SetBool("LaserOpen", true);
+            AudioManager.instance.PlaySFX(openSoundName);
+        }
         else
+        {
             Debug.LogWarning($"Laser_Mechanic '{gameObject.name}': Intento de abrir láser, pero Animator es null.");
+        }
     }
 
     public void LaserClosed()
     {
         if (ani != null)
+        {
             ani.SetBool("LaserOpen", false);
+            AudioManager.instance.PlaySFX(closeSoundName);
+        }
         else
+        {
             Debug.LogWarning($"Laser_Mechanic '{gameObject.name}': Intento de cerrar láser, pero Animator es null.");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("Me hizo daño");
-            var healthSystem = collision.GetComponent<PlayerHealthSystem>();
-            if (healthSystem != null)
-                healthSystem.TakeDamage(damage);
-            else
-                Debug.LogWarning($"Laser_Mechanic '{gameObject.name}': El jugador no tiene PlayerHealthSystem.");
+            ApplyDamage(collision.gameObject);
         }
     }
 
@@ -69,12 +82,22 @@ public class Laser_Mechanic : MonoBehaviour, IActivable
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Me hizo daño");
-            var healthSystem = collision.gameObject.GetComponent<PlayerHealthSystem>();
-            if (healthSystem != null)
-                healthSystem.TakeDamage(damage);
-            else
-                Debug.LogWarning($"Laser_Mechanic '{gameObject.name}': El jugador no tiene PlayerHealthSystem.");
+            ApplyDamage(collision.gameObject);
+        }
+    }
+
+    private void ApplyDamage(GameObject target)
+    {
+        Debug.Log($"Laser_Mechanic '{gameObject.name}': Infligió daño al jugador.");
+        var healthSystem = target.GetComponent<PlayerHealthSystem>();
+        if (healthSystem != null)
+        {
+            healthSystem.TakeDamage(damage);
+            AudioManager.instance.PlaySFX(damageSoundName);
+        }
+        else
+        {
+            Debug.LogWarning($"Laser_Mechanic '{gameObject.name}': El jugador no tiene PlayerHealthSystem.");
         }
     }
 
@@ -135,5 +158,4 @@ public class Laser_Mechanic : MonoBehaviour, IActivable
             Gizmos.DrawWireCube(transform.position, new Vector2(colliderTriggers.size.x, colliderTriggers.size.y));
         }
     }
-
 }
