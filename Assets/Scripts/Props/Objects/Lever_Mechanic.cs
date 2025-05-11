@@ -24,7 +24,13 @@ public class Lever_Mechanic : InteractableBase
     private ConveyorBelt_Mechanic conveyorBelt;
 
     [SerializeField]
-    private bool toggleOnInteract = true; 
+    private bool toggleOnInteract = true;
+
+    [Header("Audio Settings")]
+    [SerializeField, Tooltip("Nombre del sonido al activar la palanca en el AudioManager")]
+    private string activateSoundName = "LeverOn";
+    [SerializeField, Tooltip("Nombre del sonido al desactivar la palanca en el AudioManager")]
+    private string deactivateSoundName = "LeverOff";
 
     protected override void Start()
     {
@@ -60,11 +66,11 @@ public class Lever_Mechanic : InteractableBase
     {
         if (toggleOnInteract)
         {
-            isActive = !isActive; 
+            isActive = !isActive;
         }
         else
         {
-            isActive = true; 
+            isActive = true;
         }
 
         foreach (var target in targets)
@@ -78,6 +84,15 @@ public class Lever_Mechanic : InteractableBase
         if (conveyorBelt != null)
         {
             conveyorBelt.ToggleDirection(isActive);
+        }
+
+        if (isActive)
+        {
+            AudioManager.instance.PlaySFX(activateSoundName);
+        }
+        else
+        {
+            AudioManager.instance.PlaySFX(deactivateSoundName);
         }
 
         UpdateVisuals(isActive);

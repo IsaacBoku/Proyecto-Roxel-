@@ -1856,6 +1856,8 @@ MonoBehaviour:
     targetObject: {fileID: 447287898}
   conveyorBelt: {fileID: 1646439487}
   toggleOnInteract: 1
+  activateSoundName: LeverOn
+  deactivateSoundName: LeverOff
 --- !u!212 &1001976455
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4147,22 +4149,6 @@ PrefabInstance:
       value: PROP-ConveyorBelt
       objectReference: {fileID: 0}
     - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-      propertyPath: forceMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-      propertyPath: conveyorAnimator
-      value: 
-      objectReference: {fileID: 1969448065}
-    - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-      propertyPath: movableLayerMask.m_Bits
-      value: 4416
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-      propertyPath: OnObjectEnter.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
       propertyPath: OnObjectEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1324431788}
@@ -4754,11 +4740,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1763615903}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1969448065 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 8693840169408958113, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-  m_PrefabInstance: {fileID: 1810259736}
-  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1967798757
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2454528619128304131, guid: 1f1047118bb534b45b918f6b7ca48eb6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 41.701782
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454528619128304131, guid: 1f1047118bb534b45b918f6b7ca48eb6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.9086466
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454528619128304131, guid: 1f1047118bb534b45b918f6b7ca48eb6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454528619128304131, guid: 1f1047118bb534b45b918f6b7ca48eb6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454528619128304131, guid: 1f1047118bb534b45b918f6b7ca48eb6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454528619128304131, guid: 1f1047118bb534b45b918f6b7ca48eb6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454528619128304131, guid: 1f1047118bb534b45b918f6b7ca48eb6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454528619128304131, guid: 1f1047118bb534b45b918f6b7ca48eb6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454528619128304131, guid: 1f1047118bb534b45b918f6b7ca48eb6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454528619128304131, guid: 1f1047118bb534b45b918f6b7ca48eb6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5954565406953848374, guid: 1f1047118bb534b45b918f6b7ca48eb6, type: 3}
+      propertyPath: m_Name
+      value: PROP-Hammer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6445180275717545366, guid: 1f1047118bb534b45b918f6b7ca48eb6, type: 3}
+      propertyPath: damageableLayerMask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1f1047118bb534b45b918f6b7ca48eb6, type: 3}
 --- !u!4 &1969977164 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4061378231275982696, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
@@ -4812,30 +4854,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
-      propertyPath: sfxSounds.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
-      propertyPath: sfxSounds.Array.data[3].name
-      value: ConveyorLoop
-      objectReference: {fileID: 0}
-    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
-      propertyPath: sfxSounds.Array.data[3].pitch
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
-      propertyPath: sfxSounds.Array.data[3].volume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
-      propertyPath: sfxSounds.Array.data[3].clips.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
-      propertyPath: 'sfxSounds.Array.data[3].clips.Array.data[0]'
-      value: 
-      objectReference: {fileID: 8300000, guid: d98416e30fa2ff843800e7340c0a6cb6, type: 3}
     - target: {fileID: 8409327903819761470, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
       propertyPath: m_Name
       value: AUDIO-Manager
@@ -5542,3 +5560,4 @@ SceneRoots:
   - {fileID: 1810259736}
   - {fileID: 582800347}
   - {fileID: 1569595075}
+  - {fileID: 1967798757}
