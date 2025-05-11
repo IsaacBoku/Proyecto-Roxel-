@@ -84,6 +84,16 @@ public class Player : MonoBehaviour
     private float conveyorDirection;
     public float OriginalSpeed { get; private set; }
     private Vector2 workspace;
+
+    [Header("Configuración del Conveyor")]
+    [SerializeField] private float conveyorSpeedModifier = 0.5f; // Menos control en el conveyor
+    private List<ConveyorInfluence> activeConveyors = new List<ConveyorInfluence>();
+    private struct ConveyorInfluence
+    {
+        public float Direction;
+        public float Speed;
+        public ConveyorBelt_Mechanic Conveyor;
+    }
     #endregion
     #region Aim Dots
     [Header("Aim Dots")]
@@ -347,7 +357,7 @@ public class Player : MonoBehaviour
         Debug.Log($"Batería recogida. Progreso de vida reiniciado a: {currentLifeProgress}");
     }
 
-    private IEnumerator FlashBatteryColor()
+    public IEnumerator FlashBatteryColor()
     {
         var batteryController = battery.GetComponent<BatteryController>();
         Color flashColor = batteryController.isPositivePolarity ? Color.red : Color.green;
@@ -369,7 +379,14 @@ public class Player : MonoBehaviour
 
         if (IsOnConveyorBelt)
         {
-            finalVelocity *= Mathf.Sign(velocity) != Mathf.Sign(conveyorDirection) ? 0.5f : 1.2f;
+            float conveyorVelocity = 0f;
+            foreach (var conveyor in activeConveyors)
+            {
+                conveyorVelocity += conveyor.Speed * conveyor.Direction;
+            }
+
+            // Aplicar influencia del conveyor
+            finalVelocity = finalVelocity * conveyorSpeedModifier + conveyorVelocity;
         }
 
         workspace.Set(finalVelocity, CurrentVelocity.y);
@@ -384,9 +401,20 @@ public class Player : MonoBehaviour
         CurrentVelocity = workspace;
     }
 
-    public void SetConveyorDirection(float direction)
+    public void SetConveyorDirection(float direction, ConveyorBelt_Mechanic conveyor = null, float speed = 0f)
     {
-        conveyorDirection = direction;
+        if (direction == 0f)
+        {
+            activeConveyors.RemoveAll(c => c.Conveyor == conveyor);
+        }
+        else
+        {
+            var influence = new ConveyorInfluence { Direction = direction, Speed = speed, Conveyor = conveyor };
+            activeConveyors.RemoveAll(c => c.Conveyor == conveyor);
+            activeConveyors.Add(influence);
+        }
+
+        IsOnConveyorBelt = activeConveyors.Count > 0;
     }
 
     public bool CheckIfGrounded()
