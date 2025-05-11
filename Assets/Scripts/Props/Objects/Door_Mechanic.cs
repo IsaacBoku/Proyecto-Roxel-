@@ -9,6 +9,12 @@ public class Door_Mechanic : MonoBehaviour, IActivable
     [SerializeField] public  new BoxCollider2D collider;
     public bool ignoreTrigger;
 
+    [Header("Audio Settings")]
+    [SerializeField, Tooltip("Nombre del sonido de apertura en el AudioManager")]
+    private string openSoundName = "DoorOpen";
+    [SerializeField, Tooltip("Nombre del sonido de cierre en el AudioManager")]
+    private string closeSoundName = "DoorClose";
+
     private void Start()
     {
         if (ani == null)
@@ -38,17 +44,27 @@ public class Door_Mechanic : MonoBehaviour, IActivable
     public void DoorOpen()
     {
         if (ani != null)
+        {
             ani.SetBool("Door_open", true);
+            AudioManager.instance.PlaySFX(openSoundName); // Reproducir sonido de apertura
+        }
         else
+        {
             Debug.LogWarning($"Door_Mechanic '{gameObject.name}': Intento de abrir puerta, pero Animator es null.");
+        }
     }
 
     public void DoorClosed()
     {
         if (ani != null)
+        {
             ani.SetBool("Door_open", false);
+            AudioManager.instance.PlaySFX(closeSoundName); // Reproducir sonido de cierre
+        }
         else
+        {
             Debug.LogWarning($"Door_Mechanic '{gameObject.name}': Intento de cerrar puerta, pero Animator es null.");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

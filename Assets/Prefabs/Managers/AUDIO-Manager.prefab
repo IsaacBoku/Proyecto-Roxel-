@@ -201,6 +201,24 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     loop: 0
+  - name: ConveyorLoop
+    clips:
+    - {fileID: 8300000, guid: d98416e30fa2ff843800e7340c0a6cb6, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: DoorOpen
+    clips:
+    - {fileID: 8300000, guid: d98416e30fa2ff843800e7340c0a6cb6, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: DoorClose
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
   musicFadeDuration: 1
 --- !u!1 &9109423394192129495
 GameObject:
