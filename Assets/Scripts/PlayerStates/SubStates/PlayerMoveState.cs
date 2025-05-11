@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerMoveState : PlayerGroundedState
 {
+    private float stepTimer;
+    private float stepInterval = 0.4f;
+    private bool isPlayingFootsteps = false;
     public PlayerMoveState(Player player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName)
     {
     }
@@ -16,13 +19,18 @@ public class PlayerMoveState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        //AudioManager.instance.PlaySFX("PlayerMove");
+        stepTimer = 0f;
+        isPlayingFootsteps = false;
     }
 
     public override void Exit()
     {
         base.Exit();
-        //AudioManager.instance.sfxSource.Stop();
+        if (isPlayingFootsteps)
+        {
+            AudioManager.instance.StopSFX("Footstep"); // Detener el sonido de pasos al salir
+            isPlayingFootsteps = false;
+        }
     }
 
     public override void LogicUpdate()
@@ -33,6 +41,25 @@ public class PlayerMoveState : PlayerGroundedState
 
         player.SetVelocityX(playerData.movementVeclocity * xInput);
 
+        // Gestionar sonido de pasos
+        if (xInput != 0 && player.CheckIfGrounded())
+        {
+            stepTimer += Time.deltaTime;
+            if (stepTimer >= stepInterval)
+            {
+                if (!isPlayingFootsteps)
+                {
+                    AudioManager.instance.PlaySFX("Footstep"); // Reproducir sonido de pasos
+                    isPlayingFootsteps = true;
+                }
+                stepTimer = 0f; // Reiniciar temporizador
+            }
+        }
+        else if (isPlayingFootsteps)
+        {
+            AudioManager.instance.StopSFX("Footstep"); // Detener si no se mueve o no está en el suelo
+            isPlayingFootsteps = false;
+        }
 
         if (xInput == 0)
         {

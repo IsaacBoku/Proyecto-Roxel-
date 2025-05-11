@@ -74,6 +74,7 @@ public class PlayerAimBatteryState : PlayerState
             rb.bodyType = RigidbodyType2D.Dynamic;
             rb.linearVelocity = throwDirection * playerData.throwForce; 
             rb.gravityScale = 1f;
+            AudioManager.instance.PlaySFX("BatteryThrow");
             player.InputHandler.UseThrowInput();
             stateMachine.ChangeState(player.IdleState);
             Debug.Log("Lanzando batería con clic izquierdo");

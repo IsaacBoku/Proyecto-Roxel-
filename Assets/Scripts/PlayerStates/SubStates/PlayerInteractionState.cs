@@ -40,6 +40,7 @@ public class PlayerInteractionState : PlayerState
                 {
                     Debug.Log($"PlayerInteractionState: Interactuando con palanca {obj.name}.");
                     lever.Interact();
+                    AudioManager.instance.PlaySFX("Interact");
                     player.InputHandler.UseInteractInput();
                     stateMachine.ChangeState(player.IdleState);
                     return;
@@ -69,6 +70,7 @@ public class PlayerInteractionState : PlayerState
 
                     Debug.Log($"PlayerInteractionState: Iniciando carga en {obj.name} con batería {player.battery.name}.");
                     chargeable.StartCharging(battery);
+                    AudioManager.instance.PlaySFX("Interact");
                     player.InputHandler.UseInteractInput();
                     stateMachine.ChangeState(player.IdleState);
                     return;
@@ -87,6 +89,7 @@ public class PlayerInteractionState : PlayerState
 
                     Debug.Log($"PlayerInteractionState: Iniciando recarga en {obj.name}.");
                     charger.StartCharging();
+                    AudioManager.instance.PlaySFX("Interact");
                     player.InputHandler.UseInteractInput();
                     stateMachine.ChangeState(player.IdleState);
                     return;

@@ -14,11 +14,13 @@ public class PlayerMagneticState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        AudioManager.instance.PlaySFX("MagneticField");
     }
 
     public override void Exit()
     {
         base.Exit();
+        AudioManager.instance.StopSFX("MagneticField");
     }
 
     public override void LogicUpdate()
@@ -29,7 +31,6 @@ public class PlayerMagneticState : PlayerState
         {
             ApplyMagneticForce();
             player.SetVelocityX(0);
-            stateMachine.ChangeState(player.IdleState);
         }
         else if (player.InputHandler.MagneticInputStop)
         {

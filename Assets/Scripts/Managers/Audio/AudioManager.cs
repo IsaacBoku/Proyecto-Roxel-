@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
     [Header("Sounds")]
     [SerializeField] private Sound[] musicSounds; 
     [SerializeField] private Sound[] sfxSounds;
+    private AudioSource currentPlayingSource; // Para rastrear el sonido actual
 
     [Header("Fade Settings")]
     [SerializeField] private float musicFadeDuration = 1f; 
@@ -176,7 +177,27 @@ public class AudioManager : MonoBehaviour
         availableSource.loop = s.loop;
         availableSource.Play();
     }
+    public void StopSFX(string name)
+    {
+        Sound s = Array.Find(sfxSounds, x => x.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning($"Efecto de sonido '{name}' no encontrado!");
+            return;
+        }
 
+        // Buscar el canal que está reproduciendo este sonido
+        AudioSource playingSource = sfxSources.Find(source => source.isPlaying && source.clip == s.clips[0]); // Asume el primer clip
+        if (playingSource != null)
+        {
+            playingSource.Stop();
+            Debug.Log($"Efecto de sonido '{name}' detenido.");
+        }
+        else
+        {
+            Debug.LogWarning($"No se encontró un canal reproduciendo '{name}'.");
+        }
+    }
     public void StopAllSFX()
     {
         foreach (AudioSource source in sfxSources)
