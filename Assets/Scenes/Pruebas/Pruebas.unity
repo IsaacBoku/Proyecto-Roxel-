@@ -1509,50 +1509,6 @@ PrefabInstance:
       value: PROP-ConveyorBelt (1)
       objectReference: {fileID: 0}
     - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-      propertyPath: direction
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-      propertyPath: forceMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-      propertyPath: conveyorAnimator
-      value: 
-      objectReference: {fileID: 856866008}
-    - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-      propertyPath: useDynamicBehavior
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-      propertyPath: batteryForceMultiplier
-      value: 2.55
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-      propertyPath: movableLayerMask.m_Bits
-      value: 4416
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-      propertyPath: speedCurve.m_Curve.Array.data[0].time
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-      propertyPath: speedCurve.m_Curve.Array.data[0].value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-      propertyPath: speedCurve.m_Curve.Array.data[1].inSlope
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-      propertyPath: speedCurve.m_Curve.Array.data[1].outSlope
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-      propertyPath: OnObjectEnter.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821760848989269742, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
       propertyPath: OnObjectEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1324431788}
@@ -1848,11 +1804,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1417153999357136789, guid: e23ea5c457efc70489c6c1db76f477cd, type: 3}
   m_PrefabInstance: {fileID: 5232567451831549392}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &856866008 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 8693840169408958113, guid: d50eaf92a6fb8a346bfc27f22560ae2d, type: 3}
-  m_PrefabInstance: {fileID: 582800347}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &925596347 stripped
 MonoBehaviour:
@@ -4861,6 +4812,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[3].name
+      value: ConveyorLoop
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[3].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[3].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[3].clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: 'sfxSounds.Array.data[3].clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: d98416e30fa2ff843800e7340c0a6cb6, type: 3}
     - target: {fileID: 8409327903819761470, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
       propertyPath: m_Name
       value: AUDIO-Manager

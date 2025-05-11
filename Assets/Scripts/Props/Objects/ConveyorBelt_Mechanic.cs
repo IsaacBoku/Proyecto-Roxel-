@@ -64,8 +64,8 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
     [SerializeField, Tooltip("Efecto de partículas al salir del conveyor")]
     private ParticleSystem exitEffect;
 
-    [SerializeField, Tooltip("Sonido del conveyor mientras está activo")]
-    private AudioSource conveyorSound;
+    [SerializeField, Tooltip("Nombre del sonido del conveyor en el AudioManager")]
+    private string sfxSoundName = "ConveyorLoop";
 
     [Header("Optimización")]
     [SerializeField, Tooltip("Capas de los objetos que pueden ser afectados por el conveyor")]
@@ -86,6 +86,7 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
     private Vector2 cachedConveyorForce;
     private Dictionary<Collider2D, (Rigidbody2D rb, Player player, BatteryController battery, float forceMultiplier)> cachedObjects = new Dictionary<Collider2D, (Rigidbody2D, Player, BatteryController, float)>();
     private float originalSpeed;
+    private bool isSoundPlaying = false;
     #endregion
 
     #region Unity Lifecycle
@@ -187,9 +188,11 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
             entryEffect.Play();
         }
 
-        if (conveyorSound != null && !conveyorSound.isPlaying && direction != ConveyorDirection.Stopped)
+        // Reproducir sonido si no está sonando y el conveyor no está detenido
+        if (!isSoundPlaying && direction != ConveyorDirection.Stopped)
         {
-            conveyorSound.Play();
+            AudioManager.instance.PlaySFX(sfxSoundName);
+            isSoundPlaying = true;
         }
     }
 
@@ -255,9 +258,11 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
             exitEffect.Play();
         }
 
-        if (conveyorSound != null && cachedObjects.Count == 0)
+        // Detener el sonido si no hay más objetos en el conveyor
+        if (cachedObjects.Count == 0)
         {
-            conveyorSound.Stop();
+            AudioManager.instance.StopAllSFX();
+            isSoundPlaying = false;
         }
     }
     #endregion
@@ -273,6 +278,18 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
         if (conveyorCollider != null)
         {
             conveyorCollider.enabled = direction != ConveyorDirection.Stopped;
+        }
+
+        // Ajustar el sonido según la dirección
+        if (direction == ConveyorDirection.Stopped && isSoundPlaying)
+        {
+            AudioManager.instance.StopAllSFX();
+            isSoundPlaying = false;
+        }
+        else if (direction != ConveyorDirection.Stopped && !isSoundPlaying && cachedObjects.Count > 0)
+        {
+            AudioManager.instance.PlaySFX(sfxSoundName);
+            isSoundPlaying = true;
         }
 
         Debug.Log($"Conveyor {gameObject.name} configurado a: {direction}");
@@ -316,12 +333,6 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
         {
             float animSpeed = direction == ConveyorDirection.Stopped ? 0f : speed * (direction == ConveyorDirection.Reverse ? -1f : 1f);
             conveyorAnimator.SetFloat(speedParameter, animSpeed);
-        }
-
-        if (conveyorSound != null)
-        {
-            float pitch = direction == ConveyorDirection.Stopped ? 0f : 1f * (direction == ConveyorDirection.Reverse ? -0.8f : 1f);
-            conveyorSound.pitch = pitch;
         }
     }
     #endregion

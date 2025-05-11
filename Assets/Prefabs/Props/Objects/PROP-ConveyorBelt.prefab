@@ -54,6 +54,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -91,7 +94,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!50 &1765216135706051269
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -102,8 +105,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -124,6 +127,7 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6691584499617114900}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -147,7 +151,8 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: -0.0050184727, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0.34375, y: 0.125, z: 0.34375, w: 0.125}
@@ -158,7 +163,6 @@ BoxCollider2D:
     drawMode: 2
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
   m_Size: {x: 6.446256, y: 0.4375}
   m_EdgeRadius: 0
 --- !u!61 &4633409521445213583
@@ -169,6 +173,7 @@ BoxCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6691584499617114900}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -192,7 +197,8 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: -0.0050182343, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0.34375, y: 0.125, z: 0.34375, w: 0.125}
@@ -203,12 +209,11 @@ BoxCollider2D:
     drawMode: 2
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
   m_Size: {x: 6.4462557, y: 0.4375}
   m_EdgeRadius: 0
 --- !u!95 &8693840169408958113
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -222,6 +227,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -240,4 +246,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  isReversed: 0
+  direction: 0
+  forceMode: 1
+  accelerationTime: 0.2
+  useDynamicBehavior: 0
+  directionChangeInterval: 5
+  speedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  genericObjectForceMultiplier: 1
+  batteryForceMultiplier: 2.55
+  batteryEffect: 0
+  affectBatteryPolarity: 0
+  conveyorAnimator: {fileID: 8693840169408958113}
+  speedParameter: Speed
+  entryEffect: {fileID: 0}
+  exitEffect: {fileID: 0}
+  conveyorSound: {fileID: 0}
+  movableLayerMask:
+    serializedVersion: 2
+    m_Bits: 4416
+  OnObjectEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnObjectExit:
+    m_PersistentCalls:
+      m_Calls: []
+  showDebugGizmos: 1
