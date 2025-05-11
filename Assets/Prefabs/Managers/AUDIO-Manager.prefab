@@ -255,6 +255,36 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     loop: 0
+  - name: LeverOn
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: LeverOff
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: PlatformActivate
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: PlatformDeactivate
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: PlatformMove
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
   musicFadeDuration: 1
 --- !u!1 &9109423394192129495
 GameObject:
