@@ -38,7 +38,13 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
     [SerializeField, Tooltip("Curva para modificar la velocidad dinámicamente")]
     private AnimationCurve speedCurve = AnimationCurve.Linear(0f, 1f, 1f, 1f);
 
-    [Header("Interacción con Batería")]
+    [Header("Interacción con Objetos")]
+    [SerializeField, Tooltip("Multiplicador de fuerza para objetos genéricos (como cajas)")]
+    private float genericObjectForceMultiplier = 1f;
+
+    [SerializeField, Tooltip("Multiplicador de fuerza para la batería del jugador")]
+    private float batteryForceMultiplier = 0.5f;
+
     [SerializeField, Tooltip("Efecto en la energía de la batería por segundo (positivo para cargar, negativo para drenar)")]
     private float batteryEffect = 0f;
 
@@ -78,7 +84,7 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
     private Collider2D conveyorCollider;
     private float dynamicTimer;
     private Vector2 cachedConveyorForce;
-    private Dictionary<Collider2D, (Rigidbody2D rb, Player player, bool isBattery)> cachedObjects = new Dictionary<Collider2D, (Rigidbody2D, Player, bool)>();
+    private Dictionary<Collider2D, (Rigidbody2D rb, Player player, BatteryController battery, float forceMultiplier)> cachedObjects = new Dictionary<Collider2D, (Rigidbody2D, Player, BatteryController, float)>();
     private float originalSpeed;
     #endregion
 
@@ -156,14 +162,25 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
         if (!IsLayerInMask(collision.gameObject.layer, movableLayerMask)) return;
 
         Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
-        Player player = collision.GetComponent<Player>();
-        bool isBattery = collision.gameObject == (player?.battery);
+        if (rb == null) return; // Solo procesar objetos con Rigidbody2D
 
-        if (rb != null || player != null)
+        Player player = collision.GetComponent<Player>();
+        BatteryController battery = null;
+        float forceMultiplier = genericObjectForceMultiplier;
+
+        // Determinar si el objeto es la batería del jugador
+        if (player != null && player.battery != null && collision.gameObject == player.battery)
         {
-            cachedObjects[collision] = (rb, player, isBattery);
-            OnObjectEnter.Invoke(collision.gameObject, direction);
+            battery = player.battery.GetComponent<BatteryController>();
+            forceMultiplier = batteryForceMultiplier;
         }
+        else if (player != null)
+        {
+            forceMultiplier = 1f; // El jugador usa fuerza completa
+        }
+
+        cachedObjects[collision] = (rb, player, battery, forceMultiplier);
+        OnObjectEnter.Invoke(collision.gameObject, direction);
 
         if (entryEffect != null)
         {
@@ -182,12 +199,12 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
 
         Rigidbody2D rb = cached.rb;
         Player player = cached.player;
-        bool isBattery = cached.isBattery;
+        BatteryController battery = cached.battery;
+        float forceMultiplier = cached.forceMultiplier;
 
         // Aplicar fuerza al Rigidbody2D
         if (rb != null)
         {
-            float forceMultiplier = isBattery ? 0.5f : 1f; // Reducir fuerza para la batería
             rb.AddForce(cachedConveyorForce * forceMultiplier * Time.deltaTime / accelerationTime, forceMode);
         }
 
@@ -196,30 +213,26 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
         {
             player.IsOnConveyorBelt = true;
             player.SetConveyorDirection(cachedConveyorForce.x / speed, this, speed);
+        }
 
-            // Interacción con la batería
-            if (player.battery != null)
+        // Manejar lógica de la batería
+        if (battery != null)
+        {
+            // Efecto de energía
+            if (batteryEffect != 0f)
             {
-                var batteryController = player.battery.GetComponent<BatteryController>();
-                if (batteryController != null)
-                {
-                    // Efecto de energía
-                    if (batteryEffect != 0f)
-                    {
-                        batteryController.energyAmounts += batteryEffect * Time.deltaTime;
-                        batteryController.energyAmounts = Mathf.Clamp(batteryController.energyAmounts, 0f, batteryController.maxEnergy);
-                    }
+                battery.energyAmounts += batteryEffect * Time.deltaTime;
+                battery.energyAmounts = Mathf.Clamp(battery.energyAmounts, 0f, battery.maxEnergy);
+            }
 
-                    // Efecto de polaridad
-                    if (affectBatteryPolarity)
-                    {
-                        bool shouldBePositive = direction == ConveyorDirection.Forward;
-                        if (batteryController.isPositivePolarity != shouldBePositive)
-                        {
-                            batteryController.isPositivePolarity = shouldBePositive;
-                            player.StartCoroutine(player.FlashBatteryColor());
-                        }
-                    }
+            // Efecto de polaridad
+            if (affectBatteryPolarity && player != null)
+            {
+                bool shouldBePositive = direction == ConveyorDirection.Forward;
+                if (battery.isPositivePolarity != shouldBePositive)
+                {
+                    battery.isPositivePolarity = shouldBePositive;
+                    player.StartCoroutine(player.FlashBatteryColor());
                 }
             }
         }

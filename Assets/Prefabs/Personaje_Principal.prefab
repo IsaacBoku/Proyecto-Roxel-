@@ -723,6 +723,7 @@ MonoBehaviour:
   interactionCheck: {fileID: 289189624859510397}
   globalIndicator: {fileID: 4584205777616309759}
   groundCheck: {fileID: 9020894077395841980}
+  conveyorSpeedModifier: 0.5
   numberOfDots: 10
   dotPrefab: {fileID: 1806446307295189743, guid: c26b053cf4fffe24c869f5fdd3df4168, type: 3}
   dotsParent: {fileID: 6565704547363232867}
@@ -5954,7 +5955,7 @@ GameObject:
   - component: {fileID: 3458065592022584476}
   - component: {fileID: 331544933763782278}
   - component: {fileID: 1697557432130282556}
-  m_Layer: 6
+  m_Layer: 12
   m_Name: Battery
   m_TagString: Battery
   m_Icon: {fileID: 0}
@@ -5992,16 +5993,16 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 1bc5aab4318ec514eb64674d23f557c0, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!61 &3458065592022584476
 BoxCollider2D:
@@ -6013,7 +6014,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: dbfba3d56a6db3a48ac5afa1894f1601, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
