@@ -17,17 +17,21 @@ public class Switch_Mechanic : InteractableBase
     {
         public TargetType type;
         public GameObject targetObject;
-        public bool activateOnTrigger; // true: activar, false: desactivar
+        public bool activateOnTrigger;
         [HideInInspector] public IActivable activable;
         [HideInInspector] public MovingPlatform platform;
     }
 
     [Header("Switch Settings")]
     [SerializeField] private List<TargetEntry> targets = new List<TargetEntry>();
-    [SerializeField] private bool isToggleSwitch = false; // Reemplaza 'sticks'
+    [SerializeField] private bool isToggleSwitch = false;
     [SerializeField] private ParticleSystem activateEffect;
-    [SerializeField] private AudioSource activateSound;
-    [SerializeField] private AudioSource deactivateSound;
+
+    [Header("Audio Settings")]
+    [SerializeField, Tooltip("Nombre del sonido al activar el interruptor en el AudioManager")]
+    private string activateSoundName = "SwitchOn";
+    [SerializeField, Tooltip("Nombre del sonido al desactivar el interruptor en el AudioManager")]
+    private string deactivateSoundName = "SwitchOff";
 
     private Animator ani;
     private SpriteRenderer sr;
@@ -86,7 +90,7 @@ public class Switch_Mechanic : InteractableBase
             if (batteryController.isPositivePolarity != requiredPolarityIsPositive)
             {
                 Debug.Log($"Switch_Mechanic '{gameObject.name}': Polaridad incorrecta. Se requiere {(requiredPolarityIsPositive ? "positiva" : "negativa")}.");
-                if (deactivateSound != null) deactivateSound.Play();
+                AudioManager.instance.PlaySFX(deactivateSoundName);
                 return;
             }
         }
@@ -114,7 +118,7 @@ public class Switch_Mechanic : InteractableBase
             if (batteryController != null && batteryController.isPositivePolarity != requiredPolarityIsPositive)
             {
                 Debug.Log($"Switch_Mechanic '{gameObject.name}': Polaridad incorrecta. Se requiere {(requiredPolarityIsPositive ? "positiva" : "negativa")}.");
-                if (deactivateSound != null) deactivateSound.Play();
+                AudioManager.instance.PlaySFX(deactivateSoundName);
                 return;
             }
         }
@@ -148,11 +152,11 @@ public class Switch_Mechanic : InteractableBase
         if (activate)
         {
             if (activateEffect != null) activateEffect.Play();
-            if (activateSound != null) activateSound.Play();
+            AudioManager.instance.PlaySFX(activateSoundName);
         }
         else
         {
-            if (deactivateSound != null) deactivateSound.Play();
+            AudioManager.instance.PlaySFX(deactivateSoundName);
         }
 
         foreach (var target in targets)
