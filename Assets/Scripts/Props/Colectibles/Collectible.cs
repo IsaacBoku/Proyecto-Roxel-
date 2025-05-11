@@ -6,7 +6,11 @@ public class Collectible : MonoBehaviour
     [SerializeField] private int crystalValue = 1;
     [SerializeField] private bool isSpecial = false;
     [SerializeField] private ParticleSystem collectEffect;
-    [SerializeField] private AudioSource collectSound;
+
+    [Header("Audio Settings")]
+    [SerializeField, Tooltip("Nombre del sonido al recolectar el coleccionable en el AudioManager")]
+    private string collectSoundName = "CollectiblePickup";
+
     private bool isCollected = false;
 
     void OnTriggerEnter2D(Collider2D other)
@@ -30,7 +34,7 @@ public class Collectible : MonoBehaviour
                 player.AddCrystal(finalCrystalValue);
 
                 if (collectEffect != null) collectEffect.Play();
-                if (collectSound != null) collectSound.Play();
+                AudioManager.instance.PlaySFX(collectSoundName); // Reproducir sonido de recolección
 
                 Debug.Log($"Recolectado cristal de energía: +{finalEnergyValue} energía, +{finalCrystalValue} cristal(es)");
 
