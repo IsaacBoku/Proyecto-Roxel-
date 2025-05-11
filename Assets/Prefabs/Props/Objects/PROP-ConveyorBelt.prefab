@@ -283,7 +283,7 @@ MonoBehaviour:
   speedParameter: Speed
   entryEffect: {fileID: 0}
   exitEffect: {fileID: 0}
-  conveyorSound: {fileID: 0}
+  sfxSoundName: ConveyorLoop
   movableLayerMask:
     serializedVersion: 2
     m_Bits: 4416
