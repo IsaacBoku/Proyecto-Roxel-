@@ -200,7 +200,7 @@ MonoBehaviour:
   crystalValue: 1
   isSpecial: 0
   collectEffect: {fileID: 0}
-  collectSound: {fileID: 0}
+  collectSoundName: CollectiblePickup
 --- !u!212 &7972587
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2094,7 +2094,7 @@ MonoBehaviour:
   crystalValue: 1
   isSpecial: 0
   collectEffect: {fileID: 0}
-  collectSound: {fileID: 0}
+  collectSoundName: CollectiblePickup
 --- !u!212 &1083728421
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4669,7 +4669,7 @@ MonoBehaviour:
   crystalValue: 1
   isSpecial: 0
   collectEffect: {fileID: 0}
-  collectSound: {fileID: 0}
+  collectSoundName: CollectiblePickup
 --- !u!212 &1960007201
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4854,6 +4854,130 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.size
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[21].name
+      value: CollectiblePickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[22].name
+      value: UpgradeUnlock
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[23].name
+      value: BatterySeparate
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[24].name
+      value: BatteryReunite
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[25].name
+      value: PolaritySwitch
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[26].name
+      value: LifeProgressLoss
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[21].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[22].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[23].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[24].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[25].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[26].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[21].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[22].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[23].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[24].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[25].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[26].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[21].clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[22].clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[23].clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[24].clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[25].clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: sfxSounds.Array.data[26].clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: 'sfxSounds.Array.data[21].clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: 'sfxSounds.Array.data[22].clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: 'sfxSounds.Array.data[23].clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: 'sfxSounds.Array.data[24].clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: 'sfxSounds.Array.data[25].clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    - target: {fileID: 3974891079891127116, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
+      propertyPath: 'sfxSounds.Array.data[26].clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
     - target: {fileID: 8409327903819761470, guid: 5a2b42c188e74444996433f0f9cdbde0, type: 3}
       propertyPath: m_Name
       value: AUDIO-Manager
@@ -4955,7 +5079,7 @@ MonoBehaviour:
   crystalValue: 1
   isSpecial: 0
   collectEffect: {fileID: 0}
-  collectSound: {fileID: 0}
+  collectSoundName: CollectiblePickup
 --- !u!212 &2023983782
 SpriteRenderer:
   m_ObjectHideFlags: 0

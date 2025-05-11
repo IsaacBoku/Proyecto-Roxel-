@@ -61,13 +61,25 @@ public class Player : MonoBehaviour
     #region Progression
     [Header("Progression Settings")]
     [SerializeField] private ParticleSystem upgradeEffect;
-    [SerializeField] private AudioSource upgradeSound;
     private int collectedCrystals;
     private float originalMaxLifeProgress;
     private float originalMaxEnergy;
     private PlayerUI playerUI;
     private UpgradeSelectionUI upgradeSelectionUI;
     private bool isUpgradeSelectionActive;
+    #endregion
+    #region Audio Settings
+    [Header("Audio Settings")]
+    [SerializeField, Tooltip("Nombre del sonido al aplicar una mejora en el AudioManager")]
+    private string upgradeSoundName = "UpgradeUnlock";
+    [SerializeField, Tooltip("Nombre del sonido al separar la batería en el AudioManager")]
+    private string separateBatterySoundName = "BatterySeparate";
+    [SerializeField, Tooltip("Nombre del sonido al reunir la batería en el AudioManager")]
+    private string reuniteBatterySoundName = "BatteryReunite";
+    [SerializeField, Tooltip("Nombre del sonido al cambiar la polaridad de la batería en el AudioManager")]
+    private string switchPolaritySoundName = "PolaritySwitch";
+    [SerializeField, Tooltip("Nombre del sonido al perder vida por tiempo sin batería en el AudioManager")]
+    private string lifeProgressLossSoundName = "LifeProgressLoss";
     #endregion
     #region Interaction
     [Header("Interactable Indicator")]
@@ -215,7 +227,7 @@ public class Player : MonoBehaviour
             ReuniteBattery();
         }
 
-        if (InputHandler.InteractInput && lastInteractable != null) // Usar lastInteractable en lugar de CheckInteraction
+        if (InputHandler.InteractInput && lastInteractable != null)
         {
             StateMachine.ChangeState(InteractionState);
         }
@@ -242,6 +254,8 @@ public class Player : MonoBehaviour
         batteryController.isPositivePolarity = !batteryController.isPositivePolarity;
         InputHandler.UseSwitchPolarityInput();
 
+        AudioManager.instance.PlaySFX(switchPolaritySoundName);
+
         if (batterySpriteRenderer != null)
         {
             StopCoroutine(FlashBatteryColor());
@@ -261,6 +275,7 @@ public class Player : MonoBehaviour
         if (currentLifeProgress > 0) return;
 
         healthSystem.LoseLife();
+        AudioManager.instance.PlaySFX(lifeProgressLossSoundName);
         if (healthSystem.currentLives > 0)
         {
             currentLifeProgress = maxLifeProgress;
@@ -311,6 +326,8 @@ public class Player : MonoBehaviour
         StateMachine.ChangeState(SeparatedState);
         InputHandler.UseSeparateInput();
         floatTimer = 0f;
+
+        AudioManager.instance.PlaySFX(separateBatterySoundName);
     }
 
     private void ReuniteBattery()
@@ -355,6 +372,8 @@ public class Player : MonoBehaviour
         currentLifeProgress = maxLifeProgress;
         InputHandler.UseSeparateInput();
         Debug.Log($"Batería recogida. Progreso de vida reiniciado a: {currentLifeProgress}");
+
+        AudioManager.instance.PlaySFX(reuniteBatterySoundName);
     }
 
     public IEnumerator FlashBatteryColor()
@@ -583,7 +602,7 @@ public class Player : MonoBehaviour
         }
 
         if (upgradeEffect != null) upgradeEffect.Play();
-        if (upgradeSound != null) upgradeSound.Play();
+        AudioManager.instance.PlaySFX(upgradeSoundName);
 
         ShowUpgradeNotification(upgrade);
         UpdateCrystalUI();
