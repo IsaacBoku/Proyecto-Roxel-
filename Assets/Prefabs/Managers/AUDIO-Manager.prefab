@@ -42,8 +42,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 6af672efa1167e145a04ff4eefa7542e, type: 3}
-  m_Resource: {fileID: 8300000, guid: 6af672efa1167e145a04ff4eefa7542e, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.171
   m_Pitch: 1
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSource: {fileID: 141373620883639547}
-  sfxChannels: 5
+  sfxChannels: 34
   musicSounds:
   - name: MainTheme
     clips:
@@ -186,134 +186,129 @@ MonoBehaviour:
     pitch: 1
     loop: 0
   sfxSounds:
-  - name: PlayerMove
-    clips: []
-    volume: 1
-    pitch: 1
-    loop: 0
   - name: Grab
     clips: []
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: ConveyorLoop
     clips:
     - {fileID: 8300000, guid: d98416e30fa2ff843800e7340c0a6cb6, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: DoorOpen
     clips:
     - {fileID: 8300000, guid: d98416e30fa2ff843800e7340c0a6cb6, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: DoorClose
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: HammerSmash
     clips:
     - {fileID: 8300000, guid: 9ec84536dacba0f4198db98ae1c70b46, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: PlayerHit
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: PlayerDeath
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: LaserOn
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: LaserOff
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: LaserHit
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: LeverOn
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: LeverOff
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: PlatformActivate
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: PlatformDeactivate
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: PlatformMove
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: PedestalOn
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: PedestalOff
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: SwitchOn
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: SwitchOff
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: CollectiblePickup
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: UpgradeUnlock
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: BatterySeparate
@@ -337,7 +332,7 @@ MonoBehaviour:
   - name: LifeProgressLoss
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
-    volume: 1
+    volume: 0
     pitch: 1
     loop: 0
   - name: Footstep
@@ -373,6 +368,18 @@ MonoBehaviour:
   - name: MagneticField
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: ButtonHover
+    clips:
+    - {fileID: 8300000, guid: d98416e30fa2ff843800e7340c0a6cb6, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: ButtonClick
+    clips:
+    - {fileID: 8300000, guid: d98416e30fa2ff843800e7340c0a6cb6, type: 3}
     volume: 1
     pitch: 1
     loop: 0

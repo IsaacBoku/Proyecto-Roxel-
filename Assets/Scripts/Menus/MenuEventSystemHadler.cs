@@ -17,9 +17,6 @@ public class MenuEventSystemHadler : MonoBehaviour, ISelectHandler, IDeselectHan
     [SerializeField] protected float _scaleDuration = 0.25f;
     [SerializeField] protected List<GameObject> _animationExclusions = new List<GameObject>();
 
-    [Header("Sounds")]
-    [SerializeField] protected UnityEvent SoundEvent;
-
     protected Dictionary<Selectable, Vector3> _scales = new Dictionary<Selectable, Vector3>();
     protected Selectable _lastSelected;
     protected Tween _scaleUpTween;
@@ -34,6 +31,7 @@ public class MenuEventSystemHadler : MonoBehaviour, ISelectHandler, IDeselectHan
             _scales.Add(selectable, selectable.transform.localScale);
         }
     }
+
     private void Update()
     {
         MaintainUISelection();
@@ -46,12 +44,12 @@ public class MenuEventSystemHadler : MonoBehaviour, ISelectHandler, IDeselectHan
             Selectable targetSelectable = _lastSelected != null && Selectables.Contains(_lastSelected) ? _lastSelected : _firstSelected;
             if (targetSelectable == null && Selectables.Count > 0)
             {
-                targetSelectable = Selectables[0]; // Fallback al primer elemento
+                targetSelectable = Selectables[0];
             }
 
             if (targetSelectable != null)
             {
-                isRestoringSelection = true; // Indicar que es una selección automática
+                isRestoringSelection = true;
                 EventSystem.current.SetSelectedGameObject(targetSelectable.gameObject);
                 isRestoringSelection = false;
                 Debug.Log("Selección restaurada a: " + targetSelectable.name);
@@ -71,10 +69,10 @@ public class MenuEventSystemHadler : MonoBehaviour, ISelectHandler, IDeselectHan
 
     protected virtual IEnumerator SelectAfterDelay()
     {
-        yield return new WaitForEndOfFrame(); // Esperar hasta el final del frame para asegurar que EventSystem esté listo
+        yield return new WaitForEndOfFrame();
         if (_firstSelected != null)
         {
-            isRestoringSelection = true; // Indicar que es una selección automática
+            isRestoringSelection = true;
             EventSystem.current.SetSelectedGameObject(_firstSelected.gameObject);
             _lastSelected = _firstSelected;
             isRestoringSelection = false;
@@ -140,11 +138,16 @@ public class MenuEventSystemHadler : MonoBehaviour, ISelectHandler, IDeselectHan
 
     public void OnSelect(BaseEventData eventData)
     {
-        SoundEvent?.Invoke();
         _lastSelected = eventData.selectedObject.GetComponent<Selectable>();
         if (_lastSelected != null)
         {
             Debug.Log("Elemento seleccionado: " + _lastSelected.name + ", Restauración automática: " + isRestoringSelection);
+        }
+
+        // Reproducir sonido solo si no es una restauración automática
+        if (!isRestoringSelection)
+        {
+            AudioManager.instance.PlaySFX("ButtonHover");
         }
 
         if (_animationExclusions.Contains(eventData.selectedObject) || isRestoringSelection)
