@@ -186,11 +186,6 @@ MonoBehaviour:
     pitch: 1
     loop: 0
   sfxSounds:
-  - name: Jump
-    clips: []
-    volume: 1
-    pitch: 1
-    loop: 0
   - name: PlayerMove
     clips: []
     volume: 1
@@ -304,6 +299,78 @@ MonoBehaviour:
     pitch: 1
     loop: 0
   - name: SwitchOff
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: CollectiblePickup
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: UpgradeUnlock
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: BatterySeparate
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: BatteryReunite
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: PolaritySwitch
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: LifeProgressLoss
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: Footstep
+    clips:
+    - {fileID: 8300000, guid: da70b6c22bba5e345a0254b15d1857eb, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+  - name: Jump
+    clips:
+    - {fileID: 8300000, guid: 47fa9bcb270f35045aa66db8d8f4f6ee, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: Land
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: Interact
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: BatteryThrow
+    clips:
+    - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - name: MagneticField
     clips:
     - {fileID: 8300000, guid: 7fb630c1f3a796e41b39bce986797bb1, type: 3}
     volume: 1
