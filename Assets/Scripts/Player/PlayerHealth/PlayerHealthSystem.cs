@@ -46,29 +46,9 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
         // Validaciones
         if (player == null)
         {
-            Debug.LogError($"PlayerHealthSystem '{gameObject.name}': No se encontró componente Player.");
+            //Debug.LogError($"PlayerHealthSystem '{gameObject.name}': No se encontró componente Player.");
             enabled = false;
             return;
-        }
-
-        if (animHealth == null)
-        {
-            Debug.LogWarning($"PlayerHealthSystem '{gameObject.name}': animHealth no asignado. La animación de salud no funcionará.");
-        }
-
-        if (aniGameOver == null)
-        {
-            Debug.LogWarning($"PlayerHealthSystem '{gameObject.name}': aniGameOver no asignado. La animación de game over no funcionará.");
-        }
-
-        if (gameOverUI == null)
-        {
-            Debug.LogWarning($"PlayerHealthSystem '{gameObject.name}': gameOverUI no asignado. La UI de game over no se mostrará.");
-        }
-
-        if (inputHandler == null)
-        {
-            Debug.LogWarning($"PlayerHealthSystem '{gameObject.name}': inputHandler no asignado. No se pausará la entrada.");
         }
 
         // Inicializar salud

@@ -14,16 +14,18 @@ public class MenuPanel
 
     public void Initialize()
     {
-        if (panelObject != null)
+        if (panelObject == null)
         {
-            panelObject.SetActive(false);
-            isOpen = false;
+            return;
+        }
 
-            if (animator != null && animator.runtimeAnimatorController == null)
-            {
-                Debug.LogWarning($"El Animator del panel '{panelName}' no tiene un AnimatorController asignado. Desactivando el Animator para evitar errores.");
-                animator = null;
-            }
+        panelObject.SetActive(false);
+        isOpen = false;
+
+        if (animator != null && animator.runtimeAnimatorController == null)
+        {
+            Debug.LogWarning($"El Animator del panel '{panelName}' no tiene un AnimatorController asignado. Desactivando el Animator para evitar errores.");
+            animator = null;
         }
     }
 

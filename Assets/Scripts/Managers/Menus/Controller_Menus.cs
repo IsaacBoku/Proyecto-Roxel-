@@ -81,7 +81,7 @@ public class Controller_Menus : MonoBehaviour
             Debug.Log("Inicialización completa: Escena de Main Menu, mapa UI activado");
         }
 
-        if (fadePanel != null)
+        if (isGameScene && fadePanel != null)
         {
             StartCoroutine(FadeIn());
         }
@@ -112,7 +112,10 @@ public class Controller_Menus : MonoBehaviour
 
     private IEnumerator InitializeSceneAfterLoad()
     {
-        yield return StartCoroutine(TryFindInputHandler());
+        if (isGameScene)
+        {
+            yield return StartCoroutine(TryFindInputHandler());
+        }
 
         if (isGameScene)
         {
@@ -123,7 +126,7 @@ public class Controller_Menus : MonoBehaviour
         else
         {
             EnsureUIMode();
-            SelectMainMenuButton(); // Seleccionar botón inicial en Main Menu
+            SelectMainMenuButton();
             Debug.Log("Escena de Main Menu cargada, mantenido mapa UI");
         }
 
@@ -367,7 +370,7 @@ public class Controller_Menus : MonoBehaviour
                 EnsureUIMode();
                 menuEventSystem.enabled = true;
                 Cursor.visible = true;
-                SelectMainMenuButton(); // Seleccionar botón inicial en Main Menu
+                SelectMainMenuButton();
                 Debug.Log("Todos los menús cerrados, mapa UI mantenido para Main Menu");
             }
             return;
@@ -393,7 +396,7 @@ public class Controller_Menus : MonoBehaviour
                 EnsureUIMode();
                 menuEventSystem.enabled = true;
                 Cursor.visible = true;
-                SelectMainMenuButton(); // Seleccionar botón inicial en Main Menu
+                SelectMainMenuButton();
                 Debug.Log("Menú cerrado, mapa UI mantenido para Main Menu");
             }
         }
@@ -401,7 +404,35 @@ public class Controller_Menus : MonoBehaviour
         AudioManager.instance.PlaySFX("ButtonClick");
         Debug.Log("Menú actual cerrado");
     }
+    private IEnumerator CloseAllMenusWithAnimation()
+    {
+        List<Coroutine> closeCoroutines = new List<Coroutine>();
+        if (pauseMenuPanel != null && pauseMenuPanel.panelObject != null) closeCoroutines.Add(StartCoroutine(CloseMenuCoroutine(pauseMenuPanel)));
+        if (optionsMenuPanel != null && optionsMenuPanel.panelObject != null) closeCoroutines.Add(StartCoroutine(CloseMenuCoroutine(optionsMenuPanel)));
+        if (controlsMenuPanel != null && controlsMenuPanel.panelObject != null) closeCoroutines.Add(StartCoroutine(CloseMenuCoroutine(controlsMenuPanel)));
+        if (audioMenuPanel != null && audioMenuPanel.panelObject != null) closeCoroutines.Add(StartCoroutine(CloseMenuCoroutine(audioMenuPanel)));
+        if (graphicsMenuPanel != null && graphicsMenuPanel.panelObject != null) closeCoroutines.Add(StartCoroutine(CloseMenuCoroutine(graphicsMenuPanel)));
+        if (quitPanel != null && quitPanel.panelObject != null) closeCoroutines.Add(StartCoroutine(CloseMenuCoroutine(quitPanel)));
 
+        float maxAnimationDuration = 0f;
+        MenuPanel[] allPanels = { pauseMenuPanel, optionsMenuPanel, controlsMenuPanel, audioMenuPanel, graphicsMenuPanel, quitPanel };
+        foreach (MenuPanel panel in allPanels)
+        {
+            if (panel != null && panel.panelObject != null && panel.AnimationDuration > maxAnimationDuration)
+            {
+                maxAnimationDuration = panel.AnimationDuration;
+            }
+        }
+
+        if (maxAnimationDuration > 0)
+        {
+            yield return new WaitForSecondsRealtime(maxAnimationDuration);
+        }
+
+        menuStack.Clear();
+        currentMenuPanel = null;
+        Debug.Log("Todos los menús cerrados con animación");
+    }
     private void CloseAllMenus()
     {
         pauseMenuPanel?.CloseImmediate();
@@ -440,6 +471,12 @@ public class Controller_Menus : MonoBehaviour
     {
         if (menuPanel == null)
         {
+            Debug.LogWarning("CloseMenuCoroutine: menuPanel es nulo.");
+            yield break;
+        }
+
+        if (menuPanel.panelObject == null)
+        {
             yield break;
         }
 
@@ -454,7 +491,11 @@ public class Controller_Menus : MonoBehaviour
             yield return new WaitForSecondsRealtime(menuPanel.AnimationDuration);
         }
 
-        menuPanel.panelObject.SetActive(false);
+        if (menuPanel.panelObject != null)
+        {
+            menuPanel.panelObject.SetActive(false);
+        }
+
     }
 
     public void Button_ChangeScene(string sceneName)
@@ -519,7 +560,6 @@ public class Controller_Menus : MonoBehaviour
         Debug.Log("Modo UI asegurado para escena no de juego");
     }
 
-    // Nuevo método para seleccionar el botón inicial en el Main Menu
     private void SelectMainMenuButton()
     {
         Controller_MainMenu mainMenu = FindFirstObjectByType<Controller_MainMenu>();
@@ -536,6 +576,12 @@ public class Controller_Menus : MonoBehaviour
 
     public void Button_Resume()
     {
+        StartCoroutine(ResumeWithAnimation());
+    }
+    private IEnumerator ResumeWithAnimation()
+    {
+        yield return StartCoroutine(CloseAllMenusWithAnimation());
+
         ResumeGame();
     }
 
