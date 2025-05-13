@@ -94,8 +94,9 @@ public class BatteryCharger : InteractableBase
         StopEffects();
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         if (isCharging && battery != null)
         {
             float energyToAdd = chargeRate * Time.deltaTime;

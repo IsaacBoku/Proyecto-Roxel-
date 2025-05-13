@@ -32,7 +32,6 @@ public class ChargeableObject : InteractableBase
     [SerializeField] private Color chargingLineColor = Color.yellow;
     [SerializeField] private Color activeLineColor = Color.green;
     [SerializeField] private string lineRendererLayer = "LineRenderer";
-    [SerializeField] private int lineRendererSortingOrder = 10;
     [SerializeField] private Slider energySlider;
 
     public bool IsCharging { get; private set; }

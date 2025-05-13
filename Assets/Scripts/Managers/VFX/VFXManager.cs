@@ -156,7 +156,7 @@ public class VFXManager : MonoBehaviour
         vfxEnabled = PlayerPrefs.GetInt("VFXEnabled", 1) == 1;
         vfxIntensity = PlayerPrefs.GetFloat("VFXIntensity", 1f);
         UpdateAllVFX();
-        Debug.Log($"Configuraciones de VFX cargadas: VFXEnabled={vfxEnabled}, VFXIntensity={vfxIntensity}");
+        //Debug.Log($"Configuraciones de VFX cargadas: VFXEnabled={vfxEnabled}, VFXIntensity={vfxIntensity}");
     }
     #endregion
 }

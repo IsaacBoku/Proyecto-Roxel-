@@ -51,7 +51,7 @@ public class PlayerInputHadler : MonoBehaviour
         if (input == null)
         {
             Debug.LogError("Componente PlayerInput no encontrado en " + gameObject.name);
-            input = gameObject.AddComponent<PlayerInput>(); // Intentar añadir si no existe
+            input = gameObject.AddComponent<PlayerInput>();
         }
 
         if (Controller_Menus.Instance != null)
@@ -132,7 +132,7 @@ public class PlayerInputHadler : MonoBehaviour
                 Vector3 playerPos = transform.position;
                 Vector3 aimPoint = playerPos + new Vector3(AimDirection.x, AimDirection.y, 0) * 10f;
                 MousePosition = Camera.main.WorldToScreenPoint(aimPoint);
-                Debug.Log("Entrada de mando: Dirección del stick derecho = " + AimDirection + ", Punto de apuntado en pantalla = " + MousePosition);
+                //Debug.Log("Entrada de mando: Dirección del stick derecho = " + AimDirection + ", Punto de apuntado en pantalla = " + MousePosition);
             }
             else
             {
@@ -187,13 +187,11 @@ public class PlayerInputHadler : MonoBehaviour
         {
             InteractInput = true;
             InteractInputStop = false;
-            Debug.Log("Entrada de interacción iniciada");
         }
         if (context.canceled)
         {
             InteractInputStop = true;
             InteractInput = false;
-            Debug.Log("Entrada de interacción cancelada");
         }
     }
 
@@ -203,13 +201,11 @@ public class PlayerInputHadler : MonoBehaviour
         {
             MagneticInput = true;
             MagneticInputStop = false;
-            Debug.Log("Entrada magnética iniciada");
         }
         else if (context.canceled)
         {
             MagneticInput = false;
             MagneticInputStop = true;
-            Debug.Log("Entrada magnética cancelada");
         }
     }
 
@@ -226,7 +222,7 @@ public class PlayerInputHadler : MonoBehaviour
     public void OnNavigateInput(InputAction.CallbackContext context)
     {
         NavigateInput = context.ReadValue<Vector2>();
-        Debug.Log("Entrada de navegación UI: " + NavigateInput);
+        //Debug.Log("Entrada de navegación UI: " + NavigateInput);
     }
 
     public void OnSubmitInput(InputAction.CallbackContext context)
@@ -246,12 +242,10 @@ public class PlayerInputHadler : MonoBehaviour
         if (context.started)
         {
             CancelInput = true;
-            Debug.Log("Entrada de cancelación UI iniciada");
         }
         if (context.canceled)
         {
             CancelInput = false;
-            Debug.Log("Entrada de cancelación UI cancelada");
         }
     }
     #endregion
@@ -299,7 +293,7 @@ public class PlayerInputHadler : MonoBehaviour
         isPaused = true;
         ResetInputs();
         SwitchToUIInput();
-        Debug.Log("Juego pausado, cambiado a mapa de entrada UI");
+        //Debug.Log("Juego pausado, cambiado a mapa de entrada UI");
     }
 
     public void OnGame()
@@ -307,7 +301,7 @@ public class PlayerInputHadler : MonoBehaviour
         isPaused = false;
         ResetInputs();
         SwitchToGameplayInput();
-        Debug.Log("Juego reanudado, cambiado a mapa de entrada Gameplay");
+        //Debug.Log("Juego reanudado, cambiado a mapa de entrada Gameplay");
     }
 
     private void SwitchToGameplayInput()
@@ -315,7 +309,7 @@ public class PlayerInputHadler : MonoBehaviour
         if (input != null)
         {
             input.SwitchCurrentActionMap("Gameplay");
-            Debug.Log("Cambiado al mapa de entrada Gameplay");
+            //Debug.Log("Cambiado al mapa de entrada Gameplay");
         }
         else
         {
@@ -328,7 +322,7 @@ public class PlayerInputHadler : MonoBehaviour
         if (input != null)
         {
             input.SwitchCurrentActionMap("UI");
-            Debug.Log("Cambiado al mapa de entrada UI");
+            //Debug.Log("Cambiado al mapa de entrada UI");
         }
         else
         {
