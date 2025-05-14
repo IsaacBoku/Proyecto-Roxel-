@@ -5270,6 +5270,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 52724342315792048, guid: d54693f8e9bd6f14db66ba1fffab07b3, type: 3}
+      propertyPath: toggleOnInteract
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 52724342315792048, guid: d54693f8e9bd6f14db66ba1fffab07b3, type: 3}
       propertyPath: targets.Array.size
       value: 1
       objectReference: {fileID: 0}

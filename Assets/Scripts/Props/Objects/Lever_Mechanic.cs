@@ -26,12 +26,18 @@ public class Lever_Mechanic : InteractableBase
     [SerializeField]
     private bool toggleOnInteract = true;
 
+    private Animator anim;
+
     [Header("Audio Settings")]
     [SerializeField, Tooltip("Nombre del sonido al activar la palanca en el AudioManager")]
     private string activateSoundName = "LeverOn";
     [SerializeField, Tooltip("Nombre del sonido al desactivar la palanca en el AudioManager")]
     private string deactivateSoundName = "LeverOff";
 
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
     protected override void Start()
     {
         base.Start();
@@ -71,6 +77,15 @@ public class Lever_Mechanic : InteractableBase
         else
         {
             isActive = true;
+        }
+
+        if(isActive)
+        {
+            anim.SetBool("Open",true);
+        }
+        else
+        {
+            anim.SetBool("Open", false);
         }
 
         foreach (var target in targets)
