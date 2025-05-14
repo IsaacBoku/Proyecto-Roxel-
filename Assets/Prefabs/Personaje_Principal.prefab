@@ -668,10 +668,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: 9b64c805d69d20845ab22d3e4bf837ee, type: 2}
-  animhealth: {fileID: 5724368700558146377}
+  maxLives: 4
+  animHealth: {fileID: 0}
   aniGameOver: {fileID: 0}
   gameOverUI: {fileID: 0}
-  InputHadler: {fileID: 4775971293667171042}
+  inputHandler: {fileID: 0}
+  damageSoundName: PlayerHit
+  deathSoundName: PlayerDeath
+  invulnerabilityDuration: 1
 --- !u!114 &4775971293667171042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -719,7 +723,11 @@ MonoBehaviour:
   bounceAmplitude: 0.05
   batteryPosition: {fileID: 5620887758326011073}
   upgradeEffect: {fileID: 0}
-  upgradeSound: {fileID: 0}
+  upgradeSoundName: UpgradeUnlock
+  separateBatterySoundName: BatterySeparate
+  reuniteBatterySoundName: BatteryReunite
+  switchPolaritySoundName: PolaritySwitch
+  lifeProgressLossSoundName: LifeProgressLoss
   interactionCheck: {fileID: 289189624859510397}
   globalIndicator: {fileID: 4584205777616309759}
   groundCheck: {fileID: 9020894077395841980}
@@ -7188,10 +7196,10 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
+  m_Sprite: {fileID: -1373048871, guid: 12aa24cc790980a4c8f14d028ee53604, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 1
+  m_FlipX: 1
+  m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5

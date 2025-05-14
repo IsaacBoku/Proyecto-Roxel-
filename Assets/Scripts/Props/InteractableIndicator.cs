@@ -11,6 +11,17 @@ public class InteractableIndicator : MonoBehaviour
     private float blinkTimer = 0f;
     private Vector3 basePosition;
 
+    private void Start()
+    {
+        if (indicatorSprite != null)
+        {
+            indicatorSprite.flipX = false;
+            indicatorSprite.flipY = false;
+        }
+        // Initialize basePosition to current position if not set
+        basePosition = transform.position;
+    }
+
     void Update()
     {
         blinkTimer += Time.deltaTime * blinkSpeed;
@@ -21,20 +32,21 @@ public class InteractableIndicator : MonoBehaviour
 
         float offsetY = Mathf.Sin(Time.time * oscillateSpeed) * oscillateAmount;
         transform.position = basePosition + new Vector3(0f, offsetY, 0f);
+
     }
 
     public void Show(Vector3 targetPosition)
     {
         basePosition = targetPosition + new Vector3(0f, 1f, 0f); 
-        transform.position = basePosition;
+        //transform.position = basePosition;
 
         indicatorSprite.enabled = true;
-        indicatorAnimator.SetBool("IsVisible", true);
+        //indicatorAnimator.SetBool("IsVisible", true);
     }
 
     public void Hide()
     {
         indicatorSprite.enabled = false;
-        indicatorAnimator.SetBool("IsVisible", false);
+        //indicatorAnimator.SetBool("IsVisible", false);
     }
 }
