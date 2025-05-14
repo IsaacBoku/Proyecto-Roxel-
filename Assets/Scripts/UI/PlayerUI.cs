@@ -14,9 +14,9 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Image[] lifeBarFills;
 
     [Header("Energy Settings")]
-    [SerializeField] private Slider energyBar; 
-    [SerializeField] private Image energyBarFill;
-    [SerializeField] private TextMeshProUGUI energyBarText;
+    [SerializeField] private Image[] batteryPointImages;
+    [SerializeField] private Sprite fullBatteryPointSprite;
+    [SerializeField] private Sprite emptyBatteryPointSprite;
 
     [Header("UI Settings")]
     [SerializeField] private float notificationDuration = 3f;
@@ -78,16 +78,17 @@ public class PlayerUI : MonoBehaviour
     }
     private void InitializeEnergyBar()
     {
-        if (batteryController == null || energyBar == null || energyBarFill == null || energyBarText == null)
+        if (batteryController == null || batteryPointImages == null)
         {
-            Debug.LogWarning("Componentes de la barra de energía no asignados correctamente.");
+            Debug.LogWarning("Componentes de puntos de batería no asignados correctamente.");
             return;
         }
 
-        energyBar.maxValue = batteryController.maxEnergy;
-        energyBar.value = batteryController.energyAmounts;
-        targetEnergyValue = batteryController.energyAmounts;
-        energyBarText.text = "100%";
+        // Inicializar todas las imágenes como llenas
+        for (int i = 0; i < batteryPointImages.Length; i++)
+        {
+            batteryPointImages[i].sprite = fullBatteryPointSprite;
+        }
     }
 
     private void InitializeLifeBars()
@@ -131,35 +132,25 @@ public class PlayerUI : MonoBehaviour
 
     private void UpdateEnergyBar()
     {
-        if (batteryController == null || energyBar == null || energyBarFill == null || energyBarText == null)
+        if (batteryController == null || batteryPointImages == null)
         {
             return;
         }
 
-        energyBar.maxValue = batteryController.maxEnergy;
-        targetEnergyValue = batteryController.energyAmounts;
-        energyBar.value = Mathf.Lerp(energyBar.value, targetEnergyValue, Time.deltaTime * barLerpSpeed);
-
-        float energyPercentage = energyBar.value / energyBar.maxValue;
-        energyBarText.text = $"{Mathf.RoundToInt(energyPercentage * 100)}%";
-
-        // Actualizar color de la barra de energía
-        UpdateEnergyBarColor(energyPercentage);
-    }
-
-    private void UpdateEnergyBarColor(float energyPercentage)
-    {
-        if (energyPercentage <= 0.3f)
+        // Actualizar las imágenes según los puntos de batería
+        for (int i = 0; i < batteryPointImages.Length; i++)
         {
-            energyBarFill.color = Color.red;
-        }
-        else if (energyPercentage <= 0.6f)
-        {
-            energyBarFill.color = Color.Lerp(Color.red, Color.yellow, (energyPercentage - 0.3f) / 0.3f);
-        }
-        else
-        {
-            energyBarFill.color = Color.Lerp(Color.yellow, Color.green, (energyPercentage - 0.6f) / 0.4f);
+            if (i < batteryController.maxBatteryPoints)
+            {
+                batteryPointImages[i].gameObject.SetActive(true);
+                batteryPointImages[i].sprite = i < batteryController.batteryPoints
+                    ? fullBatteryPointSprite
+                    : emptyBatteryPointSprite;
+            }
+            else
+            {
+                batteryPointImages[i].gameObject.SetActive(false); // Ocultar imágenes sobrantes
+            }
         }
     }
 

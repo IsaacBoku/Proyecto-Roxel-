@@ -24,15 +24,13 @@ public class ChargeableObject : InteractableBase
     }
 
     [SerializeField] private List<TargetEntry> targets = new List<TargetEntry>();
-    [SerializeField] private float requiredEnergy = 50f;
-    [SerializeField] private float chargeDuration = 2f;
+    [SerializeField] private int requiredBatteryPoints = 1;
     [SerializeField] private Material lineMaterial;
     [SerializeField] private Transform lineStartPoint;
     [SerializeField] private Color inactiveLineColor = Color.gray;
     [SerializeField] private Color chargingLineColor = Color.yellow;
     [SerializeField] private Color activeLineColor = Color.green;
     [SerializeField] private string lineRendererLayer = "LineRenderer";
-    [SerializeField] private Slider energySlider;
 
     public bool IsCharging { get; private set; }
 
@@ -67,7 +65,23 @@ public class ChargeableObject : InteractableBase
             return;
         }
 
-        StartCoroutine(ChargeProgressively(battery));
+        if (battery.ConsumeBatteryPoints(requiredBatteryPoints))
+        {
+            // Consumo exitoso: activar el objeto
+            isActive = true;
+            foreach (var target in targets)
+            {
+                ToggleTargetActive(target, true);
+                SetLineColor(target, activeLineColor);
+            }
+            UpdateVisuals(true);
+            Debug.Log($"{gameObject.name} activado con {requiredBatteryPoints} puntos de batería.");
+        }
+        else
+        {
+            // No hay suficientes puntos
+            Debug.Log($"{gameObject.name} no puede activarse: Puntos de batería insuficientes ({battery.batteryPoints}/{requiredBatteryPoints} requeridos).");
+        }
     }
 
     public void Deactivate()
@@ -252,15 +266,7 @@ public class ChargeableObject : InteractableBase
 
     private Color GetLineColor()
     {
-        if (isActive) return activeLineColor;
-        if (IsCharging) return Color.Lerp(inactiveLineColor, chargingLineColor, GetChargeProgress());
-        return inactiveLineColor;
-    }
-
-    private float GetChargeProgress()
-    {
-        // Asumimos que el progreso se calcula en ChargeProgressively
-        return energySlider != null ? energySlider.value : 0f;
+        return isActive ? activeLineColor : inactiveLineColor;
     }
 
     private void AnimateEndPoint(TargetEntry target)
@@ -287,33 +293,6 @@ public class ChargeableObject : InteractableBase
         }
     }
 
-    private IEnumerator ChargeProgressively(BatteryController battery)
-    {
-        IsCharging = true;
-        float elapsedTime = 0f;
-        float energyPerSecond = requiredEnergy / chargeDuration;
-
-        InitializeCharging();
-
-        while (elapsedTime < chargeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / chargeDuration;
-            float energyThisFrame = energyPerSecond * Time.deltaTime;
-
-            if (!ConsumeBatteryEnergy(battery, energyThisFrame))
-            {
-                HandleChargingFailure();
-                yield break;
-            }
-
-            UpdateChargingProgress(t);
-            yield return null;
-        }
-
-        FinalizeCharging();
-    }
-
     private void InitializeCharging()
     {
         foreach (var target in targets)
@@ -324,24 +303,6 @@ public class ChargeableObject : InteractableBase
 
         UpdateVisuals(true);
 
-        if (energySlider != null)
-        {
-            energySlider.value = 0f;
-            energySlider.maxValue = 1f;
-        }
-    }
-
-    private bool ConsumeBatteryEnergy(BatteryController battery, float energyThisFrame)
-    {
-        if (battery.energyAmounts < energyThisFrame)
-        {
-            Debug.Log($"{gameObject.name} no puede activarse: Energía insuficiente ({battery.energyAmounts}/{energyThisFrame} requerida en este frame).");
-            return false;
-        }
-
-        battery.energyAmounts -= energyThisFrame;
-        battery.energyAmounts = Mathf.Clamp(battery.energyAmounts, 0f, battery.maxEnergy);
-        return true;
     }
 
     private void HandleChargingFailure()
@@ -355,34 +316,12 @@ public class ChargeableObject : InteractableBase
 
         UpdateVisuals(false);
 
-        if (energySlider != null)
-        {
-            energySlider.value = 0f;
-        }
-    }
-
-    private void UpdateChargingProgress(float progress)
-    {
-        if (energySlider != null)
-        {
-            energySlider.value = progress;
-        }
-
-        if (lineMaterial != null)
-        {
-            lineMaterial.SetFloat("_Progress", progress);
-        }
     }
 
     private void FinalizeCharging()
     {
         isActive = true;
         IsCharging = false;
-
-        if (energySlider != null)
-        {
-            energySlider.value = 1f;
-        }
 
         if (lineMaterial != null)
         {

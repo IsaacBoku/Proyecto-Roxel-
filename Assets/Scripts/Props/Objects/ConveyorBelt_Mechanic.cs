@@ -221,13 +221,6 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
         // Manejar lógica de la batería
         if (battery != null)
         {
-            // Efecto de energía
-            if (batteryEffect != 0f)
-            {
-                battery.energyAmounts += batteryEffect * Time.deltaTime;
-                battery.energyAmounts = Mathf.Clamp(battery.energyAmounts, 0f, battery.maxEnergy);
-            }
-
             // Efecto de polaridad
             if (affectBatteryPolarity && player != null)
             {

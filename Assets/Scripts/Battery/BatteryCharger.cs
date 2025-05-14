@@ -1,34 +1,28 @@
+using System.Collections;
 using UnityEngine;
 
 public class BatteryCharger : InteractableBase
 {
     [SerializeField]
-    private float chargeRate = 20f;
+    private int pointsToRecharge = 1; // Puntos de batería a recargar por uso
 
     [SerializeField]
-    private float maxEnergy = 100f;
+    private bool isReusable = true; // ¿Es reutilizable?
 
     [SerializeField]
-    private float fixedChargeAmount = 30f;
+    private ParticleSystem chargeEffect; // Efecto de partículas durante la recarga
 
     [SerializeField]
-    private bool isReusable = true;
+    private AudioSource chargeSound; // Sonido de recarga
 
     [SerializeField]
-    private ParticleSystem chargeEffect;
+    private ParticleSystem completeEffect; // Efecto al completar la recarga
 
     [SerializeField]
-    private AudioSource chargeSound;
-
-    [SerializeField]
-    private ParticleSystem completeEffect;
-
-    [SerializeField]
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer; // Sprite del cargador
 
     private bool isCharging = false;
     private BatteryController battery;
-    private float chargedAmount = 0f;
     private bool hasCharged = false;
     private bool isDisabled = false;
 
@@ -52,10 +46,9 @@ public class BatteryCharger : InteractableBase
         {
             battery = null;
             isCharging = false;
-            chargedAmount = 0f;
             if (isReusable)
             {
-                hasCharged = false;
+                hasCharged = false; // Reiniciar para permitir recarga en la próxima entrada
             }
             StopEffects();
             Debug.Log($"BatteryCharger '{gameObject.name}': Batería salió de la zona de carga");
@@ -69,12 +62,25 @@ public class BatteryCharger : InteractableBase
 
     public void StartCharging()
     {
-        if (battery != null && battery.energyAmounts < maxEnergy && !isDisabled && !hasCharged)
+        if (battery != null && !isDisabled && !hasCharged)
         {
+            // Intentar recargar la batería
+            battery.RechargeBatteryPoints(pointsToRecharge);
             isCharging = true;
-            chargedAmount = 0f;
+            hasCharged = true; // Marcar como usado para esta entrada
+            if (!isReusable)
+            {
+                isDisabled = true; // Desactivar si no es reutilizable
+            }
+
+            // Reproducir efectos
             PlayEffects();
-            Debug.Log($"BatteryCharger '{gameObject.name}': Comenzando a recargar batería");
+            if (completeEffect != null) completeEffect.Play();
+
+            // Iniciar coroutine para detener efectos después de una breve animación
+            StartCoroutine(StopChargingAfterDelay(0.5f)); // Ajusta la duración según necesites
+
+            Debug.Log($"BatteryCharger '{gameObject.name}': Batería recargada con {pointsToRecharge} puntos. Puntos actuales: {battery.batteryPoints}/{battery.maxBatteryPoints}");
         }
         else if (isDisabled)
         {
@@ -86,39 +92,16 @@ public class BatteryCharger : InteractableBase
         }
     }
 
-    public void StopCharging()
+    private IEnumerator StopChargingAfterDelay(float delay)
     {
+        yield return new WaitForSeconds(delay);
         isCharging = false;
-        chargedAmount = 0f;
         StopEffects();
     }
-
     protected override void Update()
     {
         base.Update();
-        if (isCharging && battery != null)
-        {
-            float energyToAdd = chargeRate * Time.deltaTime;
-            chargedAmount += energyToAdd;
-
-            battery.energyAmounts += energyToAdd;
-            battery.energyAmounts = Mathf.Clamp(battery.energyAmounts, 0f, maxEnergy);
-
-            Debug.Log($"BatteryCharger '{gameObject.name}': Recargando batería: {battery.energyAmounts}/{maxEnergy} (Recargado: {chargedAmount}/{fixedChargeAmount})");
-
-            if (chargedAmount >= fixedChargeAmount || battery.energyAmounts >= maxEnergy)
-            {
-                isCharging = false;
-                hasCharged = true;
-                if (!isReusable)
-                {
-                    isDisabled = true;
-                }
-                StopEffects();
-               if (completeEffect != null) completeEffect.Play();
-                Debug.Log($"BatteryCharger '{gameObject.name}': Recarga completada: se alcanzó la cantidad fija o el máximo de energía");
-            }
-        }
+        UpdateSpriteColor();
     }
 
     private void PlayEffects()
@@ -183,10 +166,6 @@ public class BatteryCharger : InteractableBase
         else if (requiresSpecificPolarity)
         {
             spriteRenderer.color = requiredPolarityIsPositive ? Color.red : Color.blue; // #FF0000 o #0000FF
-        }
-        else
-        {
-            spriteRenderer.color = Color.white; // #FFFFFF
         }
     }
 }

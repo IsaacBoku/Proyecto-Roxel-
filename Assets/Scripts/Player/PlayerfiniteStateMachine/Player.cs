@@ -184,9 +184,10 @@ public class Player : MonoBehaviour
 
         if (battery != null)
         {
-            originalMaxEnergy = battery.GetComponent<BatteryController>().maxEnergy;
             batterySpriteRenderer = battery.GetComponent<SpriteRenderer>();
             batteryOriginalColor = batterySpriteRenderer.color;
+            var batteryController = battery.GetComponent<BatteryController>();
+            batteryController.batteryPoints = batteryController.maxBatteryPoints;
         }
     }
 
@@ -577,9 +578,13 @@ public class Player : MonoBehaviour
                 if (battery != null)
                 {
                     var batteryController = battery.GetComponent<BatteryController>();
-                    batteryController.maxEnergy += 20f;
-                    batteryController.energyAmounts = Mathf.Clamp(batteryController.energyAmounts, 0f, batteryController.maxEnergy);
-                    Debug.Log($"Mejora desbloqueada: +20 de capacidad máxima de energía. Nuevo valor: {batteryController.maxEnergy}");
+                    batteryController.maxBatteryPoints += 1; // Aumenta en 1 el máximo de puntos
+                    batteryController.batteryPoints = Mathf.Clamp(
+                        batteryController.batteryPoints,
+                        0,
+                        batteryController.maxBatteryPoints
+                    );
+                    Debug.Log($"Mejora desbloqueada: +1 punto máximo de batería. Nuevo valor: {batteryController.maxBatteryPoints}");
                 }
                 break;
 

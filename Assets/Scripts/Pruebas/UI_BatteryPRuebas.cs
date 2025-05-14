@@ -20,8 +20,8 @@ public class UI_BatteryPRuebas : MonoBehaviour
     }
     public void UI_EnergyBattery()
     {
-        string text_energy = battery.energyAmounts.ToString();
-        batteryEnergy.text = text_energy;
+        //string text_energy = battery.energyAmounts.ToString();
+        //batteryEnergy.text = text_energy;
     }
     public void UI_VidaBattery()
     {

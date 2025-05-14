@@ -3,12 +3,30 @@ using UnityEngine;
 public class BatteryController : MonoBehaviour
 {
     [Header("Battery Energy")]
-    public float energyAmounts = 100f;
-    public float maxEnergy = 100f;
+    public int maxBatteryPoints = 5;
+    public int batteryPoints = 5;
     public bool isPositivePolarity = true;
 
     void OnTriggerEnter2D(Collider2D other)
     {
         //Debug.Log($"Batería colisionó con: {other.name}");
+    }
+
+    // Método para consumir puntos de batería
+    public bool ConsumeBatteryPoints(int points)
+    {
+        if (batteryPoints >= points)
+        {
+            batteryPoints -= points;
+            batteryPoints = Mathf.Clamp(batteryPoints, 0, maxBatteryPoints);
+            return true; // Consumo exitoso
+        }
+        return false; // No hay suficientes puntos
+    }
+
+    public void RechargeBatteryPoints(int points)
+    {
+        batteryPoints += points;
+        batteryPoints = Mathf.Clamp(batteryPoints, 0, maxBatteryPoints);
     }
 }

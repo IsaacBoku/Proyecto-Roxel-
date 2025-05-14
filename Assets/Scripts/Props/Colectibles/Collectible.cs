@@ -27,10 +27,6 @@ public class Collectible : MonoBehaviour
                 int finalEnergyValue = isSpecial ? energyValue * 2 : energyValue;
                 int finalCrystalValue = isSpecial ? crystalValue * 3 : crystalValue;
 
-                BatteryController battery = player.battery.GetComponent<BatteryController>();
-                battery.energyAmounts += finalEnergyValue;
-                battery.energyAmounts = Mathf.Clamp(battery.energyAmounts, 0f, battery.maxEnergy);
-
                 player.AddCrystal(finalCrystalValue);
 
                 if (collectEffect != null) collectEffect.Play();
