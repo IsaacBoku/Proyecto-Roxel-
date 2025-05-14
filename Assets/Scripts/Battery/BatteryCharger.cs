@@ -32,7 +32,6 @@ public class BatteryCharger : InteractableBase
     private bool hasCharged = false;
     private bool isDisabled = false;
 
-    // Propiedades públicas para acceder desde Player
     public bool IsReusable => isReusable;
     public bool IsDisabled => isDisabled;
 
