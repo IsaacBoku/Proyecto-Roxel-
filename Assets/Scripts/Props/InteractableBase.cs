@@ -10,8 +10,6 @@ public abstract class InteractableBase : MonoBehaviour, IActivable
     [SerializeField]
     protected ParticleSystem effect;
 
-    [SerializeField]
-    protected AudioSource sound;
 
     protected virtual void Start()
     {
@@ -47,13 +45,6 @@ public abstract class InteractableBase : MonoBehaviour, IActivable
             {
                 effect.Stop();
             }
-        }
-        if (sound != null)
-        {
-            if (state)
-                sound.Play();
-            else
-                sound.Stop();
         }
     }
 
