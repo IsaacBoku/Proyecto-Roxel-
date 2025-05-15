@@ -1,0 +1,442 @@
+fileFormatVersion: 2
+guid: 9f17976f3729d7e4581b53f18a6d7043
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6974517495455918989
+    second: HUD_Energia-Sheet_0
+  - first:
+      213: -8371235693109368031
+    second: HUD_Energia-Sheet_1
+  - first:
+      213: 38113872678089865
+    second: HUD_Energia-Sheet_2
+  - first:
+      213: 5026792711402819664
+    second: HUD_Energia-Sheet_3
+  - first:
+      213: -8110976560946570208
+    second: HUD_Energia-Sheet_4
+  - first:
+      213: -2432638046103116707
+    second: HUD_Energia-Sheet_5
+  - first:
+      213: -839886834564586367
+    second: HUD_Energia-Sheet_6
+  - first:
+      213: 5504104512970332904
+    second: HUD_Energia-Sheet_7
+  - first:
+      213: -1524417395459126389
+    second: HUD_Energia-Sheet_8
+  - first:
+      213: -1779552463076209870
+    second: HUD_Energia-Sheet_9
+  - first:
+      213: -1687163248462520049
+    second: HUD_Energia-Sheet_10
+  - first:
+      213: 7505444929767418089
+    second: HUD_Energia-Sheet_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: HUD_Energia-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 37
+        width: 5
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8ba564a5b67ac060800000000000000
+      internalID: 6974517495455918989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HUD_Energia-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 35
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12b25256d7563db80800000000000000
+      internalID: -8371235693109368031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HUD_Energia-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 22
+        width: 5
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 984fdf18d58678000800000000000000
+      internalID: 38113872678089865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HUD_Energia-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 22
+        width: 5
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05010b28651c2c540800000000000000
+      internalID: 5026792711402819664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HUD_Energia-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 13
+        width: 5
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02c9247aac5007f80800000000000000
+      internalID: -8110976560946570208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HUD_Energia-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 12
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d546ce2f5988d3ed0800000000000000
+      internalID: -2432638046103116707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HUD_Energia-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 13
+        width: 5
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1842046bf5f1854f0800000000000000
+      internalID: -839886834564586367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HUD_Energia-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 13
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ea983e74e1826c40800000000000000
+      internalID: 5504104512970332904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HUD_Energia-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 13
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8b8b3e947e28dae0800000000000000
+      internalID: -1524417395459126389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HUD_Energia-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 13
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23bcb2b9672cd47e0800000000000000
+      internalID: -1779552463076209870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HUD_Energia-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 5
+        width: 5
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f012c49e6fdf598e0800000000000000
+      internalID: -1687163248462520049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HUD_Energia-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 5
+        width: 5
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e82b08e562b82860800000000000000
+      internalID: 7505444929767418089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 1b1de417cab1f9743bce0800684eb019
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      HUD_Energia-Sheet_0: 6974517495455918989
+      HUD_Energia-Sheet_1: -8371235693109368031
+      HUD_Energia-Sheet_10: -1687163248462520049
+      HUD_Energia-Sheet_11: 7505444929767418089
+      HUD_Energia-Sheet_2: 38113872678089865
+      HUD_Energia-Sheet_3: 5026792711402819664
+      HUD_Energia-Sheet_4: -8110976560946570208
+      HUD_Energia-Sheet_5: -2432638046103116707
+      HUD_Energia-Sheet_6: -839886834564586367
+      HUD_Energia-Sheet_7: 5504104512970332904
+      HUD_Energia-Sheet_8: -1524417395459126389
+      HUD_Energia-Sheet_9: -1779552463076209870
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

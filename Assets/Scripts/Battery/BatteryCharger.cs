@@ -138,7 +138,7 @@ public class BatteryCharger : InteractableBase
     {
         base.Start();
 
-        // Inicializar SpriteRenderer
+
         if (spriteRenderer == null)
         {
             spriteRenderer = GetComponent<SpriteRenderer>();

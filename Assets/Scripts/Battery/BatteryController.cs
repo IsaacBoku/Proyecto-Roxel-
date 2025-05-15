@@ -3,8 +3,8 @@ using UnityEngine;
 public class BatteryController : MonoBehaviour
 {
     [Header("Battery Energy")]
-    public int maxBatteryPoints = 5;
-    public int batteryPoints = 5;
+    public int maxBatteryPoints = 4;
+    public int batteryPoints = 4;
     public bool isPositivePolarity = true;
 
     void OnTriggerEnter2D(Collider2D other)
