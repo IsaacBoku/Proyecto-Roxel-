@@ -28,11 +28,23 @@ public class Controller_Menus : MonoBehaviour
     [Header("Transition Settings")]
     [SerializeField] private float fadeDuration = 1f;
 
+    [Header("Settings Tabs")]
+    [SerializeField] private List<SettingsTab> settingsTabs = new List<SettingsTab>();
+    private SettingsTab currentTab;
+
     private bool isPaused = false;
     private MenuPanel currentMenuPanel;
     private Stack<MenuPanel> menuStack;
     private bool isGameScene = false;
     private bool hasInputHandler = false;
+
+    [System.Serializable]
+    public class SettingsTab
+    {
+        public string tabName; 
+        public Button tabButton;
+        public GameObject tabContent;
+    }
 
     private void Awake()
     {
@@ -262,6 +274,99 @@ public class Controller_Menus : MonoBehaviour
         graphicsMenuPanel?.Initialize();
         quitPanel?.Initialize();
     }
+    private void InitializeTabs()
+    {
+        foreach (var tab in settingsTabs)
+        {
+            if (tab.tabContent != null)
+            {
+                tab.tabContent.SetActive(false);
+            }
+            if (tab.tabButton != null)
+            {
+                tab.tabButton.onClick.RemoveAllListeners();
+                tab.tabButton.onClick.AddListener(() => SwitchTab(tab));
+            }
+        }
+
+        if (settingsTabs.Count > 0)
+        {
+            SwitchTab(settingsTabs[0]);
+        }
+    }
+
+    public void SwitchTab(SettingsTab tab)
+    {
+        StartCoroutine(SwitchTabCoroutine(tab));
+    }
+
+    private IEnumerator SwitchTabCoroutine(SettingsTab tab)
+    {
+        if (currentTab != null && currentTab.tabContent != null)
+        {
+            var previousCanvasGroup = currentTab.tabContent.GetComponent<CanvasGroup>();
+            if (previousCanvasGroup == null)
+            {
+                previousCanvasGroup = currentTab.tabContent.AddComponent<CanvasGroup>();
+            }
+
+            float elapsedTime = 0f;
+            while (elapsedTime < 0.2f)
+            {
+                elapsedTime += Time.unscaledDeltaTime;
+                previousCanvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsedTime / 0.2f);
+                yield return null;
+            }
+            currentTab.tabContent.SetActive(false);
+            previousCanvasGroup.alpha = 1f;
+
+            var previousButtonImage = currentTab.tabButton.GetComponent<Image>();
+            if (previousButtonImage != null)
+            {
+                previousButtonImage.color = Color.gray;
+            }
+        }
+
+        currentTab = tab;
+        if (currentTab.tabContent != null)
+        {
+            currentTab.tabContent.SetActive(true);
+            var currentCanvasGroup = currentTab.tabContent.GetComponent<CanvasGroup>();
+            if (currentCanvasGroup == null)
+            {
+                currentCanvasGroup = currentTab.tabContent.AddComponent<CanvasGroup>();
+            }
+            currentCanvasGroup.alpha = 0f;
+
+            float elapsedTime2 = 0f;
+            while (elapsedTime2 < 0.2f)
+            {
+                elapsedTime2 += Time.unscaledDeltaTime;
+                currentCanvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsedTime2 / 0.2f);
+                yield return null;
+            }
+            currentCanvasGroup.alpha = 1f;
+        }
+
+        var currentButtonImage = currentTab.tabButton.GetComponent<Image>();
+        if (currentButtonImage != null)
+        {
+            currentButtonImage.color = Color.red;
+        }
+
+        Selectable firstSelectable = tab.tabContent.GetComponentInChildren<Selectable>();
+        if (firstSelectable != null)
+        {
+            EventSystem.current.SetSelectedGameObject(firstSelectable.gameObject);
+        }
+
+        AudioManager.instance.PlaySFX("ButtonClick");
+    }
+
+    public List<SettingsTab> GetSettingsTabs()
+    {
+        return settingsTabs;
+    }
 
     private void TogglePause()
     {
@@ -324,6 +429,11 @@ public class Controller_Menus : MonoBehaviour
             menuStack.Push(menuPanel);
             currentMenuPanel = menuPanel;
             StartCoroutine(OpenMenuCoroutine(menuPanel));
+        }
+
+        if (menuPanel == optionsMenuPanel)
+        {
+            InitializeTabs();
         }
 
         AudioManager.instance.PlaySFX("ButtonClick");
