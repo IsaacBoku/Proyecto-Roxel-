@@ -637,6 +637,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 0e928c78-fdf3-458d-a743-983cd4da54bc
     m_ActionName: 'Gameplay/UISelectionUpgrade[/Keyboard/i]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4775971293667171042}
+        m_TargetAssemblyTypeName: PlayerInputHadler, Assembly-CSharp
+        m_MethodName: OnQInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c6ed480c-cf33-4e36-835a-14e85437c071
+    m_ActionName: 'UI/QInput[/Keyboard/q]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4775971293667171042}
+        m_TargetAssemblyTypeName: PlayerInputHadler, Assembly-CSharp
+        m_MethodName: OnRInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6d0f9655-a8e9-409d-a22f-16563b34de49
+    m_ActionName: 'UI/RInput[/Keyboard/r]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Gameplay

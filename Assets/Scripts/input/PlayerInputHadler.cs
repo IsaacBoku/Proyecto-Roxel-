@@ -34,6 +34,8 @@ public class PlayerInputHadler : MonoBehaviour
     public Vector2 NavigateInput { get; private set; }
     public bool SubmitInput { get; private set; }
     public bool CancelInput { get; private set; }
+    public bool QInput { get; private set; } // Nuevo: Input para Q
+    public bool RInput { get; private set; } // Nuevo: Input para R
     #endregion
 
     #region Unity CallBack
@@ -259,6 +261,30 @@ public class PlayerInputHadler : MonoBehaviour
         }
     }
 
+    public void OnQInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            QInput = true;
+        }
+        if (context.canceled)
+        {
+            QInput = false;
+        }
+    }
+
+    public void OnRInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            RInput = true;
+        }
+        if (context.canceled)
+        {
+            RInput = false;
+        }
+    }
+
     public void UseJumpInput() => JumpInput = false;
     public void UseThrowInput() => ThrowInput = false;
     public void UseMagneticInput() => MagneticInput = false;
@@ -269,6 +295,8 @@ public class PlayerInputHadler : MonoBehaviour
     public void UseSwitchPolarityInput() => SwitchPolarityInput = false;
     public void UseSubmitInput() => SubmitInput = false;
     public void UseCancelInput() => CancelInput = false;
+    public void UseQInput() => QInput = false;
+    public void UseRInput() => RInput = false;
 
     private void ResetInputs()
     {

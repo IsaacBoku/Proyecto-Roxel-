@@ -832,6 +832,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5772931374496660929, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772931374496660929, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772931374496660929, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6347898368252626953, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -847,6 +859,18 @@ PrefabInstance:
     - target: {fileID: 7348116634995058958, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793021339444825248, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793021339444825248, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793021339444825248, guid: a6136f8634ca85b4c84ca5c290d7889d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4455,6 +4479,10 @@ PrefabInstance:
     - target: {fileID: 4652538749970010214, guid: fe0e234365e17fd4eb100673a11bf032, type: 3}
       propertyPath: m_Name
       value: ChargeablePlataform
+      objectReference: {fileID: 0}
+    - target: {fileID: 5991926596368204798, guid: fe0e234365e17fd4eb100673a11bf032, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6504566124883157803, guid: fe0e234365e17fd4eb100673a11bf032, type: 3}
       propertyPath: targets.Array.size

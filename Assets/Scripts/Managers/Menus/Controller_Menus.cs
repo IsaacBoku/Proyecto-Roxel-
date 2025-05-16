@@ -37,6 +37,8 @@ public class Controller_Menus : MonoBehaviour
     private Stack<MenuPanel> menuStack;
     private bool isGameScene = false;
     private bool hasInputHandler = false;
+    private float lastTabSwitchTime = 0f;
+    private const float tabSwitchCooldown = 0.2f;
 
     [System.Serializable]
     public class SettingsTab
@@ -161,10 +163,53 @@ public class Controller_Menus : MonoBehaviour
             if (isPaused)
             {
                 HandleUIInput();
+                HandleTabNavigation();
                 MaintainUISelection();
             }
         }
+        else if (!isGameScene && inputHandler != null && currentMenuPanel == optionsMenuPanel)
+        {
+            HandleUIInput();
+            HandleTabNavigation();
+            MaintainUISelection();
+        }
     }
+
+    private void HandleTabNavigation()
+    {
+        if (currentMenuPanel != optionsMenuPanel || settingsTabs.Count == 0) return;
+
+        if (Time.unscaledTime < lastTabSwitchTime + tabSwitchCooldown) return;
+
+        if (inputHandler.QInput)
+        {
+            SwitchToNextOrPreviousTab(false); // Pestaña anterior
+            inputHandler.UseQInput();
+            lastTabSwitchTime = Time.unscaledTime;
+        }
+        else if (inputHandler.RInput)
+        {
+            SwitchToNextOrPreviousTab(true); // Pestaña siguiente
+            inputHandler.UseRInput();
+            lastTabSwitchTime = Time.unscaledTime;
+        }
+    }
+
+    private void SwitchToNextOrPreviousTab(bool next)
+    {
+        if (settingsTabs.Count == 0) return;
+
+        int currentIndex = settingsTabs.IndexOf(currentTab);
+        int newIndex = next ? currentIndex + 1 : currentIndex - 1;
+
+        if (newIndex < 0)
+            newIndex = settingsTabs.Count - 1;
+        else if (newIndex >= settingsTabs.Count)
+            newIndex = 0;
+
+        SwitchTab(settingsTabs[newIndex]);
+    }
+
     private void MaintainUISelection()
     {
         if(EventSystem.current.currentSelectedGameObject == null && currentMenuPanel != null)
