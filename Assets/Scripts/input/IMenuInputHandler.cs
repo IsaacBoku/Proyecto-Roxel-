@@ -1,16 +1,18 @@
 using UnityEngine;
 
-public class IMenuInputHandler : MonoBehaviour
+public interface IMenuInputHandler
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    Vector2 NavigateInput { get; }
+    bool SubmitInput { get; }
+    bool CancelInput { get; }
+    bool QInput { get; }
+    bool RInput { get; }
+    bool OptionsInput { get; }
+    void UseSubmitInput();
+    void UseCancelInput();
+    void UseQInput();
+    void UseRInput();
+    void UseOptionsInput();
+    void OnPause();
+    void OnGame();
 }
