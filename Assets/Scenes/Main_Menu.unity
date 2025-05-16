@@ -429,9 +429,10 @@ GameObject:
   m_Component:
   - component: {fileID: 139029640}
   - component: {fileID: 139029642}
-  - component: {fileID: 139029641}
   - component: {fileID: 139029644}
   - component: {fileID: 139029645}
+  - component: {fileID: 139029646}
+  - component: {fileID: 139029647}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -454,37 +455,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &139029641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 139029638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_MoveRepeatDelay: 0.2
-  m_MoveRepeatRate: 0.1
-  m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
-  m_PointAction: {fileID: 1054132383583890850, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
-  m_MoveAction: {fileID: 3710738434707379630, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
-  m_SubmitAction: {fileID: 2064916234097673511, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
-  m_CancelAction: {fileID: -1967631576421560919, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
-  m_LeftClickAction: {fileID: 8056856818456041789, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
-  m_MiddleClickAction: {fileID: 3279352641294131588, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
-  m_RightClickAction: {fileID: 3837173908680883260, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
-  m_ScrollWheelAction: {fileID: 4502412055082496612, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
-  m_TrackedDevicePositionAction: {fileID: 4754684134866288074, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 1025543830046995696, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
-  m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
-  m_CursorLockBehavior: 0
-  m_ScrollDeltaPerTick: 6
 --- !u!114 &139029642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,6 +499,213 @@ MonoBehaviour:
   optionsButton: {fileID: 1126032726}
   quitButton: {fileID: 1197199285}
   startSceneName: Pruebas
+--- !u!114 &139029646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139029638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f8f888e4e4beea4290eb800a52acea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputActions: {fileID: -944628639613478452, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
+--- !u!114 &139029647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139029638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ac41e613-1d7f-4d05-8421-e81655e6dfca
+    m_ActionName: 'Gameplay/Movement[/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/dpad]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1ea93584-58ae-4fc9-8dc0-155e2a8be961
+    m_ActionName: 'Gameplay/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b906120c-652b-4217-9451-ab1ea1656fc7
+    m_ActionName: 'Gameplay/Interact[/Keyboard/f,/XInputControllerWindows/buttonWest]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 85776392-a3b2-498c-aa99-0326ae6084e1
+    m_ActionName: 'Gameplay/Options[/Keyboard/escape,/XInputControllerWindows/start]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0a71e35c-42d0-45fd-a467-608638e66eb4
+    m_ActionName: 'Gameplay/Throw[/Mouse/rightButton,/XInputControllerWindows/rightTrigger]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a50e23c4-fc6b-4d08-abfd-87807e0bbb4c
+    m_ActionName: 'Gameplay/Magnetic[/Keyboard/e,/XInputControllerWindows/rightShoulder]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8459a2ba-1d3e-4376-8b9e-f163efe8c19b
+    m_ActionName: 'Gameplay/Separate[/Mouse/leftButton,/XInputControllerWindows/buttonNorth]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 136b7316-71e9-43d7-9474-25daf98f6168
+    m_ActionName: 'Gameplay/MousePosition[/Mouse/position,/XInputControllerWindows/rightStick]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8b1b8fed-b92e-49a3-b330-989d2e134920
+    m_ActionName: 'Gameplay/SwitchPolarity[/Keyboard/q,/XInputControllerWindows/leftShoulder]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0e928c78-fdf3-458d-a743-983cd4da54bc
+    m_ActionName: 'Gameplay/UISelectionUpgrade[/Keyboard/i,/XInputControllerWindows/leftTrigger]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 139029646}
+        m_TargetAssemblyTypeName: MainMenuInputHandler, Assembly-CSharp
+        m_MethodName: OnNavigateInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ab78e625-0c50-4bb5-b13b-b6644927ca56
+    m_ActionName: 'UI/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 139029646}
+        m_TargetAssemblyTypeName: MainMenuInputHandler, Assembly-CSharp
+        m_MethodName: OnSubmitInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9941bc9a-f6f3-4ba9-92b4-289db291d757
+    m_ActionName: 'UI/Submit[/Keyboard/enter,/XInputControllerWindows/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 139029646}
+        m_TargetAssemblyTypeName: MainMenuInputHandler, Assembly-CSharp
+        m_MethodName: OnCancelInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b0ab6afa-7b32-44cf-8bf9-f6c35a27d9b9
+    m_ActionName: 'UI/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 593e74f5-f90e-48bb-8c68-ea751b4cc9c5
+    m_ActionName: 'UI/Point[/Mouse/position,/Pen/position]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 652daa45-f0d5-4f2c-8bc0-ad0a3afbe275
+    m_ActionName: 'UI/Click[/Mouse/leftButton,/Pen/tip]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8d060dbb-9244-440f-9240-550d58e68038
+    m_ActionName: 'UI/ScrollWheel[/Mouse/scroll]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 77f8cb28-f8f6-4263-b246-b1bdf18933a6
+    m_ActionName: 'UI/MiddleClick[/Mouse/middleButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6ef269df-e6fd-40fd-ba00-a1ba0008d007
+    m_ActionName: 'UI/RightClick[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 19759478-56f6-450a-9048-bf450f42c00b
+    m_ActionName: UI/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 182bbaea-e193-428e-916c-f7969d204989
+    m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 139029646}
+        m_TargetAssemblyTypeName: MainMenuInputHandler, Assembly-CSharp
+        m_MethodName: OnOptionsInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ac1c4c74-7906-4b1e-88bc-64fea5625059
+    m_ActionName: 'UI/Options[/Keyboard/escape,/XInputControllerWindows/start]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 139029646}
+        m_TargetAssemblyTypeName: MainMenuInputHandler, Assembly-CSharp
+        m_MethodName: OnQInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c6ed480c-cf33-4e36-835a-14e85437c071
+    m_ActionName: 'UI/QInput[/Keyboard/q,/XInputControllerWindows/leftTrigger]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 139029646}
+        m_TargetAssemblyTypeName: MainMenuInputHandler, Assembly-CSharp
+        m_MethodName: OnRInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6d0f9655-a8e9-409d-a22f-16563b34de49
+    m_ActionName: 'UI/RInput[/Keyboard/r,/XInputControllerWindows/rightTrigger]'
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: UI
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &186510118
 GameObject:
   m_ObjectHideFlags: 0
@@ -1438,12 +1615,40 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 621815125194234861, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 621815125194234861, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 621815125194234861, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 621815125194234861, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 688137414225747589, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 688137414225747589, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 945907926400982591, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 945907926400982591, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 945907926400982591, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1589500005407748207, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
@@ -1454,6 +1659,42 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2104055719892579191, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2530514043804046455, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651374028465170947, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651374028465170947, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651374028465170947, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2797122414829857195, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2797122414829857195, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2797122414829857195, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2797122414829857195, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2900973499463015955, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1462,6 +1703,14 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1597756124}
+    - target: {fileID: 4755229596034400369, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4755229596034400369, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5087421596269761502, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1494,9 +1743,33 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6323516176758966056, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6323516176758966056, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6323516176758966056, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6323516176758966056, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6545670723988753183, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8256441639000702394, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8256441639000702394, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8355238631410118082, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2880,21 +3153,6 @@ MonoBehaviour:
   _selectedAnimationScale: 1.1
   _scaleDuration: 0.25
   _animationExclusions: []
-  SoundEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1641626703}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &989498838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5147,21 +5405,6 @@ MonoBehaviour:
   _selectedAnimationScale: 1.1
   _scaleDuration: 0.25
   _animationExclusions: []
-  SoundEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1641626703}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!82 &1641626703
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6023,6 +6266,85 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1799718355}
   m_CullTransparentMesh: 1
+--- !u!1 &1907634819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1907634822}
+  - component: {fileID: 1907634821}
+  - component: {fileID: 1907634820}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1907634820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907634819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
+  m_PointAction: {fileID: -3799416490093848235, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
+  m_MoveAction: {fileID: -6424239796273916356, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
+  m_SubmitAction: {fileID: 4476262152973351032, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
+  m_CancelAction: {fileID: 4125223759607493582, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
+  m_LeftClickAction: {fileID: 8879586318863691283, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
+  m_MiddleClickAction: {fileID: 3215467353714721435, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
+  m_RightClickAction: {fileID: 7576346987795162453, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
+  m_ScrollWheelAction: {fileID: -6169841676204933631, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
+  m_TrackedDevicePositionAction: {fileID: -3692148368416274603, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 5789200972806528699, guid: a31d29a8a3ee32d4c86efca5437bcea3, type: 3}
+  m_DeselectOnBackgroundClick: 0
+  m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
+--- !u!114 &1907634821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907634819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &1907634822
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907634819}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1942600563
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6732,3 +7054,4 @@ SceneRoots:
   - {fileID: 914763275}
   - {fileID: 1942600563}
   - {fileID: 472981655}
+  - {fileID: 1907634822}

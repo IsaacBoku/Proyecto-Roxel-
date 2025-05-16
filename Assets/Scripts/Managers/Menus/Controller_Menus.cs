@@ -21,7 +21,7 @@ public class Controller_Menus : MonoBehaviour
     [SerializeField] private MenuPanel quitPanel;
 
     [Header("Dependencies")]
-    private PlayerInputHadler inputHandler;
+    private IMenuInputHandler inputHandler;
     [SerializeField] private MenuEventSystemHadler menuEventSystem;
     [SerializeField] private CanvasGroup fadePanel;
 
@@ -152,26 +152,29 @@ public class Controller_Menus : MonoBehaviour
 
     private void Update()
     {
-        if (isGameScene && inputHandler != null)
+        if (inputHandler != null)
         {
-            if (inputHandler.OptionsInput)
+            if (isGameScene)
             {
-                TogglePause();
-                inputHandler.UseOptionsInput();
-            }
+                if (inputHandler.OptionsInput)
+                {
+                    TogglePause();
+                    inputHandler.UseOptionsInput();
+                }
 
-            if (isPaused)
+                if (isPaused)
+                {
+                    HandleUIInput();
+                    HandleTabNavigation();
+                    MaintainUISelection();
+                }
+            }
+            else if (currentMenuPanel == optionsMenuPanel)
             {
                 HandleUIInput();
                 HandleTabNavigation();
                 MaintainUISelection();
             }
-        }
-        else if (!isGameScene && inputHandler != null && currentMenuPanel == optionsMenuPanel)
-        {
-            HandleUIInput();
-            HandleTabNavigation();
-            MaintainUISelection();
         }
     }
 
@@ -256,11 +259,6 @@ public class Controller_Menus : MonoBehaviour
         string currentScene = SceneManager.GetActiveScene().name;
         isGameScene = gameScenes.Contains(currentScene);
         Debug.Log($"Escena actual: {currentScene}, ¿Es escena de juego? {isGameScene}");
-
-        if (!isGameScene)
-        {
-            inputHandler = null;
-        }
     }
 
     private IEnumerator TryFindInputHandler()
@@ -290,24 +288,18 @@ public class Controller_Menus : MonoBehaviour
         Debug.LogWarning("No se encontró PlayerInputHandler después de varios intentos en la escena: " + SceneManager.GetActiveScene().name);
     }
 
-    public void RegisterInputHandler(PlayerInputHadler newInputHandler)
+    public void RegisterInputHandler(IMenuInputHandler newInputHandler)
     {
         inputHandler = newInputHandler;
         hasInputHandler = true;
-        Debug.Log($"PlayerInputHandler registrado en MenuSystems: {SceneManager.GetActiveScene().name}");
-
-        ControlsSettings controlsSettings = FindAnyObjectByType<ControlsSettings>();
-        if (controlsSettings != null)
-        {
-            controlsSettings.InitializeActions();
-        }
+        Debug.Log($"InputHandler registrado en MenuSystems: {SceneManager.GetActiveScene().name}");
     }
 
     public void UnregisterInputHandler()
     {
         inputHandler = null;
         hasInputHandler = false;
-        Debug.Log("PlayerInputHandler desregistrado de MenuSystems");
+        Debug.Log("InputHandler desregistrado de MenuSystems");
     }
 
     private void InitializeMenuPanels()

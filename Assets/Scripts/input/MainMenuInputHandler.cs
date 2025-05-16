@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class MainMenuInputHandler : MonoBehaviour, IMenuInputHandler
 {
+    [SerializeField] private InputActionAsset inputActions;
     private PlayerInput input;
 
     public Vector2 NavigateInput { get; private set; }
@@ -19,6 +20,25 @@ public class MainMenuInputHandler : MonoBehaviour, IMenuInputHandler
         {
             input = gameObject.AddComponent<PlayerInput>();
         }
+
+        // Asignar el archivo de Input Actions si no está configurado
+        if (input.actions == null && inputActions != null)
+        {
+            input.actions = inputActions;
+            Debug.Log("Archivo de Input Actions asignado dinámicamente en MainMenuInputHandler");
+        }
+        else if (input.actions == null)
+        {
+            Debug.LogError("No se encontró un archivo de Input Actions. Asigna uno en el Inspector o asegúrate de que esté configurado en el componente PlayerInput.");
+            return;
+        }
+
+        // Verificar que el mapa "UI" exista
+        if (input.actions.FindActionMap("UI") == null)
+        {
+            Debug.LogError("El mapa de acciones 'UI' no se encontró en el archivo de Input Actions asignado.");
+            return;
+        }
         input.defaultActionMap = "UI";
         SwitchToUIInput();
     }
@@ -27,7 +47,7 @@ public class MainMenuInputHandler : MonoBehaviour, IMenuInputHandler
     {
         if (Controller_Menus.Instance != null)
         {
-            //Controller_Menus.Instance.RegisterInputHandler(this);
+            Controller_Menus.Instance.RegisterInputHandler(this);
         }
     }
 
@@ -122,17 +142,27 @@ public class MainMenuInputHandler : MonoBehaviour, IMenuInputHandler
 
     private void SwitchToUIInput()
     {
-        if (input != null)
+        if (input != null && input.actions != null)
         {
             input.SwitchCurrentActionMap("UI");
+            Debug.Log("Cambiado al mapa de acciones UI en MainMenuInputHandler");
+        }
+        else
+        {
+            Debug.LogWarning("No se puede cambiar al mapa UI: PlayerInput o actions es null");
         }
     }
 
     private void SwitchToGameplayInput()
     {
-        if (input != null)
+        if (input != null && input.actions != null)
         {
             input.SwitchCurrentActionMap("Gameplay");
+            Debug.Log("Cambiado al mapa de acciones Gameplay en MainMenuInputHandler");
+        }
+        else
+        {
+            Debug.LogWarning("No se puede cambiar al mapa Gameplay: PlayerInput o actions es null");
         }
     }
 }
