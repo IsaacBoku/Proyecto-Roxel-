@@ -247,6 +247,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5932849867844814612, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932849867844814612, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+      propertyPath: m_Navigation.m_SelectOnUp
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6323516176758966056, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

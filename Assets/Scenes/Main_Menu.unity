@@ -758,11 +758,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: -1
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 1151085487}
+    m_SelectOnUp: {fileID: 1197199285}
     m_SelectOnDown: {fileID: 1126032726}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnLeft: {fileID: 1044373828}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -3230,6 +3230,17 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &1044373828 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5932849867844814612, guid: 4bfc224a5ad25344c85022f5e5a540a1, type: 3}
+  m_PrefabInstance: {fileID: 472981655}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1126032724
 GameObject:
   m_ObjectHideFlags: 0
@@ -3243,7 +3254,7 @@ GameObject:
   - component: {fileID: 1126032727}
   - component: {fileID: 1126032726}
   m_Layer: 5
-  m_Name: Quit
+  m_Name: Options
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3282,11 +3293,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: -1
+    m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 186510120}
-    m_SelectOnDown: {fileID: 186510120}
-    m_SelectOnLeft: {fileID: 877790279}
+    m_SelectOnDown: {fileID: 1197199285}
+    m_SelectOnLeft: {fileID: 1044373828}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -3728,11 +3739,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: -1
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 186510120}
+    m_SelectOnUp: {fileID: 1126032726}
     m_SelectOnDown: {fileID: 186510120}
-    m_SelectOnLeft: {fileID: 877790279}
+    m_SelectOnLeft: {fileID: 1044373828}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
