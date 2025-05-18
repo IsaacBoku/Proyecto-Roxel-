@@ -53,7 +53,7 @@ public class PlayerAimBatteryState : PlayerState
             int xInput = throwDirection.x > 0 ? 1 : throwDirection.x < 0 ? -1 : 0;
             player.CheckIfShouldFlip(xInput);
 
-            player.battery.transform.position = player.transform.position + (Vector3)(throwDirection * 0.5f);
+            player.battery.transform.position = player.transform.position + (Vector3)(throwDirection * 0.2f);
 
             for (int i = 0; i < dots.Length; i++)
             {
