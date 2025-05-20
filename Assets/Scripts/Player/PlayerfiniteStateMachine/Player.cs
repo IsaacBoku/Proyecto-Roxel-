@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum UpgradeType
@@ -112,6 +113,7 @@ public class Player : MonoBehaviour
     [SerializeField] private int numberOfDots = 10;
     [SerializeField] private GameObject dotPrefab;
     [SerializeField] private Transform dotsParent;
+    [SerializeField] private Material aimDotMaterial;
     private GameObject[] aimDots;
     public GameObject[] AimDots => aimDots;
     #endregion
@@ -145,6 +147,7 @@ public class Player : MonoBehaviour
         UpdateBatteryPosition();
         CheckInteraction();
         UpdateInteractableIndicator();
+        //UpdateAimDotAppearance();
     }
 
     private void FixedUpdate()
@@ -509,7 +512,25 @@ public class Player : MonoBehaviour
         for (int i = 0; i < numberOfDots; i++)
         {
             aimDots[i] = Instantiate(dotPrefab, transform.position, Quaternion.identity, dotsParent);
+            SpriteRenderer dotRenderer = aimDots[i].GetComponent<SpriteRenderer>();
+            if (dotRenderer != null && aimDotMaterial != null)
+            {
+                dotRenderer.material = aimDotMaterial; // Asigna el material personalizado
+            }
             aimDots[i].SetActive(false);
+        }
+    }
+    private void UpdateAimDotAppearance()
+    {
+        foreach (var dot in aimDots)
+        {
+            SpriteRenderer dotRenderer = dot.GetComponent<SpriteRenderer>();
+            if (dotRenderer != null && aimDotMaterial != null)
+            {
+                dotRenderer.material = aimDotMaterial;
+                // Ejemplo: Cambiar el color del material dinámicamente
+                dotRenderer.material.color = new Color(1f, 0.5f, 0.5f, 1f); // Color rojizo
+            }
         }
     }
     #endregion

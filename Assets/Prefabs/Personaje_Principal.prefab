@@ -767,6 +767,7 @@ MonoBehaviour:
   numberOfDots: 10
   dotPrefab: {fileID: 1806446307295189743, guid: c26b053cf4fffe24c869f5fdd3df4168, type: 3}
   dotsParent: {fileID: 6565704547363232867}
+  aimDotMaterial: {fileID: 2100000, guid: 6dae6fd12cf491444a7d1481993ee6e5, type: 2}
 --- !u!50 &7573017274779827549
 Rigidbody2D:
   serializedVersion: 5
