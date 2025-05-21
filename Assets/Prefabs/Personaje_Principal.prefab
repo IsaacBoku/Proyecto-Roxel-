@@ -284,6 +284,7 @@ GameObject:
   - component: {fileID: 2183577387857084391}
   - component: {fileID: 136402508396974895}
   - component: {fileID: 956365916429411830}
+  - component: {fileID: 445597059343651821}
   m_Layer: 6
   m_Name: Personaje_Principal
   m_TagString: Player
@@ -900,6 +901,59 @@ CapsuleCollider2D:
   m_Offset: {x: 0.012332262, y: -0.5056225}
   m_Size: {x: 0.95352066, y: 0.6998295}
   m_Direction: 1
+--- !u!114 &445597059343651821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018064737822228977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_Priority: 2
+  m_ComponentVersion: 5
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: 0344313249d9157400000000ed1f591bfd79f3fc832201cecda35083118d50f0
+  m_ShapePath:
+  - {x: -1, y: -0.99999976, z: 0}
+  - {x: -1, y: 1, z: 0}
+  - {x: 1, y: 1, z: 0}
+  - {x: 1, y: -0.99999976, z: 0}
+  m_ShapePathHash: 0
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 4377391800680771977}
+  m_ShadowShape2DProvider:
+    rid: 4091801099384127584
+  m_ShadowCastingSource: 2
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: 0.015625, y: -0.484375, z: 0}
+      m_Extent: {x: 0.4468689, y: 0.3218689, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0.1
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0
+  m_CastingOption: 2
+  m_PreviousTrimEdge: 0.1
+  m_PreviousEdgeProcessing: 1
+  m_PreviousShadowCastingSource: 2
+  m_PreviousShadowShape2DSource: {fileID: 4377391800680771977}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4091801099384127584
+      type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data: 
 --- !u!1 &1117383327522919157
 GameObject:
   m_ObjectHideFlags: 0
@@ -6308,8 +6362,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e06f1635d5fb941b229fe33c8a6fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxBatteryPoints: 5
-  batteryPoints: 5
+  maxBatteryPoints: 4
+  batteryPoints: 4
   isPositivePolarity: 1
 --- !u!1 &2266499566056664267
 GameObject:
@@ -9078,8 +9132,8 @@ MonoBehaviour:
   - {fileID: 4522700186200837574}
   - {fileID: 7820858908819956186}
   - {fileID: 5622133356744627572}
-  fullBatteryPointSprite: {fileID: 3708977426014659588, guid: 94b808c9d9159ca4fa85ae31c49cd1d5, type: 3}
-  emptyBatteryPointSprite: {fileID: 935824729, guid: 040f65784f1433a44894e9201833e0dd, type: 3}
+  fullBatteryPointSprite: {fileID: 6974517495455918989, guid: 9f17976f3729d7e4581b53f18a6d7043, type: 3}
+  emptyBatteryPointSprite: {fileID: -1687163248462520049, guid: 9f17976f3729d7e4581b53f18a6d7043, type: 3}
   notificationDuration: 3
   blinkSpeed: 2
   blinkThreshold: 0.8
