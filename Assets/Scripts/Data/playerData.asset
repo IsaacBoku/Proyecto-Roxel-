@@ -37,4 +37,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   maxTimeWithoutBattery: 10
-  safeRange: 3
+  safeRange: 4.81

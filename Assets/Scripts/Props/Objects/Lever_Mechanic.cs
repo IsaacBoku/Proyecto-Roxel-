@@ -6,7 +6,8 @@ public class Lever_Mechanic : InteractableBase
     public enum TargetType
     {
         Door,
-        Laser
+        Laser,
+        ConveyorBelt
     }
 
     [System.Serializable]
@@ -19,9 +20,6 @@ public class Lever_Mechanic : InteractableBase
 
     [SerializeField]
     private List<TargetEntry> targets = new List<TargetEntry>();
-
-    [SerializeField]
-    private ConveyorBelt_Mechanic conveyorBelt;
 
     [SerializeField]
     private bool toggleOnInteract = true;
@@ -53,6 +51,9 @@ public class Lever_Mechanic : InteractableBase
                     case TargetType.Laser:
                         target.activable = target.targetObject.GetComponent<Laser_Mechanic>();
                         break;
+                    case TargetType.ConveyorBelt:
+                        target.activable = target.targetObject.GetComponent<ConveyorBelt_Mechanic>();
+                        break;
                 }
 
                 if (target.activable != null)
@@ -79,9 +80,9 @@ public class Lever_Mechanic : InteractableBase
             isActive = true;
         }
 
-        if(isActive)
+        if (isActive)
         {
-            anim.SetBool("Open",true);
+            anim.SetBool("Open", true);
         }
         else
         {
@@ -93,12 +94,15 @@ public class Lever_Mechanic : InteractableBase
             if (target.activable != null)
             {
                 target.activable.Toggle(isActive);
+                if (target.type == TargetType.ConveyorBelt)
+                {
+                    ConveyorBelt_Mechanic conveyor = target.targetObject.GetComponent<ConveyorBelt_Mechanic>();
+                    if (conveyor != null)
+                    {
+                        conveyor.ToggleDirection(isActive);
+                    }
+                }
             }
-        }
-
-        if (conveyorBelt != null)
-        {
-            conveyorBelt.ToggleDirection(isActive);
         }
 
         if (isActive)

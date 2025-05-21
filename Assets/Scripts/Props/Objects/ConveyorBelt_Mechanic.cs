@@ -12,7 +12,7 @@ public enum ConveyorDirection
     Stopped   // Detenido
 }
 
-public class ConveyorBelt_Mechanic : MonoBehaviour
+public class ConveyorBelt_Mechanic : MonoBehaviour, IActivable
 {
     #region Serialized Fields
     [Header("Configuración del Conveyor")]
@@ -87,6 +87,25 @@ public class ConveyorBelt_Mechanic : MonoBehaviour
     private Dictionary<Collider2D, (Rigidbody2D rb, Player player, BatteryController battery, float forceMultiplier)> cachedObjects = new Dictionary<Collider2D, (Rigidbody2D, Player, BatteryController, float)>();
     private float originalSpeed;
     private bool isSoundPlaying = false;
+    private bool ignoreTrigger = false;
+    #endregion
+
+
+    #region IActivable Implementation
+    public void Toggle(bool isActive)
+    {
+        // Toggle direction based on isActive: Forward when active, Reverse when inactive
+        SetDirection(isActive ? ConveyorDirection.Forward : ConveyorDirection.Reverse);
+    }
+
+    public void SetIgnoreTrigger(bool ignore)
+    {
+        ignoreTrigger = ignore;
+        if (conveyorCollider != null)
+        {
+            conveyorCollider.enabled = !ignore && direction != ConveyorDirection.Stopped;
+        }
+    }
     #endregion
 
     #region Unity Lifecycle
