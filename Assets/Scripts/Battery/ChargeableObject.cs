@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,12 +33,21 @@ public class ChargeableObject : InteractableBase
     [SerializeField] private Color activeLineColor = Color.green;
     [SerializeField] private string lineRendererLayer = "LineRenderer";
 
+
+    [SerializeField] private TextMeshProUGUI requieredBatteryText;
+    private Animator ani;
+
     public bool IsCharging { get; private set; }
+    private void Awake()
+    {
+        ani = GetComponent<Animator>();
+    }
 
     protected override void Start()
     {
         base.Start();
         InitializeTargets();
+        UI_Battery();
     }
 
     protected override void Update()
@@ -69,6 +79,8 @@ public class ChargeableObject : InteractableBase
         {
             // Consumo exitoso: activar el objeto
             isActive = true;
+
+            ani.SetBool("Open", true);  
             foreach (var target in targets)
             {
                 ToggleTargetActive(target, true);
@@ -80,9 +92,22 @@ public class ChargeableObject : InteractableBase
         else
         {
             // No hay suficientes puntos
+            ani.SetBool("Open", false);
             Debug.Log($"{gameObject.name} no puede activarse: Puntos de batería insuficientes ({battery.batteryPoints}/{requiredBatteryPoints} requeridos).");
         }
     }
+    public void UI_Battery()
+    {
+        if (requieredBatteryText != null)
+        {
+            requieredBatteryText.text = $"x{requiredBatteryPoints}";
+        }
+        else
+        {
+            Debug.LogWarning($"ChargeableObject '{gameObject.name}': No se encontró el componente TextMeshProUGUI para mostrar los puntos de batería requeridos.");
+        }
+    }
+
 
     public void Deactivate()
     {
@@ -95,6 +120,7 @@ public class ChargeableObject : InteractableBase
             SetLineColor(target, inactiveLineColor);
         }
         UpdateVisuals(false);
+        ani.SetBool("Open", false);
         Debug.Log($"{gameObject.name} ha sido desactivado.");
     }
 
