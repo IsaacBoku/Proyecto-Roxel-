@@ -89,7 +89,6 @@ public class Hammer_Mechanic : MonoBehaviour
     {
         if (!IsLayerInMask(collision.gameObject.layer, damageableLayerMask)) return;
 
-        // Verificar si el objeto tiene un componente de salud genérico
         IHealthSystem healthSystem = collision.gameObject.GetComponent<IHealthSystem>();
         if (healthSystem != null)
         {

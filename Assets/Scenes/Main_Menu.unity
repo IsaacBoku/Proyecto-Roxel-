@@ -498,7 +498,7 @@ MonoBehaviour:
   startButton: {fileID: 186510120}
   optionsButton: {fileID: 1126032726}
   quitButton: {fileID: 1197199285}
-  startSceneName: Pruebas
+  startSceneName: Scene_Alpha
 --- !u!114 &139029646
 MonoBehaviour:
   m_ObjectHideFlags: 0
