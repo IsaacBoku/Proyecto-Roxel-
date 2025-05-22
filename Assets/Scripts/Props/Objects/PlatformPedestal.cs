@@ -21,6 +21,7 @@ public class PlatformPedestal : InteractableBase
         [HideInInspector] public LineRenderer lineRenderer;
         [SerializeField] public int sortingOrder = 10;
         [SerializeField] public Transform lineEndPoint;
+        [SerializeField] public bool useLineRenderer = true;
     }
 
     [SerializeField] private List<TargetEntry> targets = new List<TargetEntry>();
@@ -154,8 +155,10 @@ public class PlatformPedestal : InteractableBase
                     }
                     break;
             }
-
-            SetupLineRenderer(target);
+            if (target.useLineRenderer)
+            {
+                SetupLineRenderer(target);
+            }
         }
     }
 
@@ -206,7 +209,7 @@ public class PlatformPedestal : InteractableBase
     {
         foreach (var target in targets)
         {
-            if (target.lineRenderer != null)
+            if (target.useLineRenderer && target.lineRenderer != null)
             {
                 UpdateLineRenderer(target);
             }
@@ -312,11 +315,19 @@ public class PlatformPedestal : InteractableBase
             if (target.type == TargetType.Platform && target.platform != null)
             {
                 target.platform.Activate();
+                if (target.useLineRenderer)
+                {
+                    SetLineColor(target, activeLineColor);
+                }
             }
             else if ((target.type == TargetType.Laser || target.type == TargetType.Door) && target.activable != null)
             {
                 target.activable.Toggle(true);
                 target.activable.SetIgnoreTrigger(true);
+                if (target.useLineRenderer)
+                {
+                    SetLineColor(target, activeLineColor);
+                }
             }
         }
     }
@@ -328,11 +339,19 @@ public class PlatformPedestal : InteractableBase
             if (target.type == TargetType.Platform && target.platform != null)
             {
                 target.platform.Deactivate();
+                if (target.useLineRenderer)
+                {
+                    SetLineColor(target, inactiveLineColor);
+                }
             }
             else if ((target.type == TargetType.Laser || target.type == TargetType.Door) && target.activable != null)
             {
                 target.activable.Toggle(false);
                 target.activable.SetIgnoreTrigger(true);
+                if (target.useLineRenderer)
+                {
+                    SetLineColor(target, inactiveLineColor);
+                }
             }
         }
     }
