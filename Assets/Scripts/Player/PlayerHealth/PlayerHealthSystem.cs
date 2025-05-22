@@ -9,7 +9,7 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
 
     [Header("Health Settings")]
     [SerializeField, Tooltip("Número máximo de vidas del jugador")]
-    private int maxLives = 4;
+    public int maxLives = 4;
     public int currentLives { get; private set; }
 
     [Header("Animations")]
@@ -112,7 +112,7 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
         if (fx != null) fx.StartCoroutine("FlashFX");
     }
 
-    private void UpdateHealthAnimation()
+    public void UpdateHealthAnimation()
     {
         if (animHealth != null)
         {
@@ -195,6 +195,13 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
     public bool IsAlive()
     {
         return currentLives > 0 && !isDead;
+    }
+    public void RestoreHealth(int lives)
+    {
+        if (isDead || lives <= 0) return;
+        currentLives = Mathf.Min(currentLives + lives, maxLives);
+        UpdateHealthAnimation();
+        Debug.Log($"PlayerHealthSystem '{gameObject.name}': Restauradas {lives} vidas. Vidas actuales: {currentLives}/{maxLives}");
     }
     #endregion
 }

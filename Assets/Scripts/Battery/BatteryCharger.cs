@@ -4,25 +4,29 @@ using UnityEngine;
 public class BatteryCharger : InteractableBase
 {
     [SerializeField]
-    private int pointsToRecharge = 1; // Puntos de batería a recargar por uso
+    private int pointsToRecharge = 1;
 
     [SerializeField]
-    private bool isReusable = true; // ¿Es reutilizable?
+    private int livesToRestore = 1;
 
     [SerializeField]
-    private ParticleSystem chargeEffect; // Efecto de partículas durante la recarga
+    private bool isReusable = true; 
 
     [SerializeField]
-    private AudioSource chargeSound; // Sonido de recarga
+    private ParticleSystem chargeEffect;
 
     [SerializeField]
-    private ParticleSystem completeEffect; // Efecto al completar la recarga
+    private AudioSource chargeSound; 
 
     [SerializeField]
-    private SpriteRenderer spriteRenderer; // Sprite del cargador
+    private ParticleSystem completeEffect;
+
+    [SerializeField]
+    private SpriteRenderer spriteRenderer; 
 
     private bool isCharging = false;
     private BatteryController battery;
+    private PlayerHealthSystem healthSystem;
     private bool hasCharged = false;
     private bool isDisabled = false;
 
@@ -35,6 +39,7 @@ public class BatteryCharger : InteractableBase
         if (other.CompareTag("Player") && other.GetComponent<Player>().battery != null)
         {
             battery = other.GetComponent<Player>().battery.GetComponent<BatteryController>();
+            healthSystem = other.GetComponent<PlayerHealthSystem>(); // Get the health system
             StartCharging();
             Debug.Log($"BatteryCharger '{gameObject.name}': Batería detectada en zona de carga");
         }
@@ -45,10 +50,11 @@ public class BatteryCharger : InteractableBase
         if (other.CompareTag("Player"))
         {
             battery = null;
+            healthSystem = null; // Clear health system reference
             isCharging = false;
             if (isReusable)
             {
-                hasCharged = false; // Reiniciar para permitir recarga en la próxima entrada
+                hasCharged = false; // Reset for next use
             }
             StopEffects();
             Debug.Log($"BatteryCharger '{gameObject.name}': Batería salió de la zona de carga");
@@ -64,21 +70,23 @@ public class BatteryCharger : InteractableBase
     {
         if (battery != null && !isDisabled && !hasCharged)
         {
-            // Intentar recargar la batería
+            // Recharge battery
             battery.RechargeBatteryPoints(pointsToRecharge);
             isCharging = true;
-            hasCharged = true; // Marcar como usado para esta entrada
+            hasCharged = true; // Mark as used for this entry
             if (!isReusable)
             {
-                isDisabled = true; // Desactivar si no es reutilizable
+                isDisabled = true; // Disable if not reusable
             }
 
-            // Reproducir efectos
+            healthSystem.RestoreHealth(livesToRestore); // Restore health points
+
+            // Play effects
             PlayEffects();
             if (completeEffect != null) completeEffect.Play();
 
-            // Iniciar coroutine para detener efectos después de una breve animación
-            StartCoroutine(StopChargingAfterDelay(0.5f)); // Ajusta la duración según necesites
+            // Start coroutine to stop effects after a brief animation
+            StartCoroutine(StopChargingAfterDelay(0.5f)); // Adjust duration as needed
 
             Debug.Log($"BatteryCharger '{gameObject.name}': Batería recargada con {pointsToRecharge} puntos. Puntos actuales: {battery.batteryPoints}/{battery.maxBatteryPoints}");
         }
