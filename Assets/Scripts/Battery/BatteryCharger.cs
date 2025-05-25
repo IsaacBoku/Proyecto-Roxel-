@@ -39,7 +39,7 @@ public class BatteryCharger : InteractableBase
         if (other.CompareTag("Player") && other.GetComponent<Player>().battery != null)
         {
             battery = other.GetComponent<Player>().battery.GetComponent<BatteryController>();
-            healthSystem = other.GetComponent<PlayerHealthSystem>(); // Get the health system
+            healthSystem = other.GetComponent<PlayerHealthSystem>();
             StartCharging();
             Debug.Log($"BatteryCharger '{gameObject.name}': Batería detectada en zona de carga");
         }
@@ -50,11 +50,11 @@ public class BatteryCharger : InteractableBase
         if (other.CompareTag("Player"))
         {
             battery = null;
-            healthSystem = null; // Clear health system reference
+            healthSystem = null; 
             isCharging = false;
             if (isReusable)
             {
-                hasCharged = false; // Reset for next use
+                hasCharged = false;
             }
             StopEffects();
             Debug.Log($"BatteryCharger '{gameObject.name}': Batería salió de la zona de carga");
@@ -70,23 +70,21 @@ public class BatteryCharger : InteractableBase
     {
         if (battery != null && !isDisabled && !hasCharged)
         {
-            // Recharge battery
+
             battery.RechargeBatteryPoints(pointsToRecharge);
             isCharging = true;
-            hasCharged = true; // Mark as used for this entry
+            hasCharged = true;
             if (!isReusable)
             {
-                isDisabled = true; // Disable if not reusable
+                isDisabled = true;
             }
 
-            healthSystem.RestoreHealth(livesToRestore); // Restore health points
+            healthSystem.RestoreHealth(livesToRestore);
 
-            // Play effects
             PlayEffects();
             if (completeEffect != null) completeEffect.Play();
 
-            // Start coroutine to stop effects after a brief animation
-            StartCoroutine(StopChargingAfterDelay(0.5f)); // Adjust duration as needed
+            StartCoroutine(StopChargingAfterDelay(0.5f));
 
             Debug.Log($"BatteryCharger '{gameObject.name}': Batería recargada con {pointsToRecharge} puntos. Puntos actuales: {battery.batteryPoints}/{battery.maxBatteryPoints}");
         }
@@ -156,7 +154,6 @@ public class BatteryCharger : InteractableBase
             }
         }
 
-        // Establecer color inicial
         UpdateSpriteColor();
     }
     private void UpdateSpriteColor()
@@ -165,15 +162,15 @@ public class BatteryCharger : InteractableBase
 
         if (isDisabled)
         {
-            spriteRenderer.color = Color.gray; // #808080
+            spriteRenderer.color = Color.white; 
         }
         else if (isCharging)
         {
-            spriteRenderer.color = Color.green; // #00FF00
+            //spriteRenderer.color = Color.green; 
         }
         else if (requiresSpecificPolarity)
         {
-            spriteRenderer.color = requiredPolarityIsPositive ? Color.red : Color.blue; // #FF0000 o #0000FF
+            spriteRenderer.color = requiredPolarityIsPositive ? Color.red : Color.blue;
         }
     }
 }

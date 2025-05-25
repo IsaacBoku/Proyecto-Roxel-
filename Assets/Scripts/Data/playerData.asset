@@ -31,7 +31,7 @@ MonoBehaviour:
   throwDistance: 5
   lightMass: 5
   normalMass: 1
-  magneticForce: 50
+  magneticForce: 8
   magneticRange: 20
   whatIsMetallic:
     serializedVersion: 2

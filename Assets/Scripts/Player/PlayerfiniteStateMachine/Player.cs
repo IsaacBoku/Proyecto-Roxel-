@@ -498,8 +498,8 @@ public class Player : MonoBehaviour
         var chargeable = lastInteractable.GetComponent<ChargeableObject>();
         if (chargeable != null && chargeable.isActive) return true;
 
-        var charger = lastInteractable.GetComponent<BatteryCharger>();
-        if (charger != null && !charger.IsReusable && charger.IsDisabled) return true;
+       /*var charger = lastInteractable.GetComponent<BatteryCharger>();
+        if (charger != null && !charger.IsReusable && charger.IsDisabled) return true;*/
 
         var pedestal = lastInteractable.GetComponent<PlatformPedestal>();
         return pedestal != null && pedestal.HasBattery;

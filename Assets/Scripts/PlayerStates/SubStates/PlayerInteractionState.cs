@@ -76,7 +76,7 @@ public class PlayerInteractionState : PlayerState
                     return;
                 }
 
-                BatteryCharger charger = obj.GetComponent<BatteryCharger>();
+               /* BatteryCharger charger = obj.GetComponent<BatteryCharger>();
                 if (charger != null)
                 {
                     if (player.battery == null)
@@ -93,7 +93,7 @@ public class PlayerInteractionState : PlayerState
                     player.InputHandler.UseInteractInput();
                     stateMachine.ChangeState(player.IdleState);
                     return;
-                }
+                }*/
 
                 Debug.Log($"PlayerInteractionState: El objeto {obj.name} no es una palanca, ChargeableObject, ni BatteryCharger.");
             }
