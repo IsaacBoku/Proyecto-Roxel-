@@ -28,40 +28,16 @@ public class UIManager : MonoBehaviour
     public string SceneName;
 
 
-    private void Awake()
-    {
-        //_doc = GetComponent<UIDocument>();
-        root = _doc.rootVisualElement;
-        _playButton = _doc.rootVisualElement.Q<Button>("PlayButton");
-        _settingsButton = _doc.rootVisualElement.Q<Button>("SettingsButton");
-        _exitButton = _doc.rootVisualElement.Q<Button>("ExitButton");
-
-        _playButton.clicked += Change_Scene;
-        _exitButton.clicked += Quit_Button;
-
-    }
-    private void Start()
-    {
-        var buttons = root.Query<Button>().ToList();
-
-        // Inicializar el primer botón
-        if (buttons.Count > 0)
-        {
-            currentButton = buttons[0];
-            currentButton.AddToClassList("menu-Button");
-            currentButton.Focus();
-        }
-    }
     private void Update()
     {
 
     }
-    public void Change_Scene()
+    public void Change_Scene(string nameScene)
     {
-        if (!string.IsNullOrEmpty(SceneName))
+        if (!string.IsNullOrEmpty(nameScene))
         {
-            SceneManager.LoadScene(SceneName);
-            Debug.Log("Ha cambiado a la escena: " + SceneName);
+            SceneManager.LoadScene(nameScene);
+            Debug.Log("Ha cambiado a la escena: " + nameScene);
         }
         else
         {
