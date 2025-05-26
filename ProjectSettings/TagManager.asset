@@ -63,6 +63,9 @@ TagManager:
   - name: LineRenderer
     uniqueID: 2203100109
     locked: 0
+  - name: Cables_decorative
+    uniqueID: 3289621407
+    locked: 0
   - name: UI
     uniqueID: 4031810833
     locked: 0
