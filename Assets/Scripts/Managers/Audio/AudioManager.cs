@@ -9,18 +9,21 @@ public class AudioManager : MonoBehaviour
 
     [Header("Audio Sources")]
     [SerializeField] private AudioSource musicSource;
-    [SerializeField] private int sfxChannels = 5; 
-    private List<AudioSource> sfxSources; 
+    [SerializeField] private int sfxChannels = 5;
+    private List<AudioSource> sfxSources;
 
     [Header("Sounds")]
-    [SerializeField] private Sound[] musicSounds; 
+    [SerializeField] private Sound[] musicSounds;
     [SerializeField] private Sound[] sfxSounds;
     private AudioSource currentPlayingSource; // Para rastrear el sonido actual
 
     [Header("Fade Settings")]
-    [SerializeField] private float musicFadeDuration = 1f; 
+    [SerializeField] private float musicFadeDuration = 1f;
 
     private string currentMusic;
+
+    private float globalSFXVolume = 1f; // Variable para almacenar el volumen global de SFX
+    private bool globalSFXMuted = false; // Variable para almacenar el estado de muteo global de SFX
 
     private void Awake()
     {
@@ -50,11 +53,11 @@ public class AudioManager : MonoBehaviour
             source.playOnAwake = false;
             sfxSources.Add(source);
         }
-
     }
 
     private void Start()
     {
+        LoadSettings(); // Cargar configuraciones al inicio
         PlayMusic("MainTheme");
     }
 
@@ -172,11 +175,13 @@ public class AudioManager : MonoBehaviour
         }
 
         availableSource.clip = clip;
-        availableSource.volume = s.volume;
+        availableSource.volume = s.volume * globalSFXVolume; // Multiplicar por el volumen global
         availableSource.pitch = s.pitch;
         availableSource.loop = s.loop;
+        availableSource.mute = globalSFXMuted; // Aplicar el estado de muteo global
         availableSource.Play();
     }
+
     public void StopSFX(string name)
     {
         Sound s = Array.Find(sfxSounds, x => x.name == name);
@@ -186,8 +191,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        // Buscar el canal que está reproduciendo este sonido
-        AudioSource playingSource = sfxSources.Find(source => source.isPlaying && source.clip == s.clips[0]); // Asume el primer clip
+        AudioSource playingSource = sfxSources.Find(source => source.isPlaying && source.clip == s.clips[0]);
         if (playingSource != null)
         {
             playingSource.Stop();
@@ -198,6 +202,7 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning($"No se encontró un canal reproduciendo '{name}'.");
         }
     }
+
     public void StopAllSFX()
     {
         foreach (AudioSource source in sfxSources)
@@ -220,9 +225,14 @@ public class AudioManager : MonoBehaviour
     public void SetSFXVolume(float volume)
     {
         volume = Mathf.Clamp01(volume);
+        globalSFXVolume = volume; // Actualizar el volumen global
         foreach (AudioSource source in sfxSources)
         {
-            source.volume = volume;
+            if (source.isPlaying)
+            {
+                Sound sound = Array.Find(sfxSounds, s => s.clips != null && s.clips.Length > 0 && s.clips[0] == source.clip);
+                source.volume = sound != null ? sound.volume * volume : volume; // Aplicar volumen global
+            }
         }
         PlayerPrefs.SetFloat("SFXVolume", volume);
         PlayerPrefs.Save();
@@ -239,6 +249,7 @@ public class AudioManager : MonoBehaviour
 
     public void SetSFXMute(bool mute)
     {
+        globalSFXMuted = mute; // Actualizar el estado de muteo global
         foreach (AudioSource source in sfxSources)
         {
             source.mute = mute;
@@ -255,7 +266,7 @@ public class AudioManager : MonoBehaviour
 
     public void ToggleSFX()
     {
-        SetSFXMute(!sfxSources[0].mute);
+        SetSFXMute(!globalSFXMuted);
     }
 
     public float GetMusicVolume()
@@ -265,7 +276,7 @@ public class AudioManager : MonoBehaviour
 
     public float GetSFXVolume()
     {
-        return sfxSources.Count > 0 ? sfxSources[0].volume : 1f;
+        return globalSFXVolume;
     }
 
     public bool IsMusicMuted()
@@ -275,25 +286,26 @@ public class AudioManager : MonoBehaviour
 
     public bool IsSFXMuted()
     {
-        return sfxSources.Count > 0 && sfxSources[0].mute;
+        return globalSFXMuted;
     }
 
     private void LoadSettings()
     {
         float musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
-        float sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        globalSFXVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
         bool musicMuted = PlayerPrefs.GetInt("MusicMuted", 0) == 1;
-        bool sfxMuted = PlayerPrefs.GetInt("SFXMuted", 0) == 1;
+        globalSFXMuted = PlayerPrefs.GetInt("SFXMuted", 0) == 1;
 
         musicSource.volume = musicVolume;
-        foreach (AudioSource source in sfxSources)
-        {
-            source.volume = sfxVolume;
-            source.mute = sfxMuted;
-        }
         musicSource.mute = musicMuted;
 
-        Debug.Log($"Configuraciones de audio cargadas: MusicVolume={musicVolume}, SFXVolume={sfxVolume}, MusicMuted={musicMuted}, SFXMuted={sfxMuted}");
+        foreach (AudioSource source in sfxSources)
+        {
+            source.volume = globalSFXVolume;
+            source.mute = globalSFXMuted;
+        }
+
+        Debug.Log($"Configuraciones de audio cargadas: MusicVolume={musicVolume}, SFXVolume={globalSFXVolume}, MusicMuted={musicMuted}, SFXMuted={globalSFXMuted}");
     }
     #endregion
 }
